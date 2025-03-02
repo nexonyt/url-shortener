@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const { get } = require('http');
+const {logger} = require('../helpers/logger');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const db = mysql.createConnection({
@@ -45,31 +46,30 @@ const decrementLinkUsage = async (shortLinkId) => {
 
 
 const forwardLink = async (req, res) => {
+    logger('Asking DB for redirection link for: ' + req.params.id);
     const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`;
     try {  
         db.query(SQL, async (err, result) => {
             if (err) {
               console.error('error connecting: ' + err.stack);
               res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
+              logger('Error occured during connecting to DB: ' + err);
             }
             else {
                 console.log(result)
                 if (result.length) {
-                    // res.status(200).json({"status":"exists","active":true,"link":result[0].extended_link});
-                    // res.status(200).json({"status":"exists","active":true,"link":result[0].extended_link});
                     await decrementLinkUsage(req.params.id);
-                    console.log(req.params.id)
-                    
-                    res.redirect(301, result[0].extended_link);
-
+                    logger('Redirecting to: ' + result[0].extended_link);
+                    res.redirect(302, result[0].extended_link);
                 }
                 else {
-                    console.error('Wystąpił błąd:', err);   
+                    logger('Link not found');   
                     res.status(404).json({"error":true,"message":"Nie znaleziono takiego linku. ADMIN!: Należy dodać stronę 404"});
                 }
             }
           });
     } catch (err) {
+        logger('Error occured during connecting to DB: ' + err);
         throw Error(err);
     }
 }
@@ -88,7 +88,7 @@ const createLink = async (req, res) => {
     try {
         db.query(SQL, (err, result) => {
             if (err) {
-              console.error('error connecting: ' + err.stack);
+              logger('Error connecting: ' + err.stack);
               res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
             }
             else res.status(201).json({"status":"created"});
@@ -100,6 +100,7 @@ const createLink = async (req, res) => {
 }
 
 const getLink = async (req, res) => {
+    logger('Asking DB for informations about link: ' + req.params.id);
     const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`
 
     try {
@@ -132,11 +133,12 @@ const getLink = async (req, res) => {
                     //   owner: `${result[0].owner_id}`,
                       created_at: formatDate(`${result[0].created_at}`),
                       valid_from: formatDate(`${result[0].valid_from}`),
+                      valid_to: formatDate(`${result[0].valid_to}`),
+                      remaining_clicks: `${result[0].usage_limit}`,
                       stats: {
                         clicks: 0,
                         unique_clicks: 0,
-                      }
-                    //   valid_to: formatDate(`${result[0].valid_to}`),
+                      },
                 }});
                 }
                 else {
