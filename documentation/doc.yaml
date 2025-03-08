@@ -103,6 +103,12 @@ paths:
               example:
                 error: true
                 message: "Nie znaleziono"    
+        '409':
+            description: Konflikt
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Conflict'   
 
   /api/update-link:
     put:
@@ -171,15 +177,33 @@ paths:
                 id:
                   type: integer
                   description: ID linku
+                email: 
+                  type: integer
+                  description: E-mail podany przy tworzeniu linku
               required:
                 - id
+                - email
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              example:
+                error: false
+                message: Link został usunięty.
         '404':
           description: Nie znaleziono
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Nie znaleziono"
         '401':
           description: Brak autoryzacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorization'
 
 
 components:
@@ -291,3 +315,14 @@ components:
         message:
           type: string
           example: Błąd autoryzacji
+    Conflict:
+      type: object 
+      properties:
+        error:
+          type: boolean
+          example: true
+          description: Informacja o wystąpieniu błędu
+        message:
+          type: string
+          description: Link o podanym skrócie już istnieje
+          example: Link o podanym skrócie już istnieje
