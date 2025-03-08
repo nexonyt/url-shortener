@@ -27,61 +27,17 @@ const formatDate = (date) => {
     else return new Date(date).toISOString().slice(0, 19).replace("T", " ");
 };
 
-const decrementLinkUsage = async (shortLinkId) => {
-        console.log(shortLinkId)
-        return new Promise((resolve, reject) => {
-            const updateSQL = `UPDATE links SET usage_limit = usage_limit - 1 WHERE short_link = "https://nexonstudio.pl/${shortLinkId}"`;
-    
-            db.query(updateSQL, (err, result) => {
-                if (err) {
-                    console.error('Błąd aktualizacji liczby użyć:', err);
-                    return reject(err);
-                }
-                console.log(`Zmieniono liczbę użyć linku: ${shortLinkId}`);
-                resolve(result);
-            });
-        });
-    };
-    
 
 
-const forwardLink = async (req, res) => {
-    logger('Asking DB for redirection link for: ' + req.params.id);
-    const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`;
-    try {  
-        db.query(SQL, async (err, result) => {
-            if (err) {
-              console.error('error connecting: ' + err.stack);
-              res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
-              logger('Error occured during connecting to DB: ' + err);
-            }
-            else {
-                console.log(result)
-                if (result.length) {
-                    await decrementLinkUsage(req.params.id);
-                    logger('Redirecting to: ' + result[0].extended_link);
-                    res.redirect(302, result[0].extended_link);
-                }
-                else {
-                    logger('Link not found');   
-                    res.status(404).json({"error":true,"message":"Nie znaleziono takiego linku. ADMIN!: Należy dodać stronę 404"});
-                }
-            }
-          });
-    } catch (err) {
-        logger('Error occured during connecting to DB: ' + err);
-        throw Error(err);
-    }
-}
 
 
 const createLink = async (req, res) => {
     const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     let SQL = "";
     if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links (owner_id, status,short_link,extended_link,expiring,created_at) VALUES ("${req.body.owner}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}")`;
+         SQL = `INSERT INTO links (owner_id, email,status,short_link,extended_link,expiring,created_at) VALUES ("${req.body.owner}","${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}")`;
      } else {
-         SQL = `INSERT INTO links (owner_id, status,short_link,extended_link,expiring,valid_from,valid_to,created_at) VALUES ("${req.body.owner}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}")`;
+         SQL = `INSERT INTO links (owner_id,email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at) VALUES ("${req.body.owner}","${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}")`;
      }
 
 
@@ -118,6 +74,7 @@ const getLink = async (req, res) => {
                     1: "active",
                     2: "expired",
                     3: "blocked",
+                    4: "deleted"
                   };
 
                   const statusCode = result[0].status;
@@ -142,7 +99,7 @@ const getLink = async (req, res) => {
                 }});
                 }
                 else {
-                    res.status(404).json({"error":true,"message":"Nie znaleziono takiego linku."});
+                    res.status(404).json({"error":true,"message":"No link found for provider URL."});
                 }
             }
           });
@@ -152,4 +109,4 @@ const getLink = async (req, res) => {
     }
     }
 
-module.exports = {hello, getLink,createLink,forwardLink,getLink}
+module.exports = {hello, getLink,createLink,getLink}

@@ -1,0 +1,16 @@
+[2025-03-08 14:48:29] - Asking DB for redirection link for: link-4
+[2025-03-08 14:48:30] - Link usage limit reached for requested link: link-4
+[2025-03-08 15:05:21] - Asking DB for redirection link for: link-7
+[2025-03-08 15:05:42] - Asking DB for informations about link: link-4
+[2025-03-08 15:10:23] - Error occured during connecting to DB: Error: read ETIMEDOUT
+[2025-03-08 16:33:37] - Asking DB for redirection link for: link-8
+[2025-03-08 16:33:37] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-08 16:33:48] - Asking DB for informations about link: link-8
+[2025-03-08 16:35:55] - Asking DB for informations about link: link-8
+[2025-03-08 16:38:32] - Asking DB for informations about link: link-8
+[2025-03-08 16:38:40] - Asking DB for informations about link: link-8
+[2025-03-08 16:38:46] - Asking DB for informations about link: link-8
+[2025-03-08 16:38:54] - Asking DB for informations about link: link-8
+[2025-03-08 16:41:27] - Asking DB for informations about link: link-8
+[2025-03-08 16:41:35] - Asking DB for informations about link: link-8
+[2025-03-08 16:42:00] - Asking DB for informations about link: link-8

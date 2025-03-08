@@ -1,0 +1,293 @@
+openapi: 3.0.0
+info:
+  title: Przykładowe API
+  version: 1.0.0
+  description: To jest przykładowa specyfikacja API.
+paths:
+  /api/get-link-custom/[id]:
+   get:
+      summary: Szczegóły linku po URL
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID linku
+  /api/get-link/[id]:
+    get:
+      summary: Szczegóły linku po ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID linku
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkResponse'
+        '404':
+          description: Nie znaleziono
+        '401':
+          description: Brak autoryzacji  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorization'
+  /api/create-link:
+    post:
+      summary: Utworzenie linku
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                short_link:
+                  type: string
+                  description: Skrócony link
+                extended_link:
+                  type: string
+                  description: Rozszerzony link
+                tracking:
+                  type: integer
+                  description: Śledzenie - pozwoli na zbieranie statystyk i zapisywanie każdego kliknięcia w bazie danych
+                email:
+                  type: string
+                  description: E-mail osoby tworzącej link (wymagany w przypadku modyfikacji/usunięcia)
+                expiring:
+                  type: integer
+                valid_from:
+                  type: string
+                  format: date-time
+                valid_to:
+                  type: string
+                  format: date-time
+                status:
+                  type: integer
+                  description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
+                  example: 1
+              required:
+                - short_link
+                - extended_link
+                - expiring
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              example:
+                id: 1
+                short_link: "https://short.link/abc123"
+                extended_link: "https://www.example.com/very/long/link"
+                expiring: 1
+                valid_from: "2025-03-08T00:00:00Z"
+                valid_to: "2025-04-07T23:59:59Z"
+                status: active
+        '400':
+          description: Błąd
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Błąd"
+        '404':
+          description: Nie znaleziono
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Nie znaleziono"    
+
+  /api/update-link:
+    put:
+      summary: Aktualizacja linku
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID linku
+                email:
+                  type: string
+                  description: E-mail podany przy tworzeniu linku
+                short_link:
+                  type: string
+                  description: Skrócony link
+                extended_link:
+                  type: string
+                  description: Rozszerzony link
+                tracking:
+                  type: integer
+                  description: Śledzenie - pozwoli na zbieranie statystyk i zapisywanie każdego kliknięcia w bazie danych
+                expiring:
+                  type: integer
+                valid_from:
+                  type: string
+                  format: date-time
+                valid_to:
+                  type: string
+                  format: date-time
+                status:
+                  type: integer
+                  description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
+                  example: 1
+              required:
+                - id
+                - email
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                error: false
+                message: Link został zaktualizowany.
+        '404':
+          description: Nie znaleziono
+        '401':
+          description: "Brak autoryzacji"
+          content:
+            application/json:
+             schema:
+              $ref: '#/components/schemas/NotAuthorizationForPUT'
+  /api/delete-link:
+    delete:
+      summary: Usunięcie linku
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID linku
+              required:
+                - id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Nie znaleziono
+        '401':
+          description: Brak autoryzacji
+
+
+components:
+  schemas:
+    LinkResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          description: Informacja o wystąpieniu błędu
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Unikalny identyfikator linku
+            short_link:
+              type: string
+              description: Skrócony link
+            extended_link:
+              type: string
+              description: Pełny, oryginalny link
+            expiring:
+              type: integer
+              description: Flaga wskazująca, czy link wygasa (1 - tak, 0 - nie)
+            valid_from:
+              type: string
+              format: date-time
+              description: Data i czas, od kiedy link jest ważny
+            valid_to:
+              type: string
+              format: date-time
+              description: Data i czas, do kiedy link jest ważny
+            status:
+              type: string
+              description: Status linku (np. 'active', 'inactive')
+            remaining_clicks:
+              type: integer
+              description: Liczba pozostałych kliknięć
+            stats:
+              type: object
+              properties:
+                total_clicks:
+                  type: integer
+                  description: Całkowita liczba kliknięć
+                last_click:
+                  type: string
+                  format: date-time
+                  description: Data i czas ostatniego kliknięcia
+                first_click:
+                  type: string
+                  format: date-time
+                  description: Data i czas pierwszego kliknięcia
+                daily_clicks:
+                  type: object
+                  additionalProperties:
+                    type: integer
+                  description: Liczba kliknięć dla każdego dnia (klucz to data, wartość to liczba kliknięć)
+                most_daily_clicks:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      description: Data z największą liczbą kliknięć
+                    clicks:
+                      type: integer
+                      description: Liczba kliknięć w dniu z największą liczbą kliknięć
+      example:
+        error: false
+        data:
+          id: 1
+          short_link: "https://short.link/abc123"
+          extended_link: "https://www.example.com/very/long/link"
+          expiring: 1
+          valid_from: "2025-03-08T00:00:00Z"
+          valid_to: "2025-04-07T23:59:59Z"
+          status: active
+          remaining_clicks: 100
+          stats:
+            total_clicks: 10
+            last_click: "2025-03-08T12:00:00Z"
+            first_click: "2025-03-08T12:00:00Z"
+            daily_clicks:
+              "2025-03-08": 5
+              "2025-03-09": 3
+              "2025-03-10": 2
+            most_daily_clicks:
+              date: "2025-03-08"
+              clicks: 5
+    NotAuthorizationForPUT:        
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+          description: Informacja o wystąpieniu błędu
+        message:
+          type: string
+          example: Błąd autoryzacji, e-mail lub ID jest błedny.
+          description: Błąd autoryzacji, e-mail lub ID jest błedny.
+    NotAuthorization:        
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+          description: Informacja o wystąpieniu błędu
+        message:
+          type: string
+          example: Błąd autoryzacji

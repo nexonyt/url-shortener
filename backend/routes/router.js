@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const {loginUser,getLink,hello,createLink,forwardLink} = require('../controllers/authControllers')
-
-
+const {loginUser,getLink,hello,createLink} = require('../controllers/authControllers')
+const {forwardLink} = require('../controllers/forwardLinkController')
+const {updateLink} = require('../controllers/updateLinkController')
 
 router.use(
   cors({
@@ -13,10 +13,16 @@ router.use(
   })
 );
 // router.post('/login',loginUser)
-router.get('/api/getlink/:id',getLink);
 router.get('/api/hello', hello);
+router.get('/api/get-link/:id',getLink);
+// router.get('/api/get-link-custom/:url',getLinkCustom);
 router.post('/api/create-link',createLink);
+router.put('/api/update-link',updateLink);
+// router.delete('/api/delete-link/:id',deleteLink);
 router.get('/v/:id',forwardLink);
+
+
+
 router.use((req, res) => {
     res.status(404).json({ error:true,message: "Nie znaleziono takiej ścieżki" });
 });
