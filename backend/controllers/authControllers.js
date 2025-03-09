@@ -56,8 +56,9 @@ const createLink = async (req, res) => {
 }
 
 const getLink = async (req, res) => {
-    logger('Asking DB for informations about link: ' + req.params.id);
-    const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`
+  console.log(req.params);
+    logger('Asking DB for informations about link: ' + req.params.url);
+    const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.url}"`
 
     try {
          db.query(SQL, (err, result) => {
@@ -83,7 +84,9 @@ const getLink = async (req, res) => {
                   res
                     .status(200)
                     .json({"error":false,"data":{
-                        "status": statusText,
+                      id: `${result[0].id}`,
+                      email: `${result[0].email}`,
+                      status: statusText,
                       short_link: `${result[0].short_link}`,
                       extended_link: `${result[0].extended_link}`,
                       expiring: `${result[0].expiring}`,

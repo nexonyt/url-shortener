@@ -17,6 +17,15 @@ services:
     networks:
       - mynetwork
 
+  documentation:
+    image: nginx:latest
+    container_name: documentation
+    volumes:
+      - ./documentation:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+
+
 networks:
   mynetwork:
     driver: bridge

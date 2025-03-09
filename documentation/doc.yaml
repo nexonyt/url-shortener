@@ -4,16 +4,16 @@ info:
   version: 1.0.0
   description: To jest przykładowa specyfikacja API.
 paths:
-  /api/get-link-custom/[id]:
+  /api/get-link-custom/[url]:
    get:
       summary: Szczegóły linku po URL
       parameters:
-        - name: id
+        - name: url
           in: path
           required: true
           schema:
             type: integer
-          description: ID linku
+          description: Skrócony URL linku
   /api/get-link/[id]:
     get:
       summary: Szczegóły linku po ID
@@ -220,6 +220,12 @@ components:
             id:
               type: integer
               description: Unikalny identyfikator linku
+            email:
+              type: string
+              description: E-mail uzytkownika tworzącego link
+            status:
+              type: string
+              description: Status linku (np. 'active', 'inactive','expired','blocked')  
             short_link:
               type: string
               description: Skrócony link
@@ -229,6 +235,10 @@ components:
             expiring:
               type: integer
               description: Flaga wskazująca, czy link wygasa (1 - tak, 0 - nie)
+            created_at:
+              type: string
+              format: date-time
+              description: Data i czas utworzenia linku
             valid_from:
               type: string
               format: date-time
@@ -237,9 +247,6 @@ components:
               type: string
               format: date-time
               description: Data i czas, do kiedy link jest ważny
-            status:
-              type: string
-              description: Status linku (np. 'active', 'inactive')
             remaining_clicks:
               type: integer
               description: Liczba pozostałych kliknięć

@@ -14,3 +14,108 @@
 [2025-03-08 16:41:27] - Asking DB for informations about link: link-8
 [2025-03-08 16:41:35] - Asking DB for informations about link: link-8
 [2025-03-08 16:42:00] - Asking DB for informations about link: link-8
+[2025-03-09 14:40:03] - Error connecting: Error: connect ETIMEDOUT
+    at Connection._handleConnectTimeout (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:409:13)
+    at Object.onceWrapper (node:events:633:28)
+    at Socket.emit (node:events:519:28)
+    at Socket._onTimeout (node:net:591:8)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+    --------------------
+    at Protocol._enqueue (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:144:48)
+    at Protocol.handshake (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:51:23)
+    at Connection.connect (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:116:18)
+    at Connection._implyConnect (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:454:10)
+    at Connection.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:196:8)
+    at createLink (/Users/nexon/projects/url-shortener/backend/controllers/authControllers.js:45:12)
+    at Layer.handle [as handle_request] (/Users/nexon/projects/url-shortener/backend/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/nexon/projects/url-shortener/backend/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/nexon/projects/url-shortener/backend/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/nexon/projects/url-shortener/backend/node_modules/express/lib/router/layer.js:95:5)
+[2025-03-09 14:40:06] - Asking DB for informations about link: link-8
+[2025-03-09 14:40:08] - Asking DB for informations about link: link-8
+[2025-03-09 14:40:57] - Asking DB for informations about link: link-8
+[2025-03-09 14:40:59] - Asking DB for informations about link: link-8
+[2025-03-09 14:41:00] - Asking DB for informations about link: link-8
+[2025-03-09 14:41:05] - Asking DB for informations about link: link-4
+[2025-03-09 14:41:13] - Asking DB for informations about link: link-4
+[2025-03-09 14:42:21] - Asking DB for informations about link: link-4
+[2025-03-09 14:43:56] - Asking DB for informations about link: link-4
+[2025-03-09 14:44:07] - Asking DB for redirection link for: link-4
+[2025-03-09 14:44:08] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:44:08] - Asking DB for redirection link for: link-4
+[2025-03-09 14:44:08] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:44:30] - Asking DB for redirection link for: link-4
+[2025-03-09 14:44:30] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:44:32] - Asking DB for redirection link for: link-4
+[2025-03-09 14:44:32] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:45:22] - Asking DB for informations about link: link-4
+[2025-03-09 14:45:30] - Asking DB for redirection link for: link-4
+[2025-03-09 14:45:31] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:49:14] - Asking DB for informations about link: link-4
+[2025-03-09 14:49:27] - Asking DB for redirection link for: link-4
+[2025-03-09 14:49:27] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:49:29] - Asking DB for redirection link for: link-4
+[2025-03-09 14:49:29] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:49:38] - Asking DB for redirection link for: link-4
+[2025-03-09 14:49:38] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:50:04] - Asking DB for redirection link for: link-4
+[2025-03-09 14:50:04] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:50:30] - Asking DB for redirection link for: link-4
+[2025-03-09 14:50:40] - Error occured during connecting to DB: Error: connect ETIMEDOUT
+[2025-03-09 14:50:40] - Asking DB for redirection link for: link-4
+[2025-03-09 14:50:40] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 14:51:04] - Asking DB for redirection link for: link-4
+[2025-03-09 14:51:04] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 14:51:07] - Asking DB for redirection link for: link-4
+[2025-03-09 14:51:07] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 14:51:12] - Asking DB for redirection link for: link-4
+[2025-03-09 14:51:15] - Link usage limit reached for requested link: link-4
+[2025-03-09 14:51:53] - Asking DB for redirection link for: link-4
+[2025-03-09 14:51:53] - Link disabled: link-4
+[2025-03-09 14:51:53] - Asking DB for redirection link for: link-4
+[2025-03-09 14:51:53] - Link disabled: link-4
+[2025-03-09 14:52:43] - Asking DB for informations about link: undefined
+[2025-03-09 14:53:21] - Asking DB for informations about link: link-4
+[2025-03-09 14:59:01] - Asking DB for redirection link for: link-4
+[2025-03-09 14:59:02] - Link disabled: link-4
+[2025-03-09 14:59:02] - Asking DB for redirection link for: link-4
+[2025-03-09 14:59:02] - Link disabled: link-4
+[2025-03-09 14:59:41] - Asking DB for redirection link for: link-4
+[2025-03-09 14:59:42] - Link disabled: link-4
+[2025-03-09 14:59:42] - Asking DB for redirection link for: link-4
+[2025-03-09 14:59:42] - Link disabled: link-4
+[2025-03-09 15:28:07] - Asking DB for redirection link for: link-4
+[2025-03-09 15:28:17] - Error occured during connecting to DB: Error: connect ETIMEDOUT
+[2025-03-09 15:28:17] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 15:28:17] - Asking DB for redirection link for: link-4
+[2025-03-09 15:45:14] - Asking DB for redirection link for: undefined
+[2025-03-09 15:45:15] - Link not found
+[2025-03-09 15:45:15] - Asking DB for redirection link for: undefined
+[2025-03-09 15:45:15] - Link not found
+[2025-03-09 15:45:17] - Asking DB for redirection link for: undefined
+[2025-03-09 15:45:17] - Link not found
+[2025-03-09 15:45:41] - Asking DB for redirection link for: undefined
+[2025-03-09 15:45:41] - Link not found
+[2025-03-09 15:45:42] - Asking DB for redirection link for: undefined
+[2025-03-09 15:45:42] - Link not found
+[2025-03-09 15:46:17] - Asking DB for redirection link for: undefined
+[2025-03-09 15:46:17] - Link not found
+[2025-03-09 15:47:06] - Asking DB for redirection link for: link-4
+[2025-03-09 15:47:16] - Error occured during connecting to DB: Error: connect ETIMEDOUT
+[2025-03-09 15:47:18] - Asking DB for redirection link for: link-4
+[2025-03-09 15:47:18] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 15:47:22] - Asking DB for redirection link for: link-4
+[2025-03-09 15:47:22] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 15:47:24] - Asking DB for redirection link for: link-4
+[2025-03-09 15:47:24] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-03-09 15:47:30] - Asking DB for redirection link for: link-4
+[2025-03-09 15:47:30] - Link disabled: link-4
+[2025-03-09 15:48:54] - Asking DB for redirection link for: link-8
+[2025-03-09 15:48:55] - Link disabled: link-8
+[2025-03-09 15:49:31] - Asking DB for redirection link for: link-4
+[2025-03-09 15:49:31] - Link disabled: link-4
+[2025-03-09 15:49:32] - Asking DB for redirection link for: link-4
+[2025-03-09 15:49:32] - Link disabled: link-4
+[2025-03-09 19:24:02] - Asking DB for redirection link for: link-4
+[2025-03-09 19:24:03] - Link disabled: link-4

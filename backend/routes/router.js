@@ -14,7 +14,7 @@ router.use(
 );
 // router.post('/login',loginUser)
 router.get('/api/hello', hello);
-router.get('/api/get-link/:id',getLink);
+router.get('/api/get-link-custom/:url',getLink);
 // router.get('/api/get-link-custom/:url',getLinkCustom);
 router.post('/api/create-link',createLink);
 router.put('/api/update-link',updateLink);

@@ -33,6 +33,55 @@ const db = mysql.createConnection({
   
 
 const forwardLink = async (req, res) => {
+
+  async function GeoData(ip) {
+    try {
+        const response = await axios.get(`http://ip-api.com/json/${ip}`);
+        return response.data;
+    } catch (error) {
+        return {};
+    }
+}
+  
+  function getClientIP(req) {
+    let ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
+
+    // Obsługa adresu IPv6-Mapped IPv4 (np. ::ffff:188.33.225.246)
+    if (ip.includes("::ffff:")) {
+        ip = ip.split("::ffff:")[1];
+    }
+
+    // Jeśli X-Forwarded-For zawiera wiele IP (np. "192.168.1.1, 203.0.113.5"), weź pierwsze
+    if (ip.includes(",")) {
+        ip = ip.split(",")[0].trim();
+    }
+
+    return ip;
+}
+
+
+  
+      const userInfo = {
+          ip: getClientIP(req),
+          userAgent: req.headers["user-agent"],
+          referer: req.headers["referer"] || "N/A",
+          acceptLanguage: req.headers["accept-language"] || "N/A",
+          encoding: req.headers["accept-encoding"] || "N/A",
+          cookies: req.headers["cookie"] || "N/A",
+          origin: req.headers["origin"] || "N/A",
+          // geo: {
+          //     country: geoData.country || "Unknown",
+          //     city: geoData.city || "Unknown",
+          //     timezone: geoData.timezone || "Unknown",
+          //     isp: geoData.isp || "Unknown",
+          //     isVpn: geoData.proxy || false,
+          // },
+          browserInfo: req.body.browserInfo || {},
+      };
+  
+      console.log("📊 Dane użytkownika:", userInfo);
+  
+
     logger('Asking DB for redirection link for: ' + req.params.id);
     const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`;
     try {  
@@ -45,14 +94,20 @@ const forwardLink = async (req, res) => {
             else {
                 console.log(result)
                 if (result.length) {
+                  if (result[0].status == 0) {
+                    logger(`Link disabled: ${req.params.id}`);
+                    return res.redirect(302, process.env.APP_INACTIVE_URL);
+                  } else {
                     // if czy jest limit i czy nalezy wykonać dekrementacje + jezeli tak to czy jest wiekszy od 0
                     if(result[0].usage_limit && result[0].usage_limit <= 0) {
                         logger(`Link usage limit reached for requested link: ${req.params.id}`);
                         return res.redirect(302,process.env.APP_NOT_FOUND_URL);
                     }
+                    else 
                     await decrementLinkUsage(req.params.id);
                     logger(`Redirecting to: ${result[0].extended_link}`);
                     res.redirect(302, result[0].extended_link);
+                  }
                 }
                 else {
                     logger('Link not found');   
