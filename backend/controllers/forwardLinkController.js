@@ -34,35 +34,9 @@ const db = mysql.createConnection({
 
 const forwardLink = async (req, res) => {
 
-  async function GeoData(ip) {
-    try {
-        const response = await axios.get(`http://ip-api.com/json/${ip}`);
-        return response.data;
-    } catch (error) {
-        return {};
-    }
-}
-  
-  function getClientIP(req) {
-    let ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.socket.remoteAddress || req.ip;
-
-    // Obsługa adresu IPv6-Mapped IPv4 (np. ::ffff:188.33.225.246)
-    if (ip.includes("::ffff:")) {
-        ip = ip.split("::ffff:")[1];
-    }
-
-    // Jeśli X-Forwarded-For zawiera wiele IP (np. "192.168.1.1, 203.0.113.5"), weź pierwsze
-    if (ip.includes(",")) {
-        ip = ip.split(",")[0].trim();
-    }
-
-    return ip;
-}
-
-
   
       const userInfo = {
-          ip: getClientIP(req),
+          // ip: getClientIP(req),
           userAgent: req.headers["user-agent"],
           referer: req.headers["referer"] || "N/A",
           acceptLanguage: req.headers["accept-language"] || "N/A",
@@ -79,7 +53,7 @@ const forwardLink = async (req, res) => {
           browserInfo: req.body.browserInfo || {},
       };
   
-      console.log("📊 Dane użytkownika:", userInfo);
+      console.log("Dane użytkownika:", userInfo);
   
 
     logger('Asking DB for redirection link for: ' + req.params.id);

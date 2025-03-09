@@ -119,3 +119,7 @@
 [2025-03-09 15:49:32] - Link disabled: link-4
 [2025-03-09 19:24:02] - Asking DB for redirection link for: link-4
 [2025-03-09 19:24:03] - Link disabled: link-4
+[2025-03-09 19:56:30] - Asking DB for redirection link for: link-4
+[2025-03-09 19:56:30] - Link disabled: link-4
+[2025-03-09 19:58:01] - Asking DB for redirection link for: link-4
+[2025-03-09 19:58:02] - Link disabled: link-4
