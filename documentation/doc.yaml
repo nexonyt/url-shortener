@@ -56,7 +56,7 @@ paths:
                   description: Rozszerzony link
                 tracking:
                   type: integer
-                  description: Śledzenie - pozwoli na zbieranie statystyk i zapisywanie każdego kliknięcia w bazie danych
+                  description: Śledzenie - pozwoli na zbieranie statystyk i zapisywanie każdego kliknięcia w bazie danych (wyświetlanie statystyk w /get-link)
                 email:
                   type: string
                   description: E-mail osoby tworzącej link (wymagany w przypadku modyfikacji/usunięcia)
@@ -68,6 +68,9 @@ paths:
                 valid_to:
                   type: string
                   format: date-time
+                password:
+                  type: integer
+                  description: Czy ma być hasło przy przekierowaniu na link?
                 status:
                   type: integer
                   description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
