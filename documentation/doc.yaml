@@ -1,44 +1,17 @@
 openapi: 3.0.0
+servers:
+  - url: https://nexonstudio.pl
+    description: Hosted docs
+    variables:
+      project:
+        default: api
+        description: The project name
 info:
   title: Przykładowe API
   version: 1.0.0
   description: To jest przykładowa specyfikacja API.
+tags:
 paths:
-  /api/get-link-custom/[url]:
-   get:
-      summary: Szczegóły linku po URL
-      parameters:
-        - name: url
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Skrócony URL linku
-  /api/get-link/[id]:
-    get:
-      summary: Szczegóły linku po ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: ID linku
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkResponse'
-        '404':
-          description: Nie znaleziono
-        '401':
-          description: Brak autoryzacji  
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotAuthorization'
   /api/create-link:
     post:
       summary: Utworzenie linku
@@ -112,18 +85,6 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Conflict'   
-  /api/get-links-by-email:
-    get:
-      summary: Pobranie linków przez e-mail
-      description: Pobranie wszystkich informacji o linkach przypisanych do danego e-mail'a
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetLinksByEmail'
-                
   /api/update-link:
     put:
       summary: Aktualizacja linku
@@ -218,10 +179,118 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotAuthorization'
-
+  /api/get-links-by-email:
+    get:
+      summary: Pobranie linków przez e-mail
+      description: Pobranie wszystkich informacji o linkach przypisanych do danego e-mail'a
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinksByEmail'
+  /api/get-link-custom/[url]:
+   get:
+      summary: Szczegóły linku po URL
+      parameters:
+        - name: url
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Skrócony URL linku
+  /api/get-link/[id]:
+    get:
+      summary: Szczegóły linku po ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID linku
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkResponse'
+        '404':
+          description: Nie znaleziono
+        '401':
+          description: Brak autoryzacji  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorization'
+  /api/get-collected-data-by-id/[id]:
+      get:
+        summary: Zebrane dane po ID
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/GetCollectedDataById'
 
 components:
   schemas:
+    CollectedDataById:
+      type: object
+      properties:
+        id: 
+          type: string
+          description: "Unikalny identyfikator rekordu."
+        ip:
+          type: string
+          description: "Adres IP użytkownika."
+        country:
+          type: string
+          description: "Kraj, z którego użytkownik łączy się z serwerem."
+        city:
+          type: string
+          description: "Miasto użytkownika, jeśli dostępne."
+        timezone:
+          type: string
+          description: "Strefa czasowa użytkownika."
+        isp:
+          type: string
+          description: "Dostawca usług internetowych użytkownika."
+        vpn:
+          type: boolean
+          description: "Określa, czy użytkownik korzysta z VPN/proxy."
+        accept_language:
+          type: string
+          description: "Preferowany język przeglądarki użytkownika."
+        user_agent:
+          type: string
+          description: "Pełny User-Agent przeglądarki użytkownika."
+        success_redirect:
+          type: boolean
+          description: "Czy przekierowanie było pomyślne."
+        referer:
+          type: string
+          description: "Strona, z której użytkownik przeszedł do tej witryny."
+        device_type:
+          type: string
+          enum: ["desktop", "mobile", "tablet", "unknown"]
+          description: "Typ urządzenia użytkownika (desktop, mobile, tablet)."
+        browser:
+          type: string
+          description: "Nazwa przeglądarki użytkownika."
+        os:
+          type: string
+          description: "System operacyjny użytkownika."
+        created_at:
+          type: string
+          format: date-time
+          description: "Data i godzina utworzenia rekordu."
+        cpu:
+          type: string
+          description: "Architektura CPU użytkownika, jeśli dostępna."
     GetLinksByEmail:
       type: object
       properties:
@@ -371,3 +440,30 @@ components:
         valid_to: "2025-04-07T23:59:59Z"
         status: active
         remaining_clicks: actige
+    GetCollectedDataById:
+      type: object
+      properties:
+         id: 
+          type: integer
+         email: 
+          type: string
+         redirects:
+            type: array
+            items:
+              $ref: "#/components/schemas/CollectedDataById"       
+
+        #  link_details:
+        #   type: object
+        #   properties:
+        #     description: id
+        #     short_link: "https://short.link/abc123"
+        #     extended_link: "https://www.example.com/very/long/link"
+        #     expiring: 1
+        #     valid_from: "2025-03-08T00:00:00Z"
+        #     valid_to: "2025-04-07T23:59:59Z"
+        #     status: active
+        #     remaining_clicks: actige
+       
+
+       
+        

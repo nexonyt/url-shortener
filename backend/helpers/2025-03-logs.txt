@@ -135,3 +135,113 @@
 [2025-03-11 18:17:07] - Redirecting to: http://put.poznan.pl/
 [2025-03-11 18:17:20] - Asking DB for redirection link for: link-4
 [2025-03-11 18:17:20] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:23:07] - Asking DB for redirection link for: link-4
+[2025-03-11 18:23:07] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:24:00] - Asking DB for redirection link for: link-9
+[2025-03-11 18:24:01] - Link not found
+[2025-03-11 18:24:02] - Asking DB for redirection link for: link-8
+[2025-03-11 18:24:02] - Link disabled: link-8
+[2025-03-11 18:24:37] - Asking DB for redirection link for: link-4
+[2025-03-11 18:24:37] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:26:08] - Asking DB for redirection link for: link-4
+[2025-03-11 18:26:08] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:26:27] - Asking DB for redirection link for: link-8
+[2025-03-11 18:26:27] - Link disabled: link-8
+[2025-03-11 18:26:35] - Asking DB for redirection link for: link-4
+[2025-03-11 18:26:35] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:27:02] - Asking DB for redirection link for: link-4
+[2025-03-11 18:27:02] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:27:11] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:27:11] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:37:07] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:37:07] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:44:22] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:44:22] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:54:56] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:54:57] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:54:57] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:54:57] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:55:32] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:55:32] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:55:46] - Asking DB for redirection link for: link-4
+[2025-03-11 18:55:46] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:55:55] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:55:55] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:57:55] - Asking DB for redirection link for: link-4
+[2025-03-11 18:57:55] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 18:58:17] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:58:17] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:58:58] - Asking DB for redirection link for: link-4
+[2025-03-11 18:58:58] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:00:32] - Asking DB for redirection link for: link-4
+[2025-03-11 19:00:32] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:01:22] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:01:22] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:06:59] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:07:00] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:07:25] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:07:25] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:07:37] - Asking DB for redirection link for: link-4
+[2025-03-11 19:07:37] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:08:42] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:08:42] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:09:39] - Asking DB for redirection link for: link-4
+[2025-03-11 19:09:39] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:10:24] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:10:24] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:11:20] - Asking DB for redirection link for: link-4
+[2025-03-11 19:11:20] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:12:48] - Asking DB for redirection link for: link-4
+[2025-03-11 19:12:48] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:13:13] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:13:13] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:13:27] - Asking DB for redirection link for: link-4
+[2025-03-11 19:13:27] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:15:14] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:15:14] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:16:18] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:16:18] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:22:05] - Asking DB for redirection link for: link-4
+[2025-03-11 19:22:05] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:24:07] - Asking DB for redirection link for: link-4
+[2025-03-11 19:24:07] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 19:24:27] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:24:27] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 19:25:19] - Asking DB for redirection link for: polibuda
+[2025-03-11 19:25:19] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 20:57:10] - Asking DB for redirection link for: polibuda
+[2025-03-11 20:57:10] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 20:59:40] - Asking DB for redirection link for: polibuda
+[2025-03-11 20:59:41] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:00:26] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:00:26] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:02:48] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:02:48] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:03:04] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:03:04] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:03:49] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:03:49] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:08:18] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:08:18] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:08:19] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:08:19] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:09:12] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:09:12] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:09:12] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:09:12] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:17:07] - Asking DB for redirection link for: link-4
+[2025-03-11 21:17:07] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 21:17:09] - Asking DB for redirection link for: link-4
+[2025-03-11 21:17:09] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 21:17:10] - Asking DB for redirection link for: link-4
+[2025-03-11 21:17:10] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 21:17:13] - Asking DB for redirection link for: link-8
+[2025-03-11 21:17:13] - Link disabled: link-8
+[2025-03-11 21:17:16] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:17:16] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:17:18] - Asking DB for redirection link for: link-4
+[2025-03-11 21:17:18] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
+[2025-03-11 21:27:23] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:27:23] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 21:27:23] - Asking DB for redirection link for: polibuda
+[2025-03-11 21:27:23] - Redirecting to: http://put.poznan.pl/
