@@ -123,3 +123,15 @@
 [2025-03-09 19:56:30] - Link disabled: link-4
 [2025-03-09 19:58:01] - Asking DB for redirection link for: link-4
 [2025-03-09 19:58:02] - Link disabled: link-4
+[2025-03-11 18:12:02] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:12:03] - Error occured during connecting to DB: AggregateError
+[2025-03-11 18:12:54] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:12:54] - Error occured during connecting to DB: AggregateError
+[2025-03-11 18:13:56] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:13:56] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:15:32] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:15:32] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:17:07] - Asking DB for redirection link for: polibuda
+[2025-03-11 18:17:07] - Redirecting to: http://put.poznan.pl/
+[2025-03-11 18:17:20] - Asking DB for redirection link for: link-4
+[2025-03-11 18:17:20] - Redirecting to: https://drive.google.com/drive/folders/1MVUaKtUhfo60XW3y0ImxhS2x8RVilqpW
