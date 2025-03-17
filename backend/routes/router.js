@@ -4,6 +4,7 @@ const cors = require("cors");
 const {loginUser,getLink,hello,createLink} = require('../controllers/authControllers')
 const {forwardLink} = require('../controllers/forwardLinkController')
 const {updateLink} = require('../controllers/updateLinkController')
+const {getCollectedData} = require('../controllers/getCollectedData')
 
 router.use(
   cors({
@@ -20,7 +21,7 @@ router.post('/api/create-link',createLink);
 router.put('/api/update-link',updateLink);
 // router.delete('/api/delete-link/:id',deleteLink);
 router.get('/v/:id',forwardLink);
-
+router.get('/api/get-collected-data/:id',getCollectedData);
 
 
 router.use((req, res) => {

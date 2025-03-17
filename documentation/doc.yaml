@@ -235,6 +235,27 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/GetCollectedDataById'
+          '401':
+            description: Brak autoryzacji
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/NotAuthorization'
+          '404':
+            description: Nie znaleziono
+            content:
+              application/json:
+                example:
+                  error: true
+                  message: "Nie znaleziono"
+            '500':
+              description: Nie znaleziono
+              content:
+                application/json:
+                  example:
+                    error: true
+                    message: "Wystąpił problem z połączeniem z bazą danych"
+            
 
 components:
   schemas:
