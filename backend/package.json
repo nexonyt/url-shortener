@@ -18,9 +18,11 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
+    "js-sha512": "^0.9.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
-    "ua-parser-js": "^2.0.2"
+    "ua-parser-js": "^2.0.2",
+    "uuid": "^11.1.0"
   }
 }

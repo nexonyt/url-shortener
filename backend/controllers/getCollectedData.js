@@ -5,7 +5,7 @@ const axios = require('axios')
 const { logger } = require('../helpers/logger');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const UAParser = require('ua-parser-js');
-
+const { authorization } = require('./authorization');
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -15,10 +15,20 @@ const db = mysql.createConnection({
 });
 
 const getCollectedData = async (req, res) => {
-    const SQL = `SELECT * FROM links_tracking WHERE link_id = ?`;
+    if (!await authorization(req.headers)) {
+        return res.status(401).json({ error: true, message: 'Brak autoryzacji.'
+        });
+      } 
+
+    const SQL = `SELECT links_tracking.*,email FROM links_tracking join links on links.id = links_tracking.link_id WHERE link_id = ? AND email = ?`;
 
     try {
-        db.query(SQL, [req.params.id], (err, result) => {
+        const authHeader = req.headers.authorization;
+        const base64Credentials = authHeader.split(" ")[1]; // Pobranie zakodowanej części
+        const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+        const [email, uuid] = credentials.split(":");
+
+        db.query(SQL, [req.params.id,email], (err, result) => {
             if (err) {
                 logger('Error connecting: ' + err.stack);
                 return res.status(500).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });

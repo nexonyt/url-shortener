@@ -253,41 +253,6 @@ paths:
           content:
             application/json:
               schema:
-<<<<<<< HEAD
-                $ref: '#/components/schemas/NotAuthorization'
-  /api/get-collected-data-by-id/[id]:
-      get:
-        summary: Zebrane dane po ID
-        responses:
-          '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/GetCollectedDataById'
-          '401':
-            description: Brak autoryzacji
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/NotAuthorization'
-          '404':
-            description: Nie znaleziono
-            content:
-              application/json:
-                example:
-                  error: true
-                  message: "Nie znaleziono"
-            '500':
-              description: Nie znaleziono
-              content:
-                application/json:
-                  example:
-                    error: true
-                    message: "Wystąpił problem z połączeniem z bazą danych"
-            
-
-=======
                   type: object
                   properties:
                     error:
@@ -296,7 +261,6 @@ paths:
                     message:
                       type: string
                       example: "Dla tego adresu e-mail został już wygenerowany klucz API. Skontaktuj się z supportem."
->>>>>>> ca27e5913882af3abe8dab113462c1715f2c3d5a
 components:
   securitySchemes:
     basicAuth:

@@ -34,9 +34,9 @@ const createLink = async (req, res) => {
     const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     let SQL = "";
     if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links (owner_id, email,status,short_link,extended_link,expiring,created_at) VALUES ("${req.body.owner}","${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}")`;
+         SQL = `INSERT INTO links ( email,status,short_link,extended_link,expiring,created_at) VALUES ("${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}")`;
      } else {
-         SQL = `INSERT INTO links (owner_id,email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at) VALUES ("${req.body.owner}","${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}")`;
+         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at) VALUES ("${req.body.email}","${req.body.status}", "${req.body.short_link}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}")`;
      }
 
 
@@ -56,59 +56,70 @@ const createLink = async (req, res) => {
 
 const getLink = async (req, res) => {
   console.log(req.params);
-    logger('Asking DB for informations about link: ' + req.params.url);
-    const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.url}"`
+  logger('Asking DB for informations about link: ' + req.params.url);
 
-    try {
-         db.query(SQL, (err, result) => {
-            if (err) {
-              console.error('error connecting: ' + err.stack);
-              res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
-            }
-            else {
-                if (result.length) {
-                  console.log(JSON.parse(JSON.stringify(result[0])));
+  const SQL_GET_LINK = `SELECT * FROM links WHERE short_link = ?`;
+  const SQL_GET_CLICKS = `SELECT COUNT(*) AS clicks, COUNT(DISTINCT user_ip) AS unique_clicks FROM links_tracking WHERE link_id = ?`;
 
-                  const statusMap = {
-                    0: "inactive",
-                    1: "active",
-                    2: "expired",
-                    3: "blocked",
-                    4: "deleted"
-                  };
+  try {
+      db.query(SQL_GET_LINK, [`https://nexonstudio.pl/${req.params.url}`], (err, result) => {
+          if (err) {
+              console.error('Error connecting: ' + err.stack);
+              return res.status(409).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });
+          }
 
-                  const statusCode = result[0].status;
-                  const statusText = statusMap[statusCode] || "unknown";
+          if (!result.length) {
+              return res.status(404).json({ "error": true, "message": "No link found for provided URL." });
+          }
 
-                  res
-                    .status(200)
-                    .json({"error":false,"data":{
-                      id: `${result[0].id}`,
-                      email: `${result[0].email}`,
+          const linkData = JSON.parse(JSON.stringify(result[0]));
+
+         
+          db.query(SQL_GET_CLICKS, [linkData.id], (err, statsResult) => {
+              if (err) {
+                  console.error('Error fetching stats:', err.stack);
+                  return res.status(409).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });
+              }
+
+              const statsData = statsResult[0] || { clicks: 0, unique_clicks: 0 };
+
+              const statusMap = {
+                  0: "inactive",
+                  1: "active",
+                  2: "expired",
+                  3: "blocked",
+                  4: "deleted"
+              };
+
+              const statusText = statusMap[linkData.status] || "unknown";
+
+              res.status(200).json({
+                  "error": false,
+                  "data": {
+                      id: linkData.id,
                       status: statusText,
-                      short_link: `${result[0].short_link}`,
-                      extended_link: `${result[0].extended_link}`,
-                      expiring: `${result[0].expiring}`,
-                    //   owner: `${result[0].owner_id}`,
-                      created_at: formatDate(`${result[0].created_at}`),
-                      valid_from: formatDate(`${result[0].valid_from}`),
-                      valid_to: formatDate(`${result[0].valid_to}`),
-                      remaining_clicks: `${result[0].usage_limit}`,
+                      short_link: linkData.short_link,
+                      extended_link: linkData.extended_link,
+                      expiring: linkData.expiring,
+                      created_at: formatDate(linkData.created_at),
+                      valid_from: formatDate(linkData.valid_from),
+                      valid_to: formatDate(linkData.valid_to),
+                      remaining_clicks: linkData.usage_limit,
+                      password: linkData.password,
+                      tracking: linkData.tracking,
                       stats: {
-                        clicks: 0,
-                        unique_clicks: 0,
+                          clicks: statsData.clicks,
+                          unique_clicks: statsData.unique_clicks,
                       },
-                }});
-                }
-                else {
-                    res.status(404).json({"error":true,"message":"No link found for provider URL."});
-                }
-            }
+                  }
+              });
           });
-    }
-    catch (err) {
-        throw Error(err);
-    }
-    }
+      });
+  } catch (err) {
+      console.error("Unexpected error:", err);
+      return res.status(500).json({ "error": true, "message": "Wystąpił błąd serwera." });
+  }
+};
 
-module.exports = {hello, getLink,createLink,getLink}
+
+module.exports = {hello, getLink,createLink}

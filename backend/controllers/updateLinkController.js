@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const { get } = require('http');
 const {logger} = require('../helpers/logger');
+const { authorization } = require('./authorization');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const db = mysql.createConnection({
@@ -14,6 +15,11 @@ const db = mysql.createConnection({
 
 
   const updateLink = async (req, res) => {
+
+    if (!await authorization(req.headers)) {
+      return res.status(401).json({ error: true, message: 'Brak autoryzacji.'
+      });
+    } 
     const { id, email, ...updateFields } = req.body;
   
 

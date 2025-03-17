@@ -5,7 +5,7 @@ const {loginUser,getLink,hello,createLink} = require('../controllers/authControl
 const {forwardLink} = require('../controllers/forwardLinkController')
 const {updateLink} = require('../controllers/updateLinkController')
 const {getCollectedData} = require('../controllers/getCollectedData')
-
+const {createAccess} = require('../controllers/createAccess')
 router.use(
   cors({
     credentials: false,
@@ -22,7 +22,7 @@ router.put('/api/update-link',updateLink);
 // router.delete('/api/delete-link/:id',deleteLink);
 router.get('/v/:id',forwardLink);
 router.get('/api/get-collected-data/:id',getCollectedData);
-
+router.post('/api/create-access/api-key',createAccess);
 
 router.use((req, res) => {
     res.status(404).json({ error:true,message: "Nie znaleziono takiej ścieżki" });
