@@ -126,6 +126,8 @@ paths:
                 
   /api/update-link:
     put:
+      security:
+      - basicAuth: []
       summary: Aktualizacja linku
       requestBody:
         content:
@@ -260,6 +262,11 @@ paths:
                       type: string
                       example: "Dla tego adresu e-mail został już wygenerowany klucz API. Skontaktuj się z supportem."
 components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: "Podstawowa autoryzacja za pomocą e-maila (nadanego przy tworzeniu linku) oraz UUID (otrzymanego z endpoitnu /api/create-access/api-key)."
   schemas:
     GetLinksByEmail:
       type: object
