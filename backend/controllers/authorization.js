@@ -40,6 +40,8 @@ const db = mysql.createConnection({
                     }
                     resolve(true);
                 });
+
+
     
             } catch (error) {
                 console.error("Błąd autoryzacji:", error);

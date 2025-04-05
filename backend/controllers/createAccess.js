@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { sha384 } = require('js-sha512');
 const mysql = require('mysql');
-const { logger } = require('../helpers/logger');
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

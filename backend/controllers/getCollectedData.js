@@ -1,13 +1,16 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
+const pool = require('./pool');
+const logger2 = require('../helpers/logger_new');
+
 const path = require('path');
 const axios = require('axios')
-const { logger } = require('../helpers/logger');
+
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const UAParser = require('ua-parser-js');
 const { authorization } = require('./authorization');
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -16,6 +19,14 @@ const db = mysql.createConnection({
 
 const getCollectedData = async (req, res) => {
     if (!await authorization(req.headers)) {
+        // logger2.error("Brak autoryzacji").feature("authorization").component("auth");
+        // logger2.info('Użytkownik dodał produkt do koszyka', {
+        //     userId: '12345',
+        //     productId: '67890',
+        //     quantity: 2
+        //   });
+        //   logger2.info('Uwaga');
+        logger2.feature('authorization').component('auth').info('Autoryzacja uzyskana');
         return res.status(401).json({ error: true, message: 'Brak autoryzacji.'
         });
       } 
@@ -28,14 +39,16 @@ const getCollectedData = async (req, res) => {
         const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
         const [email, uuid] = credentials.split(":");
 
-        db.query(SQL, [req.params.id,email], (err, result) => {
+        pool.query(SQL, [req.params.id,email], (err, result) => {
             if (err) {
+                // db.end()
                 logger('Error connecting: ' + err.stack);
                 return res.status(500).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });
             }
 
             if (result.length === 0) {
-                db.query(`SELECT * FROM links WHERE id = ?`, [req.params.id], (err, linkResult) => {
+                pool.query(`SELECT * FROM links WHERE id = ?`, [req.params.id], (err, linkResult) => {
+              
                     if (err) {
                         return res.status(500).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });
                     }
@@ -50,7 +63,9 @@ const getCollectedData = async (req, res) => {
                 return;
             }
 
-
+            logger2.info("Test")
+            logger2.error("Test")
+            logger2.error("Test")
             const redirects = result.map((redirect) => {
                 return {
                     "user_agent": redirect.user_agent,
@@ -71,6 +86,7 @@ const getCollectedData = async (req, res) => {
             });
 
 
+            // db.end();
             return res.status(200).json({ "error": false, "redirects": redirects });
         });
     } catch (err) {
@@ -78,6 +94,7 @@ const getCollectedData = async (req, res) => {
         return res.status(500).json({ "error": true, "message": "Wystąpił nieoczekiwany błąd" });
     }
 };
+
 
 
 

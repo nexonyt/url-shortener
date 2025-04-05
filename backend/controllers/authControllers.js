@@ -48,6 +48,8 @@ const createLink = async (req, res) => {
             }
             else res.status(201).json({"status":"created"});
           });
+          db.end();
+
     }
     catch (err) {
         throw Error(err);
