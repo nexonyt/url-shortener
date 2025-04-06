@@ -1,0 +1,202 @@
+[2025-04-06 07:47:50] - Asking DB for redirection link for: polibuda
+[2025-04-06 07:48:01] - Error occured during connecting to DB: Error: connect ETIMEDOUT
+[2025-04-06 07:48:06] - Asking DB for redirection link for: polibuda
+[2025-04-06 07:48:06] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-04-06 07:48:28] - Asking DB for redirection link for: polibuda
+[2025-04-06 07:48:28] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-04-06 07:54:57] - Asking DB for redirection link for: polibuda
+[2025-04-06 07:54:57] - Error occured during connecting to DB: Error: Cannot enqueue Query after fatal error.
+[2025-04-06 09:56:14] - Asking DB for redirection link for: apple
+[2025-04-06 09:56:15] - Redirecting to: https://apple.com
+[2025-04-06 09:56:40] - Asking DB for redirection link for: apple
+[2025-04-06 09:56:40] - Redirecting to: https://apple.com
+[2025-04-06 10:07:27][info] - Brak autoryzacji
+[2025-04-06 10:07:30][info] - Brak autoryzacji
+[2025-04-06 10:08:06][INFO] - Brak autoryzacji
+[2025-04-06 10:08:45][INFO][getCollectedData] - Brak autoryzacji
+[2025-04-06 10:11:10][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:16:37][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:16:38][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:16:38][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:16:45][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:16:47][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-06 10:22:30][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:22:33][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:23:27][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:23:44][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '12' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:23:46][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:24:17][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:24:23][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '13' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:24:30][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '11' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:24:47][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '11' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:25:17][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '11' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:27:43][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '11' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-06 10:27:59][undefined][getCollectedData.js] - Error connecting: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'links on links.id = links_tracking.link_id WHERE link_id = '11' AND email = '...' at line 1
+    at Sequence._packetToError (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Sequence.js:47:14)
+    at Query.ErrorPacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/sequences/Query.js:79:18)
+    at Protocol._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:291:23)
+    at Parser._parsePacket (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:433:10)
+    at Parser.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Parser.js:43:10)
+    at Protocol.write (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/protocol/Protocol.js:38:16)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:88:28)
+    at Socket.<anonymous> (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Connection.js:526:10)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    --------------------
+    at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
+    at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

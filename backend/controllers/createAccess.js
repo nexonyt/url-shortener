@@ -52,7 +52,7 @@ const createAccess = async (req, res) => {
             const SQL = `INSERT INTO links_authorization (email, password) VALUES ('${email}', '${hash}')`;
             db.query(SQL, (err) => {
             if (err) {
-                logger('Error connecting: ' + err.stack);
+                logger('Error connecting: ' + err.stack,'error');
                 return res.status(500).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });
             }
             else {
