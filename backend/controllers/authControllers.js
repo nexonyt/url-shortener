@@ -112,9 +112,23 @@ const getLink = async (req, res) => {
                       stats: {
                           clicks: statsData.clicks,
                           unique_clicks: statsData.unique_clicks,
-                      },
+                          inactive_clicks: -99,
+                          expired_clicks: -99,
+                          first_click: "1999-03-08T12:00:00Z",
+                          last_click: "1999-03-08T12:00:00Z",
+                          daily_clicks: {
+                            "2025-03-08": 1,
+                            "2025-03-09": 1,
+                            "2025-03-10": 1
+                            },
+                            most_daily_clicks: {
+                                "date": "2001-03-08",
+                                "clicks": 0
+                            }
+                          }
+                      }
                   }
-              });
+              );
           });
       });
   } catch (err) {
