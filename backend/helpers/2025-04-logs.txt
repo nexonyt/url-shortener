@@ -200,3 +200,118 @@
     at Pool.query (/Users/nexon/projects/url-shortener/backend/node_modules/mysql/lib/Pool.js:199:23)
     at getCollectedData (/Users/nexon/projects/url-shortener/backend/controllers/getCollectedData.js:36:12)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-04-09 18:03:47][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-09 18:04:33][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:04:45][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:04:46][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:04:46][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:04:46][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:05:04][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:05:05][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:05:05][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:05:18][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:06:50][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:02][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:03][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:04][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:04][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:05][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:05][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:05][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:06][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:06][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:06][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:06][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:08][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:07:11][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:08:01][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:08:01][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:08:02][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:08:12][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:09:43][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:03][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:09][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:09][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:10][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:19][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:21][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:11:55][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:12:05][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:12:22][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:12:52][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:15:34][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:15:47][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:15:58][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:16:05][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:16:10][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:25:39][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:25:48][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:25:59][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:29:10][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:29:16][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:29:18][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:29:19][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:30:14][undefined][forwardLinkController.js] - Asking DB for redirection link for: polibuda
+[2025-04-09 18:30:15][undefined][forwardLinkController.js] - Redirecting to: http://put.poznan.pl/
+[2025-04-09 18:30:40][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:31:47][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:31:48][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 18:32:01][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:56:49][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:35][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:35][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:35][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:36][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:38][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:39][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:39][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:40][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:40][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:57:40][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:58:07][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 18:58:08][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:00:41][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:01:16][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:02:34][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:02:38][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:02:43][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:03:08][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:03:14][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:03:19][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:03:26][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:03:34][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:04:02][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:06:34][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:06:56][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:07:46][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:08:16][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:08:21][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:08:30][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:09:34][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:10:24][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:11:11][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:11:58][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:12:13][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:12:26][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:16:00][undefined][authControllers.js] - Asking DB for informations about link: apple
+[2025-04-09 19:16:11][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:16:24][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:18:04][undefined][authControllers.js] - Asking DB for informations about link: google
+[2025-04-09 19:18:15][undefined][authControllers.js] - Asking DB for informations about link: me
+[2025-04-09 19:18:39][undefined][authControllers.js] - Asking DB for informations about link: polbuda
+[2025-04-09 19:18:41][undefined][authControllers.js] - Asking DB for informations about link: polibuda
+[2025-04-09 19:18:50][undefined][authControllers.js] - Asking DB for informations about link: polibudas
+[2025-04-09 19:25:39][undefined][authControllers.js] - Asking DB for informations about link: polibudas
+[2025-04-09 19:26:13][undefined][authControllers.js] - Asking DB for informations about link: polibudas
+[2025-04-09 19:26:20][undefined][authControllers.js] - Asking DB for informations about link: polibudas
+[2025-04-09 20:00:07][undefined][authControllers.js] - Asking DB for informations about link: garkg
+[2025-04-09 20:00:09][undefined][authControllers.js] - Asking DB for informations about link: garkg
+[2025-04-09 20:00:11][undefined][authControllers.js] - Asking DB for informations about link: garkg
+[2025-04-09 20:14:55][INFO][getCollectedData.js] - Brak autoryzacji
+[2025-04-09 20:20:13][INFO][authControllers.js] - Link created: https://nexonstudio.pl/aaeb
+[2025-04-09 20:20:30][INFO][authControllers.js] - Link created: https://nexonstudio.pl/ged7
+[2025-04-09 20:20:32][INFO][authControllers.js] - Link created: https://nexonstudio.pl/1c53
+[2025-04-09 20:20:34][INFO][authControllers.js] - Link created: https://nexonstudio.pl/lhyw
+[2025-04-09 20:20:40][INFO][authControllers.js] - Link created: https://nexonstudio.pl/q7e2
+[2025-04-09 20:20:42][INFO][authControllers.js] - Link created: https://nexonstudio.pl/tk7b
+[2025-04-09 20:20:44][INFO][authControllers.js] - Link created: https://nexonstudio.pl/qzm6

@@ -2,13 +2,73 @@ openapi: 3.0.0
 info:
   title: Przykładowe API
   version: 1.0.0
-  description: To jest przykładowa specyfikacja API.
+  description: >
+    API do skracania linków. 
+    Umożliwia tworzenie, aktualizację, usuwanie oraz pobieranie informacji o skróconych linkach.
+server:
+  - url: https://links.nexonstudio.pl/
+    description: Główny serwer API
 paths:
-  /api/get-link-custom/[alias]:
+  /api/check-link/[alias]:
     get: 
-      tags: 
-        - GET - pobranie danych
-      summary: Szczegóły linku po URL
+      summary: Weryfikacja linku po URL
+      parameters:
+        - name: url
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Skrócony URL linku
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  short_link:
+                    type: string
+                    description: Skrócony link
+                  extended_link:
+                    type: string
+                    description: Rozszerzony link
+                  status:
+                    type: string
+                    description: Status linku (np. 'active', 'inactive','expired','blocked')
+        '404':
+          description: Nie znaleziono
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Nie znaleziono"
+  /api/check-available/[alias]:
+    get:
+      summary: Sprawdzenie dostępności linku po URL
+      parameters:
+        - name: url
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Skrócony URL linku
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    description: Informacja o dostępności linku (true/false)
+        '404':
+          description: Nie znaleziono
+  /api/get-custom-link/[alias]:
+    get:
+      summary: Sprawdzenie linku po URL
       parameters:
         - name: url
           in: path
@@ -33,8 +93,6 @@ paths:
                 $ref: '#/components/schemas/NotAuthorization'
   /api/get-link/[id]:
     get:
-      tags: 
-        - GET - pobranie danych
       summary: Szczegóły linku po ID
       parameters:
         - name: id
@@ -60,8 +118,6 @@ paths:
                 $ref: '#/components/schemas/NotAuthorization'
   /api/get-collected-data/[id]:
     get:
-      tags: 
-        - GET - pobranie danych
       summary: Zebrane dane z linku
       description: Metoda dostępna tylko po API
       parameters:
@@ -94,8 +150,6 @@ paths:
                 message: "Nie znaleziono"    
   /api/create-link:
     post:
-      tags:
-        - POST - utworzenie 
       summary: Utworzenie linku
       requestBody:
         content:
@@ -134,7 +188,6 @@ paths:
                   description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
                   example: 1
               required:
-                - short_link
                 - extended_link
                 - expiring
       responses:
@@ -172,8 +225,6 @@ paths:
                   $ref: '#/components/schemas/Conflict'   
   /api/get-links-by-email:
     get:
-      tags: 
-        - GET - pobranie danych
       summary: Pobranie linków przez e-mail
       description: Pobranie wszystkich informacji o linkach przypisanych do danego e-mail'a
       responses:

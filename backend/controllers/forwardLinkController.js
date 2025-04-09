@@ -2,12 +2,13 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const axios = require('axios')
-const { logger } = require('../helpers/logger');
+const logger = require('../helpers/logger');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const UAParser = require('ua-parser-js');
 
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
