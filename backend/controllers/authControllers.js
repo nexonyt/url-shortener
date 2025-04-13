@@ -14,14 +14,6 @@ const db = mysql.createPool({
     database: process.env.DB_DATABASE,
   });
 
-const hello = async (req, res) => {
-try {
-        res.status(200).json({ message: "cześć" });
-}
-catch (err) {
-    throw Error(err);
-}
-}
 
 const formatDate = (date) => {
     if (date=="null" || date==undefined) return null;
@@ -208,4 +200,4 @@ const getLink = async (req, res) => {
   
 
 
-module.exports = {hello, getLink,createLink}
+module.exports = {getLink,createLink}

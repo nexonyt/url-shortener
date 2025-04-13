@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const {loginUser,getLink,hello,createLink} = require('../controllers/authControllers')
+const {loginUser,getLink,createLink} = require('../controllers/authControllers')
 const {forwardLink} = require('../controllers/forwardLinkController')
 const {updateLink} = require('../controllers/updateLinkController')
 const {getCollectedData} = require('../controllers/getCollectedData')
 const {createAccess} = require('../controllers/createAccess')
+const {isActive} = require('../controllers/isActiveController')
 router.use(
   cors({
     credentials: false,
@@ -14,7 +15,7 @@ router.use(
   })
 );
 // router.post('/login',loginUser)
-router.get('/api/hello', hello);
+router.get('/api/is-active', isActive);
 router.get('/api/get-link-custom/:url',getLink);
 // router.get('/api/get-link-custom/:url',getLinkCustom);
 router.post('/api/create-link',createLink);
