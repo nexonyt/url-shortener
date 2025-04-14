@@ -9,6 +9,20 @@ server:
   - url: https://links.nexonstudio.pl/
     description: Główny serwer API
 paths:
+  /api/is-active:
+    get:
+      summary: Sprawdzenie aktywności usługi
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  active:
+                    type: boolean
+                    default: true
   /api/check-link/[alias]:
     get: 
       summary: Weryfikacja linku po URL
