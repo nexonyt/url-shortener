@@ -7,6 +7,8 @@ const {updateLink} = require('../controllers/updateLinkController')
 const {getCollectedData} = require('../controllers/getCollectedData')
 const {createAccess} = require('../controllers/createAccess')
 const {isActive} = require('../controllers/isActiveController')
+const {checkLink} = require('../controllers/checkLinkController')
+const {checkAvailable} = require('../controllers/checkAvailableController')
 router.use(
   cors({
     credentials: false,
@@ -16,6 +18,8 @@ router.use(
 );
 // router.post('/login',loginUser)
 router.get('/api/is-active', isActive);
+router.get('/api/check-available/:url', checkAvailable);
+router.get('/api/check-link/:url', checkLink);
 router.get('/api/get-link-custom/:url',getLink);
 // router.get('/api/get-link-custom/:url',getLinkCustom);
 router.post('/api/create-link',createLink);
