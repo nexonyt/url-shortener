@@ -5,6 +5,7 @@ const { get } = require('http');
 const logger = require('../helpers/logger');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const { findFreeAlias } = require('./chechFreeAliases');
+const { sha512 } = require('js-sha512');
 
 const db = mysql.createPool({
     connectionLimit: 10,
@@ -25,9 +26,10 @@ const formatDate = (date) => {
 
 
 const createLink = async (req, res) => {
+    const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
     const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     const defaultValues = {"password":0,"tracking":0,"status":1,"expiring":0,"usage_limit":0};
-    const password = req.body.password ?? defaultValues.password;
+    let password = req.body.password ?? defaultValues.password;
     const tracking = req.body.tracking ?? defaultValues.tracking;
     const status = req.body.status ?? defaultValues.status;
     const expiring = req.body.expiring ?? defaultValues.expiring;
@@ -44,10 +46,17 @@ const createLink = async (req, res) => {
             res.status(500).json({ error: true, message: 'Alias generation failed' });
           }
      }
+     if(req.body.password) {
+        const tempPass = JSON.parse(atob(req.body.password));
+        password = tempPass["password"];
+        const passwordJSON = {"password":`${password}`,"secret":`${secret}`};
+        console.log(passwordJSON)
+        password = sha512(JSON.stringify(passwordJSON))
+     }  
     if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links ( email,status,short_link,extended_link,expiring,created_at,password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}","${password}","${tracking}")`;
      } else {
-         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${password}","${tracking}")`;
      }
 
    
