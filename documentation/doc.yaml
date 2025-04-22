@@ -5,9 +5,9 @@ info:
   description: >
     API do skracania linków. 
     Umożliwia tworzenie, aktualizację, usuwanie oraz pobieranie informacji o skróconych linkach.
-server:
+servers:
   - url: https://links.nexonstudio.pl/
-    description: Główny serwer API
+    description: Produkcyjny serwer API
 paths:
   /api/is-active:
     get:
@@ -195,8 +195,9 @@ paths:
                   format: date-time
                   description: Data i czas do kiedy link ma być ważny. Wymagane przesłanie `expiring`.
                 password:
-                  type: integer
-                  description: Czy klient ma podać hasło przy przekierowaniu na link?
+                  type: string
+                  description: > 
+                    Hasło, które użytkownik będzie zmuszony wpisać przy przekierowaniu. Hasło należy przekazać w żądaniu w formacie base64, w umieszczonym wcześniej JSON'ie o strukturze: {"password":"${password"}
                 status:
                   type: integer
                   description: Status linku (np. 1 = aktywny, 0 = nieaktywny)

@@ -11,7 +11,7 @@ const db = mysql.createPool({
 const checkLink = async (req, res) => {
     const { short_link } = req.params;
     const SQL = `SELECT * FROM links WHERE short_link = ?`;
-    db.query(SQL, [`https://nexonstudio.pl/${req.params.url}`], (err, result) => {
+    db.query(SQL, [`${req.params.url}`], (err, result) => {
         if (err) {
             res.status(500).json({ error: true, message: 'Wystąpił problem z połączeniem z bazą danych' });
         } else if (result.length > 0) {

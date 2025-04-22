@@ -30,7 +30,7 @@ const findFreeAlias = async (maxTries = 20, length = 4) => {
       }
 
       const alias = generateRandomAlias(length);
-      const fullUrl = `https://nexonstudio.pl/${alias}`;
+      const fullUrl = `${alias}`;
 
       db.query(SQL, [fullUrl], (err, result) => {
         if (err) return reject(err);

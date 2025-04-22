@@ -39,7 +39,7 @@ const createLink = async (req, res) => {
     if (req.body.short_link === undefined || req.body.short_link === null) {
         try {
             const alias = await findFreeAlias(); 
-            shortlUrl = `https://nexonstudio.pl/${alias}`;
+            shortlUrl = `${alias}`;
        
           } catch (err) {
             console.error("Błąd podczas generowania aliasu:", err);
@@ -68,7 +68,7 @@ const createLink = async (req, res) => {
               logger('Error connecting: ' + err.stack);
               res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
             }
-            else {res.status(201).json({"status":"created","short_link":shortlUrl})
+            else {res.status(201).json({"status":"created","short_link":`https://urlpretty.pl/v/${shortlUrl}`})
             logger('Link created: ' + shortlUrl,'INFO');};
           });
 
@@ -106,7 +106,7 @@ const getLink = async (req, res) => {
     `;
   
     try {
-      db.query(SQL_GET_LINK, [`https://nexonstudio.pl/${req.params.url}`], (err, result) => {
+      db.query(SQL_GET_LINK, [`${req.params.url}`], (err, result) => {
         if (err) {
           console.error('Error connecting: ' + err.stack);
           return res.status(409).json({ "error": true, "message": 'Wystąpił problem z połączeniem z bazą danych' });

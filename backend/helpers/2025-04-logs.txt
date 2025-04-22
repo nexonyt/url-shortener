@@ -308,10 +308,14 @@
 [2025-04-09 20:00:09][undefined][authControllers.js] - Asking DB for informations about link: garkg
 [2025-04-09 20:00:11][undefined][authControllers.js] - Asking DB for informations about link: garkg
 [2025-04-09 20:14:55][INFO][getCollectedData.js] - Brak autoryzacji
-[2025-04-09 20:20:13][INFO][authControllers.js] - Link created: https://nexonstudio.pl/aaeb
-[2025-04-09 20:20:30][INFO][authControllers.js] - Link created: https://nexonstudio.pl/ged7
-[2025-04-09 20:20:32][INFO][authControllers.js] - Link created: https://nexonstudio.pl/1c53
-[2025-04-09 20:20:34][INFO][authControllers.js] - Link created: https://nexonstudio.pl/lhyw
-[2025-04-09 20:20:40][INFO][authControllers.js] - Link created: https://nexonstudio.pl/q7e2
-[2025-04-09 20:20:42][INFO][authControllers.js] - Link created: https://nexonstudio.pl/tk7b
-[2025-04-09 20:20:44][INFO][authControllers.js] - Link created: https://nexonstudio.pl/qzm6
+[2025-04-09 20:20:13][INFO][authControllers.js] - Link created: aaeb
+[2025-04-09 20:20:30][INFO][authControllers.js] - Link created: ged7
+[2025-04-09 20:20:32][INFO][authControllers.js] - Link created: 1c53
+[2025-04-09 20:20:34][INFO][authControllers.js] - Link created: lhyw
+[2025-04-09 20:20:40][INFO][authControllers.js] - Link created: q7e2
+[2025-04-09 20:20:42][INFO][authControllers.js] - Link created: tk7b
+[2025-04-09 20:20:44][INFO][authControllers.js] - Link created: qzm6
+[2025-04-22 13:23:08][INFO][C:\Users\mkaczmarek2\Desktop\Projekty VSC\url\url-shortener\backend\controllers\authControllers.js] - Link created: lcgu
+[2025-04-22 13:24:39][INFO][C:\Users\mkaczmarek2\Desktop\Projekty VSC\url\url-shortener\backend\controllers\authControllers.js] - Link created: rt24
+[2025-04-22 13:25:55][undefined][C:\Users\mkaczmarek2\Desktop\Projekty VSC\url\url-shortener\backend\controllers\forwardLinkController.js] - Asking DB for redirection link for: rt24
+[2025-04-22 13:25:55][undefined][C:\Users\mkaczmarek2\Desktop\Projekty VSC\url\url-shortener\backend\controllers\forwardLinkController.js] - Redirecting to: https://drive.google.com/drive/u/0/folders/1B3CyXXKHtb1yIriwVcioFMuattS4rICx
