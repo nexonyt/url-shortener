@@ -5,10 +5,24 @@ info:
   description: >
     API do skracania linków. 
     Umożliwia tworzenie, aktualizację, usuwanie oraz pobieranie informacji o skróconych linkach.
-server:
+servers:
   - url: https://links.nexonstudio.pl/
-    description: Główny serwer API
+    description: Produkcyjny serwer API
 paths:
+  /api/is-active:
+    get:
+      summary: Sprawdzenie aktywności usługi
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  active:
+                    type: boolean
+                    default: true
   /api/check-link/[alias]:
     get: 
       summary: Weryfikacja linku po URL
@@ -175,14 +189,15 @@ paths:
                 valid_from:
                   type: string
                   format: date-time
-                  description: Data i czas od kiedy link jest/ma być ważny
+                  description: Data i czas od kiedy link ma być ważny. Wymagane przesłanie `expiring`.
                 valid_to:
                   type: string
                   format: date-time
-                  description: Data i czas do kiedy link był/ma być ważny
+                  description: Data i czas do kiedy link ma być ważny. Wymagane przesłanie `expiring`.
                 password:
-                  type: integer
-                  description: Czy klient ma podać hasło przy przekierowaniu na link?
+                  type: string
+                  description: > 
+                    Hasło, które użytkownik będzie zmuszony wpisać przy przekierowaniu. Hasło należy przekazać w żądaniu w formacie base64, w umieszczonym wcześniej JSON'ie o strukturze: {"password":"${password"}
                 status:
                   type: integer
                   description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
@@ -194,15 +209,41 @@ paths:
         '201':
           description: Created
           content:
-            application/json:
-              example:
-                id: 1
-                short_link: "https://short.link/abc123"
-                extended_link: "https://www.example.com/very/long/link"
-                expiring: 1
-                valid_from: "2025-03-08T00:00:00Z"
-                valid_to: "2025-04-07T23:59:59Z"
-                status: active
+           application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID linku
+                short_link: 
+                  type: string
+                  example: "https://short.link/abc123"
+                  description: Skrócony link
+                extended_link: 
+                  type: string
+                  example: "https://www.example.com/very/long/link"
+                  description: Rozszerzony link
+                tracking: 
+                  type: integer
+                  example: 1
+                  description: Śledzenie - pozwola na zbieranie statystyk i zapisywanie każdego kliknięcia w bazie danych (wyświetlanie statystyk w /get-collected-data)
+                expiring: 
+                  type: integer
+                  example: 1
+                  description: Flaga wskazująca, czy link wygasa (1 - tak, 0 - nie)
+                valid_from: 
+                  example: "2025-03-08T00:00:00Z"
+                  type: string
+                  description: Data i czas od kiedy link jest ważny.
+                valid_to:
+                  type: string
+                  example: "2025-04-07T23:59:59Z"
+                  description: Data i czas do kiedy link jest ważny.
+                status: 
+                  type: string
+                  example: active
+                  description: Status linku (np. 1 = aktywny, 0 = nieaktywny)
         '400':
           description: Błąd
           content:
@@ -305,9 +346,10 @@ paths:
               $ref: '#/components/schemas/NotAuthorizationForPUT'
   /api/delete-link:
     delete:
-      tags: 
-        - DELETE - usunięcie 
       summary: Usunięcie linku
+      description: >
+       Metoda pozwala usunąć link. Usunięcie linku jest możliwe tylko jeżeli został podany adres e-mail podczas zakładania konta. <br><br>
+       Jeżeli link został usunięty przypadkowo, można wysłać wiadomość e-mail na adres <b>support@nexonstudio.pl</b> z prośbą o przywrócenie linku. Kontakt musi nastąpić do 24h.
       requestBody:
         content:
           application/json:
@@ -346,8 +388,6 @@ paths:
                 $ref: '#/components/schemas/NotAuthorization'
   /api/create-access/api-key:
     post:
-      tags: 
-        - POST - utworzenie
       summary: Utworzenie klucza API
       description: >
         Uwaga! Metoda jest jednorazowa, dla jednego adresu e-mail zostanie zwrócona TYLKO raz!

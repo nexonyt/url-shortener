@@ -18,7 +18,7 @@ const db = mysql.createPool({
 const decrementLinkUsage = async (shortLinkId) => {
   console.log(shortLinkId);
   return new Promise((resolve, reject) => {
-    const updateSQL = `UPDATE links SET usage_limit = usage_limit - 1 WHERE short_link = "https://nexonstudio.pl/${shortLinkId}"`;
+    const updateSQL = `UPDATE links SET usage_limit = usage_limit - 1 WHERE short_link = "${shortLinkId}"`;
 
     db.query(updateSQL, (err, result) => {
       if (err) {
@@ -110,8 +110,9 @@ const forwardLink = async (req, res) => {
 
   console.log(collectedUserInfo)
 
+  console.log(req.body)
   logger('Asking DB for redirection link for: ' + req.params.id);
-  const SQL = `SELECT * FROM links WHERE short_link = "https://nexonstudio.pl/${req.params.id}"`;
+  const SQL = `SELECT * FROM links WHERE short_link = "${req.params.id}"`;
   try {
     db.query(SQL, async (err, result) => {
       if (err) {
@@ -141,7 +142,7 @@ const forwardLink = async (req, res) => {
         }
         else {
           logger('Link not found');
-          res.status(404).json({ "error": true, "message": "No link found for provider URL.", data: { requested_webpage: `https://nexonstudio.pl/v/${req.params.id}` } });
+          res.status(404).json({ "error": true, "message": "No link found for provider URL.", data: { requested_webpage: `v/${req.params.id}` } });
         }
       }
     });
