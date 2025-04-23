@@ -5,7 +5,7 @@ const axios = require('axios')
 const logger = require('../helpers/logger');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const UAParser = require('ua-parser-js');
-
+const { discordSender } = require('../helpers/discordNotifications.js');
 
 const db = mysql.createPool({
   connectionLimit: 10,
@@ -135,6 +135,7 @@ const forwardLink = async (req, res) => {
             else
               await decrementLinkUsage(req.params.id);
             logger(`Redirecting to: ${result[0].extended_link}`);
+            if (result[0].id === 18) discordSender(result[0].short_link);
             res.redirect(302, result[0].extended_link);
           }
         }
