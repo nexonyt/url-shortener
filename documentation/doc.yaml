@@ -171,7 +171,7 @@ paths:
             schema:
               type: object
               properties:
-                short_link:
+                alias:
                   type: string
                   description: Skrócony link
                 extended_link:
@@ -204,7 +204,6 @@ paths:
                   example: 1
               required:
                 - extended_link
-                - expiring
       responses:
         '201':
           description: Created
