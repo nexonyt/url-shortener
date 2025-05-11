@@ -28,15 +28,28 @@ const formatDate = (date) => {
 const createLink = async (req, res) => {
     const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
     const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
-    const defaultValues = {"password":0,"tracking":0,"status":1,"expiring":0,"usage_limit":0};
+    const defaultValues = {"password":"NULL","tracking":0,"status":1,"expiring":0,"usage_limit":0};
     let password = req.body.password ?? defaultValues.password;
     const tracking = req.body.tracking ?? defaultValues.tracking;
     const status = req.body.status ?? defaultValues.status;
     const expiring = req.body.expiring ?? defaultValues.expiring;
     const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
-    let shortlUrl = req.body.short_link ?? null;
+
+    // Handling the case when the user doesn't provide required
+
+    const requiredFields = ['extended_link'];
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+          error: true,
+          message: `Brak wymaganych pól: ${missingFields.join(', ')}`
+      });
+  }
+
+    let shortlUrl = req.body.alias ?? null;
     let SQL = "";
-    if (req.body.short_link === undefined || req.body.short_link === null) {
+    if (req.body.alias === undefined || req.body.alias === null) {
         try {
             const alias = await findFreeAlias(); 
             shortlUrl = `${alias}`;
@@ -54,9 +67,9 @@ const createLink = async (req, res) => {
         password = sha512(JSON.stringify(passwordJSON))
      }  
     if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}","${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}","${mysqlDate}","${password}","${tracking}")`;
      } else {
-         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${req.body.status}", "${shortlUrl}", "${req.body.extended_link}", "${req.body.expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${password}","${tracking}")`;
      }
 
    
