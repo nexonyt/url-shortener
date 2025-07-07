@@ -1,7 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
-function logger(message,level) {
+const logDir = '/log/url-shortener';
+const logFileName = 'backend-log.txt';
+const logFilePath = path.join(logDir, logFileName);
+
+function ensureLogDirExists() {
+    if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+    }
+}
+
+function logger(message, level) {
+    ensureLogDirExists();
+
     const stack = new Error().stack;
     const callerLine = stack.split('\n')[2];
     const match = callerLine.match(/\((.*):\d+:\d+\)/) || callerLine.match(/at (.*):\d+:\d+/);
@@ -10,9 +22,6 @@ function logger(message,level) {
     const now = new Date();
     const logTime = now.toISOString().slice(0, 19).replace("T", " ");
     const formattedMessage = `[${logTime}][${level}][${callerFile}] - ${message}\n`;
-
-    const logFileName = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-logs.txt`;
-    const logFilePath = path.join(__dirname, logFileName);
 
     console.log(formattedMessage.trim());
 
