@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const logger = require('../helpers/logger');
 
 const db = mysql.createPool({
   connectionLimit: 10,
@@ -11,6 +12,7 @@ const db = mysql.createPool({
 const checkAvailable = async (req, res) => {
     const { short_link } = req.params;
     const SQL = `SELECT id FROM links WHERE short_link = ?`;
+    logger('REQ',req.body)
     db.query(SQL, [`${req.params.url}`], (err, result) => {
         if (err) {
             res.status(500).json({ error: true, message: 'Wystąpił problem z połączeniem z bazą danych' });

@@ -82,7 +82,7 @@ const getCollectedData = async (req, res) => {
             });
 
 
-
+            logger('RES',{ "error": false, "redirects": redirects })
             return res.status(200).json({ "error": false, "redirects": redirects });
         });
     } catch (err) {

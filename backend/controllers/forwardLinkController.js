@@ -16,7 +16,7 @@ const db = mysql.createPool({
 });
 
 const decrementLinkUsage = async (shortLinkId) => {
-  console.log(shortLinkId);
+  // console.log(shortLinkId);
   return new Promise((resolve, reject) => {
     const updateSQL = `UPDATE links SET usage_limit = usage_limit - 1 WHERE short_link = "${shortLinkId}"`;
 
@@ -33,7 +33,7 @@ const decrementLinkUsage = async (shortLinkId) => {
 
 
 const addTrackingToDB = async (linkData, collectedUserInfo, status) => {
-  console.log(`Dodanie rekordu`);
+
 
   const SQL = `INSERT INTO links_tracking (link_id,user_agent,user_ip,isp,country,city,accept_language,timezone,sucess_redirect,referer,os,browser,created_at,cpu,device_type) VALUES ('${linkData.id}','${collectedUserInfo.userAgent}','${collectedUserInfo.ip}','${collectedUserInfo.geo.isp}','${collectedUserInfo.geo.country}','${collectedUserInfo.geo.city}','${collectedUserInfo.acceptLanguage}','${collectedUserInfo.geo.timezone}',${status},'${collectedUserInfo.referer}','${collectedUserInfo.device.os + ' ' + collectedUserInfo.device.osVersion}','${collectedUserInfo.device.browser + ' ' + collectedUserInfo.device.browserVersion}',NOW(),'${collectedUserInfo.device.cpu}','${collectedUserInfo.device.deviceType}')`;
 
@@ -64,7 +64,7 @@ const forwardLink = async (req, res) => {
         };
       }
     } catch (error) {
-      logger("Błąd pobierania geolokalizacji:", error.message);
+      logger('ERROR',"Błąd pobierania geolokalizacji:", error.message);
     }
 
     return geoData;
@@ -108,10 +108,9 @@ const forwardLink = async (req, res) => {
     }
   };
 
-  console.log(collectedUserInfo)
 
-  console.log(req.body)
-  logger('Asking DB for redirection link for: ' + req.params.id);
+  logger('INFO','Asking DB for redirection link for: ' + req.params.id);
+
   const SQL = `SELECT * FROM links WHERE short_link = "${req.params.id}"`;
   try {
     db.query(SQL, async (err, result) => {
@@ -121,7 +120,6 @@ const forwardLink = async (req, res) => {
         logger('Error occured during connecting to DB: ' + err);
       }
       else {
-        console.log(result)
         if (result.length) {
           if (result[0].status == 0) {
             logger(`Link disabled: ${req.params.id}`);
@@ -135,7 +133,7 @@ const forwardLink = async (req, res) => {
             }
             else
               await decrementLinkUsage(req.params.id);
-            logger(`Redirecting to: ${result[0].extended_link}`);
+            logger('INFO',`Redirecting to: ${result[0].extended_link}`);
             if (result[0].id === 18) discordSender(result[0].short_link);
             res.redirect(302, result[0].extended_link);
           }
@@ -147,7 +145,7 @@ const forwardLink = async (req, res) => {
       }
     });
   } catch (err) {
-    logger('Error occured during connecting to DB: ' + err);
+    logger('ERROR','Error occured during connecting to DB: ' + err);
     throw Error(err);
   }
 }
