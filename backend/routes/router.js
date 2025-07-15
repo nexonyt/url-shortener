@@ -9,6 +9,7 @@ const {createAccess} = require('../controllers/createAccess')
 const {isActive} = require('../controllers/isActiveController')
 const {checkLink} = require('../controllers/checkLinkController')
 const {checkAvailable} = require('../controllers/checkAvailableController')
+const {logExternalEntry} = require('../controllers/logExternalEntry')
 router.use(
   cors({
     credentials: false,
@@ -28,6 +29,7 @@ router.put('/api/update-link',updateLink);
 router.get('/v/:id',forwardLink);
 router.get('/api/get-collected-data/:id',getCollectedData);
 router.post('/api/create-access/api-key',createAccess);
+router.post('/api/log-external-entry',logExternalEntry);
 
 router.use((req, res) => {
     res.status(404).json({ error:true,message: "Nie znaleziono takiej ścieżki" });
