@@ -1,26 +1,23 @@
 services:
   backend:
     build: ./backend
+    restart: on-failure  # Restartuj kontener tylko w przypadku błędu
     ports:
-      - "3000:3000"
-    labels:
-      - "log_type=node-backend"
+      - "127.0.0.1:5050:5050"
     networks:
-      - mynetwork
+      - net
     volumes:
-        - ./nodejs-logs:/src/logs
+      - /var/myapp/logs:/tmp/myapp
+      - /log/url-shortener:/log/url-shortener
 
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     - backend
-  #   networks:
-  #     - mynetwork
-
+  frontend:
+    build: ./frontend
+    restart: on-failure
+    ports:
+      - "127.0.0.1:3050:80"
+    networks:
+      - net
 
 networks:
-  mynetwork:
+  net:
     driver: bridge
-
