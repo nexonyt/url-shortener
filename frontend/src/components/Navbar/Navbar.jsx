@@ -25,8 +25,9 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
 
   const navItems = [
     { id: 'home', label: 'Strona Główna', icon: Home },
-    { id: 'about', label: 'O Nas', icon: User },
-    { id: 'settings', label: 'Ustawienia', icon: Settings },
+    { id: 'about', label: 'Sprawdź link', icon: User },
+    { id: 'settings', label: 'Statystyki mojego linku', icon: Settings },
+    { id: 'settings', label: 'Statystyki', icon: Settings },
     { id: 'contact', label: 'Kontakt', icon: Mail }
   ];
 
