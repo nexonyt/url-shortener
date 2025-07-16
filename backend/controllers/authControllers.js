@@ -30,6 +30,7 @@ const createLink = async (req, res) => {
     const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     const defaultValues = {"password":"NULL","tracking":0,"status":1,"expiring":0,"usage_limit":0};
     let password = req.body.password ?? defaultValues.password;
+    let passwordJSON;
     const tracking = req.body.tracking ?? defaultValues.tracking;
     const status = req.body.status ?? defaultValues.status;
     const expiring = req.body.expiring ?? defaultValues.expiring;
@@ -60,16 +61,14 @@ const createLink = async (req, res) => {
           }
      }
      if(req.body.password) {
-        const tempPass = JSON.parse(atob(req.body.password));
-        password = tempPass["password"];
-        const passwordJSON = {"password":`${password}`,"secret":`${secret}`};
-        console.log(passwordJSON)
-        password = sha512(JSON.stringify(passwordJSON))
+        //Do poprawy, aktualnie jest undefined
+        console.log(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`)
+        passwordJSON = sha512(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`);
      }  
     if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}","${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}","${mysqlDate}","${passwordJSON}","${tracking}")`;
      } else {
-         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${password}","${tracking}")`;
+         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${passwordJSON}","${tracking}")`;
      }
 
    

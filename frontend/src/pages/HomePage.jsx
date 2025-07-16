@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { PageContainer, PageTitle, PageContent } from '../styles/globalStyles';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { encryptMetaData } from "../authorization/metaDataEncrypt";
 
 // Styled components dla formularza
 const FormContainer = styled.form`
@@ -33,19 +36,18 @@ const Input = styled.input`
   font-size: 16px;
   transition: all 0.3s ease;
   background: #f8f9fa;
-  
+
   &:focus {
     outline: none;
     border-color: #007bff;
     background: white;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
   }
-  
+
   &::placeholder {
     color: #6c757d;
   }
 `;
-
 
 const InputAlias = styled.input`
   width: 75%;
@@ -55,14 +57,14 @@ const InputAlias = styled.input`
   font-size: 16px;
   transition: all 0.3s ease;
   background: #f8f9fa;
-  
+
   &:focus {
     outline: none;
     border-color: #007bff;
     background: white;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
   }
-  
+
   &::placeholder {
     color: #6c757d;
   }
@@ -96,7 +98,7 @@ const CheckboxLabel = styled.label`
   font-size: 14px;
   color: #495057;
   transition: color 0.2s ease;
-  
+
   &:hover {
     color: #007bff;
   }
@@ -112,19 +114,19 @@ const Checkbox = styled.input`
 
 // Styled components dla pola email
 const EmailInputContainer = styled.div`
-  max-height: ${props => props.isVisible ? '100px' : '0'};
+  max-height: ${(props) => (props.isVisible ? "100px" : "0")};
   overflow: hidden;
   transition: all 0.4s ease;
-  opacity: ${props => props.isVisible ? '1' : '0'};
-  transform: translateY(${props => props.isVisible ? '0' : '-10px'});
-  margin-top: ${props => props.isVisible ? '12px' : '0'};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  transform: translateY(${(props) => (props.isVisible ? "0" : "-10px")});
+  margin-top: ${(props) => (props.isVisible ? "12px" : "0")};
   margin-left: 30px;
 `;
 
 const EmailInput = styled(Input)`
   border-color: #17a2b8;
   background: #f0f9ff;
-  
+
   &:focus {
     border-color: #17a2b8;
     box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.1);
@@ -144,19 +146,19 @@ const EmailHelpText = styled(HelpText)`
 
 // Styled components dla pola hasła
 const PasswordInputContainer = styled.div`
-  max-height: ${props => props.isVisible ? '100px' : '0'};
+  max-height: ${(props) => (props.isVisible ? "100px" : "0")};
   overflow: hidden;
   transition: all 0.4s ease;
-  opacity: ${props => props.isVisible ? '1' : '0'};
-  transform: translateY(${props => props.isVisible ? '0' : '-10px'});
-  margin-top: ${props => props.isVisible ? '12px' : '0'};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  transform: translateY(${(props) => (props.isVisible ? "0" : "-10px")});
+  margin-top: ${(props) => (props.isVisible ? "12px" : "0")};
   margin-left: 30px;
 `;
 
 const PasswordInput = styled(Input)`
   border-color: #17a2b8;
   background: #f0f9ff;
-  
+
   &:focus {
     border-color: #17a2b8;
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
@@ -185,16 +187,16 @@ const SubmitButton = styled.button`
   font-weight: 600;
   transition: all 0.3s ease;
   width: 100%;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
-  
+
   &:disabled {
     background: #6c757d;
     cursor: not-allowed;
@@ -211,7 +213,7 @@ const ResultContainer = styled.div`
   border: 1px solid #28a745;
   border-radius: 12px;
   animation: slideIn 0.4s ease-out;
-  
+
   @keyframes slideIn {
     from {
       opacity: 0;
@@ -231,7 +233,7 @@ const ResultTitle = styled.h3`
   font-weight: 600;
   display: flex;
   align-items: center;
-  
+
   &::before {
     content: "✓";
     margin-right: 8px;
@@ -274,7 +276,7 @@ const ShortLink = styled.a`
   background: rgba(0, 123, 255, 0.1);
   border-radius: 4px;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: rgba(0, 123, 255, 0.2);
     text-decoration: underline;
@@ -304,7 +306,7 @@ const StatsInfo = styled.div`
 const IntroText = styled.p`
   text-align: center;
   font-size: 18px;
-  color: #6c757d;
+  color: #d1d1d1ff;
   margin-bottom: 10px;
   line-height: 1.6;
 `;
@@ -316,39 +318,47 @@ const SubtitleText = styled.p`
   margin-bottom: 0;
 `;
 
+//Tłumaczenia
+
 // Komponent formularza do skracania linków
 const UrlShortenerForm = ({ onSubmit }) => {
-  const [url, setUrl] = useState('');
-  const [alias, setAlias] = useState('');
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const [url, setUrl] = useState("");
+  const [alias, setAlias] = useState("");
   const [needsPassword, setNeedsPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [collectStats, setCollectStats] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!url.trim()) return;
-    
+
     onSubmit({
       url: url.trim(),
       alias: alias.trim(),
       needsPassword,
-      password: needsPassword ? password.trim() : '',
+      password: needsPassword ? password.trim() : "",
       collectStats,
-      email: collectStats ? email.trim() : ''
+      email: collectStats ? email.trim() : "",
     });
   };
 
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputGroup>
-        <Label htmlFor="url">Długi link:</Label>
+        <Label htmlFor="url">{t("url_form_long_link")}</Label>
         <Input
           id="url"
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://example.com/bardzo-dlugi-link-ktory-chcesz-skrocic"
+          placeholder={t("url_form_input_link_placeholder")}
           required
         />
       </InputGroup>
@@ -389,7 +399,8 @@ const UrlShortenerForm = ({ onSubmit }) => {
             required={needsPassword}
           />
           <PasswordHelpText>
-            To hasło będzie wymagane do otwarcia skróconego linku podczas przekierowania
+            To hasło będzie wymagane do otwarcia skróconego linku podczas
+            przekierowania
           </PasswordHelpText>
         </PasswordInputContainer>
       </CheckboxContainer>
@@ -403,7 +414,7 @@ const UrlShortenerForm = ({ onSubmit }) => {
           />
           Czy chcesz zbierać statystyki odwiedzin?
         </CheckboxLabel>
-        
+
         <EmailInputContainer isVisible={collectStats}>
           <EmailLabel htmlFor="email">Adres email do raportów:</EmailLabel>
           <EmailInput
@@ -420,9 +431,7 @@ const UrlShortenerForm = ({ onSubmit }) => {
         </EmailInputContainer>
       </CheckboxContainer>
 
-      <SubmitButton type="submit">
-        🔗 Skróć link
-      </SubmitButton>
+      <SubmitButton type="submit">🔗 Skróć link</SubmitButton>
     </FormContainer>
   );
 };
@@ -434,11 +443,15 @@ const UrlResult = ({ result }) => {
   return (
     <ResultContainer>
       <ResultTitle>Link został pomyślnie skrócony!</ResultTitle>
-      
+
       <ResultItem>
         <ResultLabel>Skrócony link:</ResultLabel>
-        <ShortLink href={result.shortUrl} target="_blank" rel="noopener noreferrer">
-          {result.shortUrl}
+        <ShortLink
+          href={result.short_link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {result.short_link}
         </ShortLink>
       </ResultItem>
 
@@ -468,7 +481,9 @@ const UrlResult = ({ result }) => {
           <br />
           <small>Raporty będą wysyłane na adres: {result.email}</small>
           <br />
-          <small>Będziesz mógł śledzić liczbę kliknięć i inne dane analityczne</small>
+          <small>
+            Będziesz mógł śledzić liczbę kliknięć i inne dane analityczne
+          </small>
         </StatsInfo>
       )}
     </ResultContainer>
@@ -477,35 +492,58 @@ const UrlResult = ({ result }) => {
 
 // Główny komponent HomePage
 const HomePage = () => {
-  const [result, setResult] = useState(null);
+  const { t, i18n } = useTranslation();
 
-  const handleUrlSubmit = (data) => {
-    // Symulacja API call - tutaj będzie wywołanie do backendu
-    const mockResult = {
-      shortUrl: `https://short.ly/${data.alias || 'abc123'}`,
-      originalUrl: data.url,
-      alias: data.alias,
-      needsPassword: data.needsPassword,
-      password: data.password,
-      collectStats: data.collectStats,
-      email: data.email
-    };
-    
-    setResult(mockResult);
-    
-    // Tutaj będzie prawdziwe wywołanie API
-    console.log('Dane do wysłania:', data);
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleUrlSubmit = async (data) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+
+      const body = { extended_link: data.url, browser: 1};
+      if (data.alias) body.alias = data.alias;
+      if (data.needsPassword) body.password = data.password;
+      if (data.collectStats) body.email = data.email;
+
+      const signature = `${import.meta.env.VITE_SIG_KEY}${data.url}${data.alias}${data.needsPassword}${data.collectStats}${data.email}`;
+
+      const metaData = `{
+        needsPassword: data.needsPassword,
+        collectStats: data.collectStats,
+        email: data.email,
+      }`
+      body.metaData = encryptMetaData(metaData);
+      body.signature = signature;
+
+      const response = await axios.post("/api/create-link", body);
+      setResult(response.data);
+    } catch (err) {
+      console.error("Błąd przy wysyłaniu danych:", err);
+      setError("Wystąpił błąd podczas skracania URL");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <PageContainer>
       <PageTitle>URL Shortener</PageTitle>
       <PageContent>
-        <IntroText>Skróć swój długi link do krótkiej i wygodnej formy!</IntroText>
-        <SubtitleText>Szybko, bezpiecznie i z możliwością śledzenia statystyk</SubtitleText>
-        
+        <IntroText>{t("home_page_subtitiles_first_line")}</IntroText>
+        <SubtitleText>
+          Szybko, bezpiecznie i z możliwością śledzenia statystyk
+        </SubtitleText>
+
         <UrlShortenerForm onSubmit={handleUrlSubmit} />
-        
+
         <UrlResult result={result} />
       </PageContent>
     </PageContainer>

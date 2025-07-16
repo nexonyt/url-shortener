@@ -1,0 +1,7 @@
+{
+    "welcome": "Welcome!",
+    "description": "This is a Vite + React app with i18n.",
+    "url_form_long_link": "Long link:",
+    "url_form_input_link_placeholder": "Enter long link here",
+    "home_page_subtitiles_first_line": "Shorten your long link to a short and convenient form!"
+}
