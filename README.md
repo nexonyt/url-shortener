@@ -100,6 +100,3 @@ Możesz użyć narzędzi takich jak Postman lub curl do testowania endpointów A
 
 ## 🧾 Licencja
 Projekt dostępny na licencji MIT.
-
-
- 

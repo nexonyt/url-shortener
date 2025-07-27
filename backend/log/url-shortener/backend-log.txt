@@ -1,0 +1,10 @@
+{"timestamp":"2025-07-27T15:18:14.486Z","level":"ERROR","caller":"authControllers.js","message":"Alias already exists: xx","data":null}
+{"timestamp":"2025-07-27T15:23:10.967Z","level":"ERROR","caller":"authControllers.js","message":"Alias already exists: xx","data":null}
+{"timestamp":"2025-07-27T15:23:12.245Z","level":"ERROR","caller":"authControllers.js","message":"Alias already exists: xx","data":null}
+{"timestamp":"2025-07-27T15:23:13.780Z","level":"ERROR","caller":"authControllers.js","message":"Alias already exists: xx","data":null}
+{"timestamp":"2025-07-27T15:23:14.840Z","level":"ERROR","caller":"authControllers.js","message":"Alias already exists: xx","data":null}
+{"timestamp":"2025-07-27T15:26:45.631Z","level":"ERROR","caller":"authControllers.js","message":"Błąd podczas sprawdzania aliasu:","data":"Handshake inactivity timeout"}
+{"timestamp":"2025-07-27T15:27:01.512Z","level":"ERROR","caller":"authControllers.js","message":"Błąd podczas sprawdzania aliasu:","data":"read ECONNRESET"}
+{"timestamp":"2025-07-27T15:27:21.035Z","level":"ERROR","caller":"authControllers.js","message":"Błąd podczas sprawdzania aliasu:","data":"Handshake inactivity timeout"}
+{"timestamp":"2025-07-27T15:27:42.543Z","level":"ERROR","caller":"authControllers.js","message":"Błąd podczas sprawdzania aliasu:","data":"Handshake inactivity timeout"}
+{"timestamp":"2025-07-27T15:28:00.443Z","level":"ERROR","caller":"authControllers.js","message":"Błąd podczas sprawdzania aliasu:","data":"Handshake inactivity timeout"}

@@ -24,75 +24,98 @@ const formatDate = (date) => {
 
 
 
+const util = require('util');
+const crypto = require('crypto-js'); 
+const dbQuery = util.promisify(db.query).bind(db);
 
 const createLink = async (req, res) => {
-    const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
-    const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
-    const defaultValues = {"password":"NULL","tracking":0,"status":1,"expiring":0,"usage_limit":0};
-    let password = req.body.password ?? defaultValues.password;
-    let passwordJSON;
-    const tracking = req.body.tracking ?? defaultValues.tracking;
-    const status = req.body.status ?? defaultValues.status;
-    const expiring = req.body.expiring ?? defaultValues.expiring;
-    const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
+  const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
+  const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+  const defaultValues = {
+    email: "not-given",
+    password: "NULL",
+    tracking: 0,
+    status: 1,
+    expiring: 0,
+    usage_limit: 0,
+  };
 
-    // Handling the case when the user doesn't provide required
+  const tracking = req.body.tracking ?? defaultValues.tracking;
+  const status = req.body.status ?? defaultValues.status;
+  const expiring = req.body.expiring ?? defaultValues.expiring;
+  const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
+  const email = req.body.email ?? defaultValues.email;
 
-    const requiredFields = ['extended_link'];
-    const missingFields = requiredFields.filter(field => !req.body[field]);
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-          error: true,
-          message: `Brak wymaganych pól: ${missingFields.join(', ')}`
-      });
+  const requiredFields = ['extended_link'];
+  const missingFields = requiredFields.filter(field => !req.body[field]);
+  if (missingFields.length > 0) {
+    return res.status(400).json({
+      error: true,
+      message: `Brak wymaganych pól: ${missingFields.join(', ')}`
+    });
   }
 
-    let shortlUrl = req.body.alias ?? null;
-    let SQL = "";
-    if (req.body.alias === undefined || req.body.alias === null) {
-        try {
-            const alias = await findFreeAlias(); 
-            shortlUrl = `${alias}`;
-       
-          } catch (err) {
-            console.error("Błąd podczas generowania aliasu:", err);
-            res.status(500).json({ error: true, message: 'Alias generation failed' });
-          }
-     }
-     if(req.body.password) {
-        //Do poprawy, aktualnie jest undefined
-        console.log(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`)
-        passwordJSON = sha512(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`);
-     }  
-    if (req.body.valid_from === undefined || req.body.valid_from === null) {
-         SQL = `INSERT INTO links (email,status,short_link,extended_link,expiring,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}","${mysqlDate}","${passwordJSON}","${tracking}")`;
-     } else {
-         SQL = `INSERT INTO links (email, status,short_link,extended_link,expiring,valid_from,valid_to,created_at,hashed_password,tracking) VALUES ("${req.body.email}","${status}", "${shortlUrl}", "${req.body.extended_link}", "${expiring}", "${req.body.valid_from}", "${req.body.valid_to}", "${mysqlDate}","${passwordJSON}","${tracking}")`;
-     }
+  let shortlUrl = req.body.alias ?? null;
 
-   
-  
+  // Sprawdzenie aliasu
+  if (!shortlUrl) {
     try {
-
-        db.query(SQL, (err, result) => {
-            if (err) {
-              logger('Error connecting: ' + err.stack);
-              res.status(409).json({"error":true, "message":'Wystąpił problem z połączeniem z bazą danych'});
-            }
-            else {res.status(201).json({"status":"created","short_link":`https://urlpretty.pl/v/${shortlUrl}`})
-            logger('Link created: ' + shortlUrl,'INFO');};
-          });
-
+      const alias = await findFreeAlias();
+      shortlUrl = alias;
+    } catch (err) {
+      console.error("Błąd podczas generowania aliasu:", err);
+      return res.status(500).json({ error: true, message: 'Alias generation failed' });
     }
-    catch (err) {
-        throw Error(err);
+  } else {
+    try {
+      const result = await dbQuery(`SELECT COUNT(*) AS count FROM links WHERE short_link = ?`, [shortlUrl]);
+      if (result[0].count > 0) {
+        logger('ERROR', `Alias already exists: ${shortlUrl}`);
+        return res.status(409).json({ error: true, message: 'Alias jest już zajęty' });
+      }
+    } catch (err) {
+      logger('ERROR', 'Błąd podczas sprawdzania aliasu:', err.message);
+      return res.status(500).json({ error: true, message: 'Błąd podczas sprawdzania aliasu' });
     }
-}
+  }
+
+  // Hasło
+  let passwordJSON = null;
+  if (req.body.password) {
+    passwordJSON = sha512(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`);
+  }
+
+  // SQL
+  let SQL = '';
+  const params = [
+    email, status, shortlUrl, req.body.extended_link,
+    expiring, mysqlDate, passwordJSON, tracking
+  ];
+
+  if (!req.body.valid_from) {
+    SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, created_at, hashed_password, tracking) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  } else {
+    SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, valid_from, valid_to, created_at, hashed_password, tracking) 
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    params.splice(5, 0, req.body.valid_from, req.body.valid_to); // wstaw valid_from i valid_to na swoje miejsce
+  }
+
+  try {
+    await dbQuery(SQL, params);
+    return res.status(201).json({
+      status: "created",
+      short_link: `https://urlpretty.pl/v/${shortlUrl}`
+    });
+  } catch (err) {
+    logger('ERROR', 'Błąd podczas zapisu do bazy:', err.message);
+    return res.status(500).json({ error: true, message: 'Błąd podczas zapisu do bazy danych' });
+  }
+};
+
 
 const getLink = async (req, res) => {
     console.log(req.params);
-    logger('Asking DB for informations about link: ' + req.params.url);
+    // logger('Asking DB for informations about link: ' + req.params.url);
   
     const SQL_GET_LINK = `SELECT * FROM links WHERE short_link = ?`;
     const SQL_GET_CLICKS = `SELECT COUNT(*) AS clicks, COUNT(DISTINCT user_ip) AS unique_clicks FROM links_tracking WHERE link_id = ?`;
