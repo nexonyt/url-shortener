@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Home, User, Settings, Mail } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Header,
   Nav,
@@ -11,39 +12,37 @@ import {
   MobileNavLink
 } from '../../styles/navbarStyles';
 
-const Navbar = ({ currentPage, setCurrentPage }) => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleNavClick = (page) => {
-    setCurrentPage(page);
-    setIsMenuOpen(false);
-  };
-
   const navItems = [
-    { id: 'home', label: 'Strona Główna', icon: Home },
-    { id: 'about', label: 'Sprawdź link', icon: User },
-    { id: 'settings', label: 'Statystyki mojego linku', icon: Settings },
-    { id: 'settings', label: 'Statystyki', icon: Settings },
-    { id: 'contact', label: 'Kontakt', icon: Mail }
+    { path: '/', label: 'Strona Główna', icon: Home },
+    { path: '/about', label: 'Sprawdź link', icon: User },
+    { path: '/settings', label: 'Statystyki', icon: Settings },
+    { path: '/contact', label: 'Kontakt', icon: Mail }
   ];
 
   return (
     <Header>
       <Nav>
         <Logo>MojaApp</Logo>
-        
+
         <NavLinks>
           {navItems.map(item => {
             const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+
             return (
               <NavLink
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={currentPage === item.id ? 'active' : ''}
+                key={item.path}
+                as={Link}
+                to={item.path}
+                className={isActive ? 'active' : ''}
               >
                 <Icon size={18} />
                 {item.label}
@@ -60,11 +59,15 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
       <MobileMenu isOpen={isMenuOpen}>
         {navItems.map(item => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+
           return (
             <MobileNavLink
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              className={currentPage === item.id ? 'active' : ''}
+              key={item.path}
+              as={Link}
+              to={item.path}
+              onClick={() => setIsMenuOpen(false)}
+              className={isActive ? 'active' : ''}
             >
               <Icon size={20} />
               {item.label}
