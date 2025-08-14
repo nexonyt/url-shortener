@@ -26,6 +26,7 @@ const formatDate = (date) => {
 
 const util = require('util');
 const crypto = require('crypto-js'); 
+const { decryptMetaData } = require('./metaDataDecoder');
 const dbQuery = util.promisify(db.query).bind(db);
 
 const createLink = async (req, res) => {
@@ -45,6 +46,13 @@ const createLink = async (req, res) => {
   const expiring = req.body.expiring ?? defaultValues.expiring;
   const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
   const email = req.body.email ?? defaultValues.email;
+  const signature = req.body.signature ?? null;
+
+  // Sprawdzenie podpisu
+  if (signature) {
+    const sygnaturka = decryptMetaData(signature);
+    console.log(sygnaturka);
+  }
 
   const requiredFields = ['extended_link'];
   const missingFields = requiredFields.filter(field => !req.body[field]);

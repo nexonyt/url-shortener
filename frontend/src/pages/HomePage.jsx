@@ -4,6 +4,8 @@ import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { encryptMetaData } from "../authorization/metaDataEncrypt";
+import { sha512 } from "js-sha512";
+import { generateFingerprint } from "../components/fingerprint.js";
 
 // Styled components dla formularza
 const FormContainer = styled.form`
@@ -507,13 +509,14 @@ const HomePage = () => {
     setError(null);
 
     try {
-
-      const body = { extended_link: data.url, browser: 1};
+      
+      const time = new Date().getTime();
+      const body = { extended_link: data.url, browser: 1,fingerprint: null};
       if (data.alias) body.alias = data.alias;
       if (data.needsPassword) body.password = data.password;
       if (data.collectStats) body.email = data.email;
-
-      const signature = `${import.meta.env.VITE_SIG_KEY}${data.url}${data.alias}${data.needsPassword}${data.collectStats}${data.email}`;
+      const fingerprint = await generateFingerprint();
+      const sign = `${import.meta.env.VITE_SIG_KEY}${data.url}${data.alias}${data.needsPassword}${data.collectStats}${data.email},${data.password},${fingerprint}${time}`;
 
       const metaData = `{
         needsPassword: data.needsPassword,
@@ -521,9 +524,10 @@ const HomePage = () => {
         email: data.email,
       }`
       body.metaData = encryptMetaData(metaData);
-      body.signature = signature;
+      body.sign = sha512(sign);
+      body.fingerprint = fingerprint;
 
-      const response = await axios.post("/api/create-link", body);
+      const response = await axios.post("/api/create-link", body, {headers: {"X-Time": time}});
       setResult(response.data);
     } catch (err) {
       console.error("Błąd przy wysyłaniu danych:", err);
