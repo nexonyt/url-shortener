@@ -9,6 +9,8 @@ import AboutPage from './pages/AboutPage';
 import SettingsPage from './pages/SettingsPage';
 import ContactPage from './pages/ContactPage';
 import LinkNotFoundPage from './pages/LinkNotFoundPage'; // <- dodaj ten plik
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -22,7 +24,9 @@ const App = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/link-not-found" element={<LinkNotFoundPage />} />
           <Route path="*" element={<HomePage />} /> {/* fallback */}
+
         </Routes>
+        <ToastContainer position="bottom-right" autoClose={2000} />
       </Layout>
     </Router>
   );

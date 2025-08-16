@@ -6,6 +6,8 @@ import axios from "axios";
 import { encryptMetaData } from "../authorization/metaDataEncrypt";
 import { sha512 } from "js-sha512";
 import { generateFingerprint } from "../components/fingerprint.js";
+import { toast } from "react-toastify";
+
 
 // Styled components dla formularza
 const FormContainer = styled.form`
@@ -442,6 +444,16 @@ const UrlShortenerForm = ({ onSubmit }) => {
 const UrlResult = ({ result }) => {
   if (!result) return null;
 
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success("✅ Link został skopiowany do schowka!");
+    } catch (err) {
+      console.error("Błąd podczas kopiowania: ", err);
+      toast.error("❌ Nie udało się skopiować linku");
+    }
+  };
+
   return (
     <ResultContainer>
       <ResultTitle>Link został pomyślnie skrócony!</ResultTitle>
@@ -449,9 +461,8 @@ const UrlResult = ({ result }) => {
       <ResultItem>
         <ResultLabel>Skrócony link:</ResultLabel>
         <ShortLink
-          href={result.short_link}
-          target="_blank"
-          rel="noopener noreferrer"
+          as="button"
+          onClick={() => copyToClipboard(result.short_link)}
         >
           {result.short_link}
         </ShortLink>
@@ -491,7 +502,6 @@ const UrlResult = ({ result }) => {
     </ResultContainer>
   );
 };
-
 // Główny komponent HomePage
 const HomePage = () => {
   const { t, i18n } = useTranslation();
