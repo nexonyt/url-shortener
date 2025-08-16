@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, Home, User, Settings, Mail } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import logo from '../../assets/page-logo.png';
 import {
   Header,
   Nav,
@@ -30,7 +31,7 @@ const Navbar = () => {
   return (
     <Header>
       <Nav>
-        <Logo>MojaApp</Logo>
+        <Logo><img  width="932" height="169" src={logo} alt="URL Shortener" /></Logo>
 
         <NavLinks>
           {navItems.map(item => {

@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+
+
+
 export const Header = styled.header`
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -24,6 +27,22 @@ export const Logo = styled.div`
   font-weight: bold;
   color: white;
   text-decoration: none;
+
+   img {
+    width: 250px;
+    height: auto;
+
+    @media (max-width: 900px) {
+      width: 175px;
+    }
+
+    @media (max-width: 360px) {
+      width: 200px;
+    }
+    @media (max-width: 330px) {
+      width: 150px;
+    }
+  }
 `;
 
 export const NavLinks = styled.div`
@@ -44,7 +63,7 @@ export const NavLink = styled.button`
   align-items: center;
   gap: 8px;
   padding: 10px 15px;
-  border-radius: 25px;
+  border-radius: 7px;
   transition: all 0.3s ease;
   background: none;
   border: none;
@@ -57,7 +76,7 @@ export const NavLink = styled.button`
   }
   
   &.active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
   }
 `;
 

@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <AppContainer>
       {children}
       <Footer>
-        © 2024 MojaApp. Wszystkie prawa zastrzeżone.
+        © 2025 URLPRETTY.PL Wszystkie prawa zastrzeżone.
       </Footer>
     </AppContainer>
   );
