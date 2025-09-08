@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { PageContainer, PageTitle, PageContent } from '../styles/globalStyles';
+import FadeIn from "react-fade-in";
+
 const LinkExpiredPage = () => {
   const { uuid } = useParams();
 
@@ -12,14 +14,15 @@ const LinkExpiredPage = () => {
   }, [uuid]);
 
   return (
+    <FadeIn>
     <PageContainer>
       <PageTitle>Link wygasł</PageTitle>
       <PageContent>
         
         <p>Upewnij się, że adres jest poprawny lub spróbuj ponownie.</p>
-        {uuid && <p>Sprawdzam UUID: {uuid}</p>}
       </PageContent>
     </PageContainer>
+    </FadeIn>
   );
 };
 

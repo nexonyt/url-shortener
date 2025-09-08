@@ -123,13 +123,13 @@ const forwardLink = async (req, res) => {
         if (result.length) {
           if (result[0].status == 0) {
             logger(`Link disabled: ${req.params.id}`);
-            return res.redirect(302, process.env.APP_INACTIVE_URL);
+            return res.redirect(302, process.env.APP_INACTIVE_URL+`/${result[0].short_link}`);
           } else {
             await addTrackingToDB(result[0], collectedUserInfo, 1);
             // if czy jest limit i czy nalezy wykonać dekrementacje + jezeli tak to czy jest wiekszy od 0
             if (result[0].usage_limit && result[0].usage_limit <= 0) {
               logger(`Link usage limit reached for requested link: ${req.params.id}`);
-              return res.redirect(302, process.env.APP_NOT_FOUND_URL);
+              return res.redirect(302, process.env.APP_NOT_FOUND_URL+`/${result[0].short_link}`);
             }
             else
               await decrementLinkUsage(req.params.id);

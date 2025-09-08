@@ -19,6 +19,7 @@
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-fade-in": "^2.0.1",
     "react-i18next": "^15.6.0",
     "react-router-dom": "^7.6.3",
     "react-toastify": "^11.0.5",
