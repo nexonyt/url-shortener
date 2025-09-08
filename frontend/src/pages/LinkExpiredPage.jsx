@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { PageContainer, PageTitle, PageContent } from '../styles/globalStyles';
-const LinkNotFoundPage = () => {
+const LinkExpiredPage = () => {
   const { uuid } = useParams();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const LinkNotFoundPage = () => {
 
   return (
     <PageContainer>
-      <PageTitle>Link nie został znaleziony</PageTitle>
+      <PageTitle>Link wygasł</PageTitle>
       <PageContent>
         
         <p>Upewnij się, że adres jest poprawny lub spróbuj ponownie.</p>
@@ -23,4 +23,4 @@ const LinkNotFoundPage = () => {
   );
 };
 
-export default LinkNotFoundPage;
+export default LinkExpiredPage;
