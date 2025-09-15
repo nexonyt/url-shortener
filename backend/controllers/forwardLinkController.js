@@ -134,7 +134,7 @@ const forwardLink = async (req, res) => {
             else
               await decrementLinkUsage(req.params.id);
             logger('INFO',`Redirecting to: ${result[0].extended_link}`);
-            if (result[0].id === 18) discordSender(result[0].short_link);
+            if (process.env.DISCORD_NOTIFICATIONS) discordSender(result[0].short_link);
             res.redirect(302, result[0].extended_link);
           }
         }
