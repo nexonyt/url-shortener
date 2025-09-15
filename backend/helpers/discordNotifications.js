@@ -1,5 +1,5 @@
 const axios = require('axios');
-
+const logger = require("./logger");
 function discordSender(url) {
     const body = {
         application: "url",
