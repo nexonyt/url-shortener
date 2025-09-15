@@ -427,6 +427,76 @@ paths:
                       type: string
                       default: Dla tego adresu e-mail został już wygenerowany klucz API. Skontaktuj się z supportem.
                       example: "Dla tego adresu e-mail został już wygenerowany klucz API. Skontaktuj się z supportem."
+
+  /api/partner-account/enrollment:
+    post: 
+      summary: Rejestracja konta i nadanie dostępu API.
+      description: >
+        Metoda pozwala na rejestrację konta partnerskiego i uzyskanie dostępu do API. <br><br>
+        Po rejestracji, konto zostanie zweryfikowane przez administratora i otrzyma dostęp do API. <br><br>
+        W przypadku pytań, prosimy o kontakt pod adresem <b>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: 
+                  type: string
+                  description: E-mail
+                company_name:
+                  type: string
+                  description: Nazwa firmy/organizacji
+                phone_number:
+                  type: string
+                  description: Numer telefonu kontaktowego
+                website:
+                  type: string
+                  description: Strona internetowa firmy/organizacji
+              required:
+                - email
+                - company_name
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    error:
+                      type: boolean
+                      default: false
+                    data:
+                      type: object
+                      properties:
+                        customer_id:
+                          type: integer
+                          description: ID klienta w systemie
+                        email:
+                          type: string
+                          description: E-mail
+                        company_name:
+                          type: string
+                          description: Nazwa firmy/organizacji
+                        authentication:
+                          type: object
+                          description: Dane do autoryzacji API - Oauth 2.0
+                          properties:
+                            client_id:
+                              type: string
+                              description: Client ID
+                            client_secret:
+                              type: string
+                              description: Client Secret
+                            token_url:
+                              type: string
+                              description: URL do pobrania tokenu
+                            api_base_url:
+                              type: string
+                              description: Podstawowy URL do API
+
+
 components:
   securitySchemes:
     basicAuth:
