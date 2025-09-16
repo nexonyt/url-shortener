@@ -1,5 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { redirect, useParams } from "react-router-dom";
+import { useState } from "react";
 import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import FadeIn from "react-fade-in";
 import styled from "styled-components";
@@ -25,7 +25,6 @@ const Label = styled.label`
   font-size: 14px;
 `;
 
-/* kontener pola aby móc umieścić przycisk w prawym rogu */
 const PasswordFieldWrap = styled.div`
   position: relative;
   width: 100%;
@@ -33,7 +32,7 @@ const PasswordFieldWrap = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  padding: 12px 56px 12px 16px; /* zostaw miejsce na przycisk po prawej */
+  padding: 12px 56px 12px 16px;
   border: 2px solid #e9ecef;
   border-radius: 8px;
   font-size: 16px;
@@ -48,7 +47,6 @@ const Input = styled.input`
   }
 `;
 
-/* mały przycisk w polu hasła */
 const ToggleButton = styled.button`
   position: absolute;
   right: 8px;
@@ -67,11 +65,11 @@ const ToggleButton = styled.button`
 
   &:hover {
     color: #007bff;
-    background: rgba(0,123,255,0.06);
+    background: rgba(0, 123, 255, 0.06);
   }
 
   &:focus {
-    outline: 2px solid rgba(0,123,255,0.15);
+    outline: 2px solid rgba(0, 123, 255, 0.15);
   }
 `;
 
@@ -102,19 +100,10 @@ const SubmitButton = styled.button`
 // --- Komponent ---
 const PasswordRequiredPage = () => {
   const { uuid } = useParams();
-  const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    if (uuid) {
-      console.log("UUID z URL:", uuid);
-      // tutaj można np. sprawdzić czy link istnieje
-      // fetch(`/api/check/${uuid}`)
-    }
-  }, [uuid]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,19 +114,37 @@ const PasswordRequiredPage = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(`/api/check-password/${uuid}`, {
-        password: password.trim(),
-      });
+      const response = await axios.post(
+        "/api/password/redirect-confirmation",
+        {
+          alias: uuid,
+          password: password.trim(),
+        }
+      );
 
-      if (response.data?.valid) {
+      const data = response.data;
+
+      if (data.error) {
+        toast.error(`❌ ${data.message || "Nieprawidłowe hasło."}`);
+      } else if (data.valid) {
         toast.success("✅ Hasło poprawne, przekierowanie...");
-        window.location.href = response.data.originalUrl;
-      } else {
-        toast.error("❌ Nieprawidłowe hasło!");
+        setTimeout(() => {
+          let url = data.redirectUrl;
+          if (!/^https?:\/\//i.test(url)) {
+            url = "https://" + url;
+          }
+          location.assign(url);
+        }, 500);
       }
     } catch (err) {
-      console.error("Błąd przy sprawdzaniu hasła:", err);
-      toast.error("❌ Wystąpił błąd serwera");
+      if (err.response && err.response.data) {
+        const message = err.response.data.message || "Wystąpił błąd";
+        toast.error(`❌ ${message}`);
+      } else {
+  
+        console.error("Błąd przy sprawdzaniu hasła:", err);
+        toast.error("❌ Wystąpił błąd serwera");
+      }
     } finally {
       setLoading(false);
     }
