@@ -129,12 +129,10 @@ const forwardLink = async (req, res) => {
     db.query(SQL, async (err, result) => {
       if (err) {
         console.error("error connecting: " + err.stack);
-        res
-          .status(409)
-          .json({
-            error: true,
-            message: "Wystąpił problem z połączeniem z bazą danych",
-          });
+        res.status(409).json({
+          error: true,
+          message: "Wystąpił problem z połączeniem z bazą danych",
+        });
         logger("Error occured during connecting to DB: " + err);
       } else {
         if (result.length) {
@@ -158,20 +156,23 @@ const forwardLink = async (req, res) => {
             } else await decrementLinkUsage(req.params.id);
             logger("INFO", `Redirecting to: ${result[0].extended_link}`);
             console.log("Discord" + process.env.DISCORD_NOTIFICATIONS);
-            if (process.env.DISCORD_NOTIFICATIONS=="true") {
+            if (process.env.DISCORD_NOTIFICATIONS == "true") {
               discordSender(result[0].short_link);
             }
-            res.redirect(302, result[0].extended_link);
+            if (result[0].password == 1)
+              res.redirect(
+                302,
+                process.env.APP_PASSWORD_URL + `/${result[0].short_link}`
+              );
+            else res.redirect(302, result[0].extended_link);
           }
         } else {
           logger("Link not found");
-          res
-            .status(404)
-            .json({
-              error: true,
-              message: "No link found for provider URL.",
-              data: { requested_webpage: `v/${req.params.id}` },
-            });
+          res.status(404).json({
+            error: true,
+            message: "No link found for provider URL.",
+            data: { requested_webpage: `v/${req.params.id}` },
+          });
         }
       }
     });
