@@ -1,5 +1,5 @@
 # Etap 1: Build aplikacji Vite
-FROM node:18-alpine AS build
+FROM node:18-bullseye AS build
 WORKDIR /app
 
 # Kopiujemy zależności
@@ -12,12 +12,10 @@ COPY . .
 # Budujemy aplikację Vite
 RUN npm run build
 
-
 # Etap 2: Serwowanie przez NGINX
 FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Usuwamy domyślną konfigurację NGINX i wstawiamy własną
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
