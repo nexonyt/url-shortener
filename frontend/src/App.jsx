@@ -10,6 +10,7 @@ import SettingsPage from './pages/SettingsPage';
 import ContactPage from './pages/ContactPage';
 import LinkNotFoundPage from './pages/LinkNotFoundPage'; 
 import LinkExpiredPage from './pages/LinkExpiredPage';
+import PasswordRequiredPage from './pages/PasswordRequired';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/link-not-found/:uuid" element={<LinkNotFoundPage />} />
           <Route path="/link-expired/:uuid" element={<LinkExpiredPage />} />
+          <Route path="/password-required/:uuid" element={<PasswordRequiredPage />} />
           <Route path="*" element={<HomePage />} /> {/* fallback */}
         </Routes>
         <ToastContainer position="bottom-right" autoClose={2000} />

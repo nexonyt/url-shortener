@@ -438,24 +438,50 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                email: 
-                  type: string
-                  description: E-mail
-                company_name:
-                  type: string
-                  description: Nazwa firmy/organizacji
-                phone_number:
-                  type: string
-                  description: Numer telefonu kontaktowego
-                website:
-                  type: string
-                  description: Strona internetowa firmy/organizacji
-              required:
-                - email
-                - company_name
+            schema: 
+             type: object
+             required:
+               - companyName
+               - contactEmail
+               - apiUsagePurpose
+             properties:
+               companyName:
+                 type: string
+                 example: "Shortly Sp. z o.o."
+                 description: "Nazwa firmy/organizacji ubiegającej się o dostęp."
+               contactEmail:
+                 type: string
+                 format: email
+                 example: "kontakt@shortly.pl"
+                 description: "Adres e-mail administratora konta partnera."
+               contactName:
+                 type: string
+                 example: "Jan Kowalski"
+                 description: "Osoba kontaktowa po stronie partnera."
+               websiteUrl:
+                 type: string
+                 format: uri
+                 example: "https://shortly.pl"
+                 description: "Adres strony internetowej aplikacji."
+               apiUsagePurpose:
+                 type: string
+                 example: "Skracanie linków dla klientów korzystających z naszego panelu reklamowego."
+                 description: "Cel korzystania z API."
+               expectedVolume:
+                 type: integer
+                 example: 100000
+                 description: "Szacowana liczba żądań API miesięcznie."
+               redirectDomains:
+                 type: array
+                 items:
+                   type: string
+                   format: hostname
+                 example: ["urlpretty.pl" ]
+                 description: "Domeny, które będą wykorzystywane do skracania linków."
+               termsAccepted:
+                 type: boolean
+                 example: true
+                 description: "Czy partner zaakceptował regulamin korzystania z API."
       responses:
         '201':
           description: Created
@@ -473,6 +499,21 @@ paths:
                         customer_id:
                           type: integer
                           description: ID klienta w systemie
+                        status:
+                          type: string
+                          description: Status konta (pending, active, rejected, banned)
+                        pricing_plan:
+                          type: string
+                          description: Plan cenowy (free, pro, enterprise)
+                        pricing_details:
+                          type: object
+                          properties:
+                            monthly_request_limit:
+                              type: integer
+                              description: Miesięczny limit żądań API
+                            hourly_rate_limit:
+                              type: integer
+                              description: Limit żądań na godzinę
                         email:
                           type: string
                           description: E-mail
@@ -489,13 +530,64 @@ paths:
                             client_secret:
                               type: string
                               description: Client Secret
-                            token_url:
+                            crc:
                               type: string
-                              description: URL do pobrania tokenu
-                            api_base_url:
-                              type: string
-                              description: Podstawowy URL do API
+                              description: Klucz CRC pozwalający na weryfikację poprawności danych
+                            scope:
+                              type: array
+                              description: Zakres dostępu
+                              example: ["create_link", "update_link", "delete_link", "view_stats"]
 
+  /api/password/redirect-confirmation:
+    post:
+      summary: Potwierdzenie hasła przed przekierowaniem
+      description: >
+        Metoda pozwala na potwierdzenie hasła przed przekierowaniem na docelowy link. <br><br>
+        Należy przesłać hasło w formacie base64 w polu `password`.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                alias:
+                  type: integer
+                  description: ID linku
+                password:
+                  type: string
+                  description: Hasło w formacie base64
+                browser_token:
+                  type: string
+                  description: Token przeglądarki
+                signature:
+                  type: string
+                  description: Podpis (HMAC SHA256) wygenerowany na podstawie aliasu, password i browser_token oraz tajnego klucza serwera
+              required:
+                - id
+                - password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                error: false
+                message: Hasło poprawne, następuje przekierowanie.
+                redirect_url: "https://www.example.com/very/long/link"
+        '401':
+          description: Nieautoryzowany
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Niepoprawne hasło."
+        '404':
+          description: Nie znaleziono
+          content:
+            application/json:
+              example:
+                error: true
+                message: "Nie znaleziono"
 
 components:
   securitySchemes:
