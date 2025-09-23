@@ -467,6 +467,15 @@ paths:
                  type: string
                  example: "Skracanie linków dla klientów korzystających z naszego panelu reklamowego."
                  description: "Cel korzystania z API."
+               pricingPlan:
+                  type: string
+                  enum: ["free", "pro", "enterprise"]
+                  example: "pro"
+                  description: "Wybrany plan cenowy."
+               activationPlanCode:
+                  type: string
+                  example: "ENTERPRISE2024"
+                  description: "Kod aktywacyjny planu (jeśli dotyczy)."
                expectedVolume:
                  type: integer
                  example: 100000
@@ -482,6 +491,20 @@ paths:
                  type: boolean
                  example: true
                  description: "Czy partner zaakceptował regulamin korzystania z API."
+               emailNotifications:
+                type: boolean
+                example: false
+                description: "Czy partner chce otrzymywać powiadomienia e-mail o nowościach i aktualizacjach API."
+               notifyUrl:
+                type: string
+                format: uri
+                example: "https://shortly.pl/api/webhook"
+                description: "Adres URL do powiadomień webhook (jeśli dotyczy)."
+               enrollmentDate: 
+                type: string
+                format: date-time
+                example: "2024-04-01T12:00:00Z"
+                description: "Data i czas zgłoszenia w formacie ISO 8601."
       responses:
         '201':
           description: Created
