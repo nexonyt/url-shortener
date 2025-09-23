@@ -8,7 +8,7 @@ const dotenv = require("dotenv").config({
 const crypto = require("crypto");
 const { get } = require("http");
 const logger = require("../helpers/logger");
-const { findFreeAlias } = require("./chechFreeAliases");
+const { findFreeAlias } = require("./checkFreeAliases");
 const { sha512 } = require("js-sha512");
 const { validateBrowserRequest } = require("../middlewares/browserAuthValidator");
 
