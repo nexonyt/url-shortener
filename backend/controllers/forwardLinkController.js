@@ -18,7 +18,7 @@ const db = mysql.createPool({
 });
 
 const decrementLinkUsage = async (shortLinkId) => {
-  // console.log(shortLinkId);
+
   return new Promise((resolve, reject) => {
     const updateSQL = `UPDATE links SET usage_limit = usage_limit - 1 WHERE short_link = "${shortLinkId}"`;
 

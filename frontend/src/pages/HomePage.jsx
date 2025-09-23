@@ -3,11 +3,10 @@ import styled from "styled-components";
 import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { encryptMetaData } from "../authorization/metaDataEncrypt";
 import { sha512 } from "js-sha512";
 import { generateFingerprint } from "../components/fingerprint.js";
 import { toast } from "react-toastify";
-
+import { simpleEncrypt } from "../utils/simpleCrypto";
 
 // Styled components dla formularza
 const FormContainer = styled.form`
@@ -349,7 +348,7 @@ const UrlShortenerForm = ({ onSubmit }) => {
       needsPassword,
       password: needsPassword ? password.trim() : "",
       collectStats,
-      email: collectStats ? email.trim() : "",
+      email: collectStats ? email.trim() : "MarcinKaczmarekTest",
     });
   };
 
@@ -518,30 +517,57 @@ const HomePage = () => {
     setLoading(true);
     setError(null);
 
+
+    const uniqueNumber = Math.floor(Math.random() * 9) + 1;
+
+    function customUUIDv4() {
+      let uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+      let arr = uuid.split("");
+      const oddDigits = ["1", "3", "5", "7", "9"];
+      arr[3] = oddDigits[Math.floor(Math.random() * oddDigits.length)];
+      arr[6] = "9";
+      return arr.join("");
+    }
+
+    function controlSum(requestId, sign, uniqueNumber) {
+      const first4 = requestId.slice(0, 4);
+      const last4 = sign.slice(-4);
+      return `${first4}${uniqueNumber}${last4}`;
+    }
+
+    const requestId = customUUIDv4();
+
     try {
-      
       const time = new Date().getTime();
-      const body = { extended_link: data.url, browser: 1,fingerprint: null};
+      const body = { extended_link: data.url, browser: true };
       if (data.alias) body.alias = data.alias;
       if (data.needsPassword) body.password = data.password;
       if (data.collectStats) body.email = data.email;
+
       const fingerprint = await generateFingerprint();
-      const sign = `${import.meta.env.VITE_SIG_KEY}${data.url}${data.alias}${data.needsPassword}${data.collectStats}${data.email},${data.password},${fingerprint}${time}`;
+      const sign = `{"time":"${time}","key":"${import.meta.env.VITE_SIG_KEY}","fingerprintHash":"${fingerprint.canvasHash}"}`
 
-      const metaData = `{
-        needsPassword: data.needsPassword,
-        collectStats: data.collectStats,
-        email: data.email,
-      }`
-      body.metaData = encryptMetaData(metaData);
+      const metaDataObj = {
+        fingerprint: fingerprint,
+        uniqueNumber: uniqueNumber,
+        "x-request-id": requestId
+
+      };
+      body.signature = simpleEncrypt(JSON.stringify(metaDataObj));
       body.sign = sha512(sign);
-      body.fingerprint = fingerprint;
 
-      const response = await axios.post("/api/create-link", body, {headers: {"X-Time": time}});
+      const response = await axios.post("/api/create-link", body, {
+        headers: {
+          "X-Time": time,
+          "X-Request-Id": requestId,
+          "X-Control-Sum": controlSum(requestId, body.sign, metaDataObj.uniqueNumber)
+        }
+      });
       setResult(response.data);
-    } catch (err) {
-      console.error("Błąd przy wysyłaniu danych:", err);
-      setError("Wystąpił błąd podczas skracania URL");
+    } catch (error) {
+      console.error('Błąd podczas tworzenia linku:', error);
     } finally {
       setLoading(false);
     }

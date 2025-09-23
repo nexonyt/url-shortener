@@ -1,12 +1,4 @@
-const mysql = require('mysql');
-
-const db = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+const db = require('../configs/mysql_connection');
 
 const chars = 'abcdefghijklmnopqrstuvwxyz123456789';
 
@@ -21,31 +13,19 @@ const generateRandomAlias = (length = 5) => {
 const findFreeAlias = async (maxTries = 20, length = 4) => {
   const SQL = `SELECT 1 FROM links WHERE short_link = ?`;
 
-  return new Promise((resolve, reject) => {
-    let tries = 0;
+  let tries = 0;
 
-    const tryAlias = () => {
-      if (tries >= maxTries) {
-        return reject(new Error('Nie znaleziono wolnego aliasu po wielu próbach'));
-      }
+  while (tries < maxTries) {
+    const alias = generateRandomAlias(length);
+    const [rows] = await db.query(SQL, [alias]);
 
-      const alias = generateRandomAlias(length);
-      const fullUrl = `${alias}`;
+    if (rows.length === 0) {
+      return alias; // wolny alias znaleziony
+    }
 
-      db.query(SQL, [fullUrl], (err, result) => {
-        if (err) return reject(err);
+    tries++;
+  }
 
-        if (result.length > 0) {
-          tries++;
-          tryAlias(); // spróbuj kolejnego
-        } else {
-          resolve(alias); // znaleziono wolny
-        }
-      });
-    };
-
-    tryAlias();
-  });
+  throw new Error('Nie znaleziono wolnego aliasu po wielu próbach');
 };
-
 module.exports = { findFreeAlias };

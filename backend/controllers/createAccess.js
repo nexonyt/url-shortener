@@ -40,7 +40,6 @@ const checkExistingEmail = (email) => {
 const createAccess = async (req, res) => { 
     const email = req.body.email;
 
-
     if (!isValidEmail(email)) {
         return res.status(400).json({ error: true, message: "Podany email jest niepoprawny" });
     }

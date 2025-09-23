@@ -5,10 +5,12 @@ const path = require("path");
 const dotenv = require("dotenv").config({
   path: path.resolve(__dirname, "../.env"),
 });
+const crypto = require("crypto");
 const { get } = require("http");
 const logger = require("../helpers/logger");
 const { findFreeAlias } = require("./chechFreeAliases");
 const { sha512 } = require("js-sha512");
+const { validateBrowserRequest } = require("../middlewares/browserAuthValidator");
 
 const db = mysql.createPool({
   connectionLimit: 10,
@@ -17,142 +19,124 @@ const db = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
 });
+const util = require("util");
+const dbQuery = util.promisify(db.query).bind(db);
 
 const formatDate = (date) => {
   if (date == "null" || date == undefined) return null;
   else return new Date(date).toISOString().slice(0, 19).replace("T", " ");
 };
 
-const util = require("util");
-const crypto = require("crypto-js");
-const { decryptMetaData } = require("./metaDataDecoder");
-const dbQuery = util.promisify(db.query).bind(db);
 
 const createLink = async (req, res) => {
-  
-  if (req.headers["authorization"]) {
-    const auth = authorize(req.headers);
-    console.log("Authorization result:", auth);
-    if (auth.error)
-      return res
-        .status(auth.status)
-        .json({ error: true, message: auth.message });
-  } 
-   else if (req.body.browser == 1)  {
-    return res.status(200).json({ error: false, message: "OK" });
-  }
-  else {
-    return res.status(401).json({ error: true, message: "Brak wymaganej autoryzacji" });
-  }
-
-  const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
-  const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
-  const defaultValues = {
-    email: "not-given",
-    password: "NULL",
-    tracking: 0,
-    status: 1,
-    expiring: 0,
-    usage_limit: 0,
-  };
-
-  const tracking = req.body.tracking ?? defaultValues.tracking;
-  const status = req.body.status ?? defaultValues.status;
-  const expiring = req.body.expiring ?? defaultValues.expiring;
-  const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
-  const email = req.body.email ?? defaultValues.email;
-  const signature = req.body.signature ?? null;
-
-  // Sprawdzenie podpisu
-  if (signature) {
-    const sygnaturka = decryptMetaData(signature);
-    console.log(sygnaturka);
-  }
-
-  const requiredFields = ["extended_link"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
-  if (missingFields.length > 0) {
-    return res.status(400).json({
-      error: true,
-      message: `Brak wymaganych pól: ${missingFields.join(", ")}`,
-    });
-  }
-
-  let shortlUrl = req.body.alias ?? null;
-
-  // Sprawdzenie aliasu
-  if (!shortlUrl) {
-    try {
-      const alias = await findFreeAlias();
-      shortlUrl = alias;
-    } catch (err) {
-      console.error("Błąd podczas generowania aliasu:", err);
-      return res
-        .status(500)
-        .json({ error: true, message: "Alias generation failed" });
-    }
-  } else {
-    try {
-      const result = await dbQuery(
-        `SELECT COUNT(*) AS count FROM links WHERE short_link = ?`,
-        [shortlUrl]
-      );
-      if (result[0].count > 0) {
-        logger("ERROR", `Alias already exists: ${shortlUrl}`);
-        return res
-          .status(409)
-          .json({ error: true, message: "Alias jest już zajęty" });
-      }
-    } catch (err) {
-      logger("ERROR", "Błąd podczas sprawdzania aliasu:", err.message);
-      return res
-        .status(500)
-        .json({ error: true, message: "Błąd podczas sprawdzania aliasu" });
-    }
-  }
-
-  // Hasło
-  let passwordJSON = null;
-  if (req.body.password) {
-    passwordJSON = sha512(
-      `{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`
-    );
-  }
-
-  // SQL
-  let SQL = "";
-  const params = [
-    email,
-    status,
-    shortlUrl,
-    req.body.extended_link,
-    expiring,
-    mysqlDate,
-    passwordJSON,
-    tracking,
-  ];
-
-  if (!req.body.valid_from) {
-    SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, created_at, hashed_password, tracking) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-  } else {
-    SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, valid_from, valid_to, created_at, hashed_password, tracking) 
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    params.splice(5, 0, req.body.valid_from, req.body.valid_to); // wstaw valid_from i valid_to na swoje miejsce
-  }
-
   try {
-    await dbQuery(SQL, params);
-    return res.status(201).json({
-      status: "created",
-      short_link: `https://urlpretty.pl/v/${shortlUrl}`,
-    });
+
+    if (req.headers["authorization"]) {
+      const authJWT = authorize(req.headers);
+      console.log("Authorization result:", authJWT);
+      if (authJWT.error)
+        return res.status(authJWT.status).json({ error: true, message: authJWT.message });
+
+    } else if (req.body.browser == true) {
+      const result = validateBrowserRequest(req);
+      if (result.error) return res.status(400).json({ error: true, message: result.message });
+
+    } else {
+      return res.status(401).json({ error: true, message: "Brak wymaganej autoryzacji" });
+    }
+
+
+    // podstawowe sprawdzenia pól
+    const requiredFields = ["extended_link"];
+    const missingFields = requiredFields.filter((field) => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({ error: true, message: `Brak wymaganych pól: ${missingFields.join(", ")}` });
+    }
+
+    const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
+    const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const defaultValues = {
+      email: "not-given",
+      password: "NULL",
+      tracking: 0,
+      status: 1,
+      expiring: 0,
+      usage_limit: 0,
+    };
+
+    const tracking = req.body.tracking ?? defaultValues.tracking;
+    const status = req.body.status ?? defaultValues.status;
+    const expiring = req.body.expiring ?? defaultValues.expiring;
+    const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
+    const email = req.body.email ?? defaultValues.email;
+
+    let shortlUrl = req.body.alias ?? null;
+    // alias logic (twój kod)...
+    if (!shortlUrl) {
+      try {
+        const alias = await findFreeAlias();
+        shortlUrl = alias;
+      } catch (err) {
+        console.error("Błąd podczas generowania aliasu:", err);
+        return res.status(500).json({ error: true, message: "Alias generation failed" });
+      }
+    } else {
+      try {
+        const result = await dbQuery(`SELECT COUNT(*) AS count FROM links WHERE short_link = ?`, [shortlUrl]);
+        if (result[0].count > 0) {
+          logger("ERROR", `Alias already exists: ${shortlUrl}`);
+          return res.status(409).json({ error: true, message: "Alias jest już zajęty" });
+        }
+      } catch (err) {
+        logger("ERROR", "Błąd podczas sprawdzania aliasu:", err.message);
+        return res.status(500).json({ error: true, message: "Błąd podczas sprawdzania aliasu" });
+      }
+    }
+
+    // Hasło (twoja logika)
+    let passwordJSON = null;
+    if (req.body.password) {
+      passwordJSON = sha512(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`);
+    }
+
+    // przygotuj SQL i params (Twoje dotychczasowe)
+    let SQL = "";
+    const params = [
+      email,
+      status,
+      shortlUrl,
+      req.body.extended_link,
+      expiring,
+      mysqlDate,
+      passwordJSON,
+      tracking,
+    ];
+
+    if (!req.body.valid_from) {
+      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, created_at, hashed_password, tracking) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    } else {
+      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, valid_from, valid_to, created_at, hashed_password, tracking) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      params.splice(5, 0, req.body.valid_from, req.body.valid_to);
+    }
+
+
+    try {
+      await dbQuery(SQL, params);
+      return res.status(201).json({
+        status: "created",
+        short_link: `https://urlpretty.pl/v/${shortlUrl}`,
+      });
+    } catch (err) {
+      logger("ERROR", "Błąd podczas zapisu do bazy:", err.message);
+      return res.status(500).json({ error: true, message: "Błąd podczas zapisu do bazy danych" });
+    }
   } catch (err) {
-    logger("ERROR", "Błąd podczas zapisu do bazy:", err.message);
-    return res
-      .status(500)
-      .json({ error: true, message: "Błąd podczas zapisu do bazy danych" });
+    console.error("createLink unexpected error:", err);
+    return res.status(500).json({ error: true, message: "server error" });
   }
 };
+
 
 const getLink = async (req, res) => {
   const auth = authorize(req.headers);
