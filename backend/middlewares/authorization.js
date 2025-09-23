@@ -1,22 +1,10 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const mysql = require("mysql2/promise");
+const bcrypt = require('bcryptjs');
+const db = require('../configs/mysql_connection');
 const { createClient } = require("redis");
 const path = require('path');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-//
-// MySQL pool
-//
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
 
 //
 // Redis
@@ -31,7 +19,8 @@ redisClient.connect();
 // WALIDACJA PARTNERA
 //
 async function validatePartner(clientId, clientSecret) {
-  const [rows] = await pool.query(
+
+  const [rows] = await db.query(
     "SELECT client_id, client_secret_hash FROM links_credentials WHERE client_id = ?",
     [clientId]
   );
@@ -39,14 +28,12 @@ async function validatePartner(clientId, clientSecret) {
   if (rows.length === 0) return null;
 
   const partner = rows[0];
-  const isValid = await bcrypt.compare(
-    clientSecret,
-    partner.client_secret_hash
-  );
+
+
+  const isValid = await bcrypt.compare(clientSecret, partner.client_secret_hash);
 
   return isValid ? { clientId: partner.client_id } : null;
 }
-
 //
 // TOKENY
 //
