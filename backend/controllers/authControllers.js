@@ -29,6 +29,22 @@ const { decryptMetaData } = require("./metaDataDecoder");
 const dbQuery = util.promisify(db.query).bind(db);
 
 const createLink = async (req, res) => {
+  
+  if (req.headers["authorization"]) {
+    const auth = authorize(req.headers);
+    console.log("Authorization result:", auth);
+    if (auth.error)
+      return res
+        .status(auth.status)
+        .json({ error: true, message: auth.message });
+  } 
+   else if (req.body.browser == 1)  {
+    return res.status(200).json({ error: false, message: "OK" });
+  }
+  else {
+    return res.status(401).json({ error: true, message: "Brak wymaganej autoryzacji" });
+  }
+
   const secret = process.env.SECRET_PASS_ENCODER ?? "secret";
   const mysqlDate = new Date().toISOString().slice(0, 19).replace("T", " ");
   const defaultValues = {
@@ -141,7 +157,8 @@ const createLink = async (req, res) => {
 const getLink = async (req, res) => {
   const auth = authorize(req.headers);
   console.log("Authorization result:", auth);
-  if (auth.error) return res.status(auth.status).json({ error: true, message: auth.message });
+  if (auth.error)
+    return res.status(auth.status).json({ error: true, message: auth.message });
 
   // klient autoryzowany, możesz używać auth.client
   const client = auth.client;
@@ -177,12 +194,10 @@ const getLink = async (req, res) => {
     db.query(SQL_GET_LINK, [`${req.params.url}`], (err, result) => {
       if (err) {
         console.error("Error connecting: " + err.stack);
-        return res
-          .status(409)
-          .json({
-            error: true,
-            message: "Wystąpił problem z połączeniem z bazą danych",
-          });
+        return res.status(409).json({
+          error: true,
+          message: "Wystąpił problem z połączeniem z bazą danych",
+        });
       }
 
       if (!result.length) {
@@ -196,12 +211,10 @@ const getLink = async (req, res) => {
       db.query(SQL_GET_CLICKS, [linkData.id], (err, statsResult) => {
         if (err) {
           console.error("Error fetching stats:", err.stack);
-          return res
-            .status(409)
-            .json({
-              error: true,
-              message: "Wystąpił problem z połączeniem z bazą danych",
-            });
+          return res.status(409).json({
+            error: true,
+            message: "Wystąpił problem z połączeniem z bazą danych",
+          });
         }
 
         const statsData = statsResult[0] || { clicks: 0, unique_clicks: 0 };
@@ -209,12 +222,10 @@ const getLink = async (req, res) => {
         db.query(SQL_DAILY_CLICKS, [linkData.id], (err, dailyClicksResult) => {
           if (err) {
             console.error("Error fetching daily clicks:", err.stack);
-            return res
-              .status(409)
-              .json({
-                error: true,
-                message: "Wystąpił problem z połączeniem z bazą danych",
-              });
+            return res.status(409).json({
+              error: true,
+              message: "Wystąpił problem z połączeniem z bazą danych",
+            });
           }
 
           let daily_clicks = {};
@@ -236,12 +247,10 @@ const getLink = async (req, res) => {
           db.query(SQL_FIRST_LAST, [linkData.id], (err, timeResult) => {
             if (err) {
               console.error("Error fetching click timestamps:", err.stack);
-              return res
-                .status(409)
-                .json({
-                  error: true,
-                  message: "Wystąpił problem z połączeniem z bazą danych",
-                });
+              return res.status(409).json({
+                error: true,
+                message: "Wystąpił problem z połączeniem z bazą danych",
+              });
             }
 
             const first_click = formatDate(timeResult[0].first_click);
