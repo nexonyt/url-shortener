@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const { get } = require('http');
 const logger = require('../helpers/logger');
-const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const { findFreeAlias } = require('./chechFreeAliases');
 const { sha512 } = require('js-sha512');
 

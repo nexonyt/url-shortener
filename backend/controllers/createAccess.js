@@ -1,6 +1,9 @@
+const logger = require('../helpers/logger');
 const { v4: uuidv4 } = require('uuid');
 const { sha384 } = require('js-sha512');
 const mysql = require('mysql');
+const path = require('path');
+const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
