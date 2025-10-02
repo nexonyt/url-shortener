@@ -152,7 +152,7 @@ const LinkStats = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/get-link-custom/${shortLink}`
+        `https://urlpretty.pl/api/get-link-custom/${shortLink}`
       );
       setResult(response.data);
     } catch (error) {
