@@ -139,16 +139,16 @@ const createLink = async (req, res) => {
 
 
 const getLink = async (req, res) => {
-  const auth = authorize(req.headers);
-  console.log("Authorization result:", auth);
-  if (auth.error)
-    return res.status(auth.status).json({ error: true, message: auth.message });
+  // const auth = authorize(req.headers);
+  // console.log("Authorization result:", auth);
+  // if (auth.error)
+  //   return res.status(auth.status).json({ error: true, message: auth.message });
 
-  // klient autoryzowany, możesz używać auth.client
-  const client = auth.client;
-  console.log("Authorized client:", client.clientId);
+  // // klient autoryzowany, możesz używać auth.client
+  // const client = auth.client;
+  // console.log("Authorized client:", client.clientId);
 
-  console.log(req.params);
+  // console.log(req.params);
   // logger('Asking DB for informations about link: ' + req.params.url);
 
   const SQL_GET_LINK = `SELECT * FROM links WHERE short_link = ?`;

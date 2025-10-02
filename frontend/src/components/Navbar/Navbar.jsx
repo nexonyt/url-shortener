@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, User, Settings, Mail } from 'lucide-react';
+import { Menu, X, Home, User, Settings, Mail,ChartColumnStacked,ScanSearch  } from 'lucide-react'; 
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/page-logo.png';
 import {
@@ -23,8 +23,9 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Strona Główna', icon: Home },
-    { path: '/about', label: 'Sprawdź link', icon: User },
-    { path: '/settings', label: 'Statystyki', icon: Settings },
+    { path: '/check-link', label: 'Sprawdź link', icon: ScanSearch },
+    { path: '/link-stats', label: 'Statystyki', icon: ChartColumnStacked },
+    { path: '/manage-link', label: 'Zarządzaj linkiem', icon: Settings },
     { path: '/contact', label: 'Kontakt', icon: Mail }
   ];
 
