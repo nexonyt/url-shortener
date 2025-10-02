@@ -22,16 +22,22 @@ const App = () => {
       <Layout>
         <Navbar />
         <Routes>
+
+          {/* FRONTEND ROUTES PRESENTED FOR USER */}
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/check-link" element={<CheckLink/>}/>
           <Route path="/link-stats" element={<LinkStats/>}/>
+          
+          {/* HIDDEN FRONTEND ROUTES AVAILABLE AFTER API REDIRECT  */}
           <Route path="/link-not-found/:uuid" element={<LinkNotFoundPage />} />
           <Route path="/link-expired/:uuid" element={<LinkExpiredPage />} />
           <Route path="/password-required/:uuid" element={<PasswordRequiredPage />} />
-          <Route path="*" element={<HomePage />} /> {/* fallback */}
+          
+          {/* FALLBACK ROUTE */}
+          <Route path="*" element={<HomePage />} /> 
         </Routes>
         <ToastContainer position="bottom-right" autoClose={2000} />
       </Layout>
