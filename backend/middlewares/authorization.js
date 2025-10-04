@@ -39,7 +39,6 @@ async function validatePartner(clientId, clientSecret) {
 //
 
 function generateAccessToken(client) {
-  console.log(client.api_user_id)
   return jwt.sign(
     {
       clientId: client.clientId,
