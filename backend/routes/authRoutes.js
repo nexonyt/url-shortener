@@ -6,7 +6,11 @@ const {
   handleToken,
   handleRefresh,
 } = require("../middlewares/authorization");
+const { enrollmentHandler,unenrollmentHandler } = require("../controllers/enrollmentController");
 
+//Enrollment endpoint
+router.post("/partner-account/enrollment",enrollmentHandler);
+router.post("/partner-account/unenrollment", enrollmentHandler);
 // Endpoint token
 router.post("/token", handleToken);
 

@@ -21,7 +21,7 @@ redisClient.connect();
 async function validatePartner(clientId, clientSecret) {
 
   const [rows] = await db.query(
-    "SELECT client_id, client_secret_hash FROM links_credentials WHERE client_id = ?",
+    "SELECT api_user_id,client_id, client_secret_hash FROM links_credentials WHERE client_id = ?",
     [clientId]
   );
 
@@ -32,15 +32,18 @@ async function validatePartner(clientId, clientSecret) {
 
   const isValid = await bcrypt.compare(clientSecret, partner.client_secret_hash);
 
-  return isValid ? { clientId: partner.client_id } : null;
+  return isValid ? { clientId: partner.client_id, api_user_id: partner.api_user_id } : null;
 }
 //
 // TOKENY
 //
+
 function generateAccessToken(client) {
+  console.log(client.api_user_id)
   return jwt.sign(
     {
       clientId: client.clientId,
+      api_user_id: client.api_user_id,
       type: "access",
     },
     process.env.JWT_ACCESS_SECRET,
