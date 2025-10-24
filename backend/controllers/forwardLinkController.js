@@ -8,6 +8,7 @@ const dotenv = require("dotenv").config({
 });
 const UAParser = require("ua-parser-js");
 const { discordSender } = require("../helpers/discordNotifications.js");
+const { sendToQueue } = require("../helpers/notificationProducer");
 
 const db = mysql.createPool({
   connectionLimit: 10,
@@ -34,23 +35,16 @@ const decrementLinkUsage = async (shortLinkId) => {
 };
 
 const addTrackingToDB = async (linkData, collectedUserInfo, status) => {
-  const SQL = `INSERT INTO links_tracking (link_id,user_agent,user_ip,isp,country,city,accept_language,timezone,sucess_redirect,referer,os,browser,created_at,cpu,device_type) VALUES ('${
-    linkData.id
-  }','${collectedUserInfo.userAgent}','${collectedUserInfo.ip}','${
-    collectedUserInfo.geo.isp
-  }','${collectedUserInfo.geo.country}','${collectedUserInfo.geo.city}','${
-    collectedUserInfo.acceptLanguage
-  }','${collectedUserInfo.geo.timezone}',${status},'${
-    collectedUserInfo.referer
-  }','${
-    collectedUserInfo.device.os + " " + collectedUserInfo.device.osVersion
-  }','${
-    collectedUserInfo.device.browser +
+  const SQL = `INSERT INTO links_tracking (link_id,user_agent,user_ip,isp,country,city,accept_language,timezone,sucess_redirect,referer,os,browser,created_at,cpu,device_type) VALUES ('${linkData.id
+    }','${collectedUserInfo.userAgent}','${collectedUserInfo.ip}','${collectedUserInfo.geo.isp
+    }','${collectedUserInfo.geo.country}','${collectedUserInfo.geo.city}','${collectedUserInfo.acceptLanguage
+    }','${collectedUserInfo.geo.timezone}',${status},'${collectedUserInfo.referer
+    }','${collectedUserInfo.device.os + " " + collectedUserInfo.device.osVersion
+    }','${collectedUserInfo.device.browser +
     " " +
     collectedUserInfo.device.browserVersion
-  }',NOW(),'${collectedUserInfo.device.cpu}','${
-    collectedUserInfo.device.deviceType
-  }')`;
+    }',NOW(),'${collectedUserInfo.device.cpu}','${collectedUserInfo.device.deviceType
+    }')`;
 
   db.query(SQL, async (err, result) => {
     console.log(err);
@@ -155,7 +149,18 @@ const forwardLink = async (req, res) => {
               );
             } else await decrementLinkUsage(req.params.id);
             logger("INFO", `Redirecting to: ${result[0].extended_link}`);
-            console.log("Discord" + process.env.DISCORD_NOTIFICATIONS);
+            console.log("RABBIT:"+process.env.SEND_RABBIT_NOTIFICATION)
+            if(process.env.SEND_RABBIT_NOTIFICATION==true) {
+            await sendToQueue({
+              event: "redirect",
+              link_id: result[0].id,
+              short_link: result[0].short_link,
+              target: result[0].extended_link,
+              ip: collectedUserInfo.ip,
+              country: collectedUserInfo.geo.country,
+              timestamp: new Date().toISOString(),
+            });
+            }
             if (process.env.DISCORD_NOTIFICATIONS == "true") {
               discordSender(result[0].short_link);
             }

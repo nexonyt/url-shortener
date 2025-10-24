@@ -5,6 +5,7 @@ const authRoutes = require("./authRoutes");
 const linkRoutes = require("./linkRoutes");
 const providerRoutes = require("./providerRoutes");
 const { forwardLink } = require("../controllers/forwardLinkController");
+const { forwardLink2 }= require("../controllers/ForwardController")
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.use("/api", linkRoutes);
 router.use("/api", providerRoutes);
 
 // endpointy publiczne poza /api
-router.get("/v/:id", forwardLink);
+router.get("/v/:id", forwardLink2);
 
 // 404 handler
 router.use((req, res) => {
