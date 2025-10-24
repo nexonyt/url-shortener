@@ -1,157 +1,88 @@
 import styled from 'styled-components';
 
-
-
-
+// Główne opakowanie
 export const Header = styled.header`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
   position: sticky;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7); /* border-slate-200/70 */
 `;
 
-export const Nav = styled.nav`
-  max-width: 1200px;
+// Wewnętrzny kontener
+export const NavContainer = styled.div`
+  max-width: 64rem; /* max-w-5xl */
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 1rem; /* px-4 */
+  height: 4rem; /* h-16 */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 70px;
+  justify-content: space-between;
 `;
 
-export const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
+// Logo + ikona
+export const LogoSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space-x-2 */
+`;
+
+export const LogoIcon = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb; /* bg-blue-600 */
   color: white;
-  text-decoration: none;
-
-   img {
-    width: 250px;
-    height: auto;
-
-    @media (max-width: 900px) {
-      width: 175px;
-    }
-
-    @media (max-width: 360px) {
-      width: 200px;
-    }
-    @media (max-width: 330px) {
-      width: 150px;
-    }
-  }
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* shadow-md */
 `;
 
+export const LogoText = styled.span`
+  font-weight: 700;
+  font-size: 1.25rem; /* text-xl */
+  color: #1e293b; /* text-slate-800 */
+`;
+
+// Linki w desktopowej nawigacji
 export const NavLinks = styled.div`
   display: flex;
-  gap: 30px;
   align-items: center;
-  
+  gap: 2rem; /* space-x-8 */
+
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
-export const NavLink = styled.button`
-  color: white;
-  text-decoration: none;
+export const NavLink = styled.a`
+  color: #475569; /* text-slate-600 */
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 15px;
-  border-radius: 7px;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-  }
-  
-  &.active {
-    background: rgba(255, 255, 255, 0.12);
-  }
-`;
-
-export const HamburgerButton = styled.button`
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 8px;
-  transition: background 0.3s ease;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
-
-export const MobileMenu = styled.div`
-  display: none;
-  
-  @media (max-width: 768px) {
-    display: ${props => props.isOpen ? 'block' : 'none'};
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    animation: slideDown 0.3s ease;
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-
-export const MobileNavLink = styled.button`
-  color: white;
   text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px 20px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  width: 100%;
-  text-align: left;
-  
+  transition: color 0.2s ease;
+
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
+    color: #2563eb; /* hover:text-blue-600 */
   }
-  
-  &.active {
-    background: rgba(255, 255, 255, 0.2);
+`;
+
+// Przycisk logowania
+export const LoginButton = styled.a`
+  background: #1e293b; /* bg-slate-800 */
+  color: white;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 600;
+  font-size: 0.875rem; /* text-sm */
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-sm */
+
+  &:hover {
+    background: #0f172a; /* hover:bg-slate-900 */
   }
 `;

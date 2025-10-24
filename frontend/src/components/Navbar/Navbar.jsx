@@ -1,84 +1,23 @@
-import React, { useState } from 'react';
-import { Menu, X, Home, User, Settings, Mail,ChartColumnStacked,ScanSearch  } from 'lucide-react'; 
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../../assets/page-logo.png';
-import {
-  Header,
-  Nav,
-  Logo,
-  NavLinks,
-  NavLink,
-  HamburgerButton,
-  MobileMenu,
-  MobileNavLink
-} from '../../styles/navbarStyles';
+import { Link2 } from "lucide-react";
+import { Header, NavContainer, LogoSection, LogoIcon, LogoText, NavLinks, NavLink, LoginButton } from "../../styles/navbarStyles";
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const navItems = [
-    { path: '/', label: 'Strona Główna', icon: Home },
-    { path: '/check-link', label: 'Sprawdź link', icon: ScanSearch },
-    { path: '/link-stats', label: 'Statystyki', icon: ChartColumnStacked },
-    { path: '/manage-link', label: 'Zarządzaj linkiem', icon: Settings },
-    { path: '/contact', label: 'Kontakt', icon: Mail }
-  ];
-
+export default function Navbar() {
   return (
     <Header>
-      <Nav>
-        <Logo><img  width="932" height="169" src={logo} alt="URL Shortener" /></Logo>
+      <NavContainer>
+        <LogoSection>
+          <LogoIcon><Link2 size={16} /></LogoIcon>
+          <LogoText>Short.ly</LogoText>
+        </LogoSection>
 
         <NavLinks>
-          {navItems.map(item => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-
-            return (
-              <NavLink
-                key={item.path}
-                as={Link}
-                to={item.path}
-                className={isActive ? 'active' : ''}
-              >
-                <Icon size={18} />
-                {item.label}
-              </NavLink>
-            );
-          })}
+          <NavLink href="#">Funkcje</NavLink>
+          <NavLink href="#">Cennik</NavLink>
+          <NavLink href="#">API</NavLink>
         </NavLinks>
 
-        <HamburgerButton onClick={toggleMenu}>
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </HamburgerButton>
-      </Nav>
-
-      <MobileMenu isOpen={isMenuOpen}>
-        {navItems.map(item => {
-          const Icon = item.icon;
-          const isActive = location.pathname === item.path;
-
-          return (
-            <MobileNavLink
-              key={item.path}
-              as={Link}
-              to={item.path}
-              onClick={() => setIsMenuOpen(false)}
-              className={isActive ? 'active' : ''}
-            >
-              <Icon size={20} />
-              {item.label}
-            </MobileNavLink>
-          );
-        })}
-      </MobileMenu>
+        <LoginButton href="#">Zaloguj się</LoginButton>
+      </NavContainer>
     </Header>
   );
-};
-
-export default Navbar;
+}

@@ -1,13 +1,69 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+import { Copy, History } from "lucide-react";
+
+import React, { useState, useEffect } from "react";
+
 import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { sha512 } from "js-sha512";
+import { Link2 } from "lucide-react";
+
 import { generateFingerprint } from "../components/fingerprint.js";
 import { toast } from "react-toastify";
 import { simpleEncrypt } from "../utils/simpleCrypto";
 
+const HeroHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2.5rem;
+`;
+
+const HeroIcon = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb; /* bg-blue-600 */
+  color: white;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+`;
+
+const HeroTitle = styled.h2`
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #0f172a; /* text-slate-900 */
+  letter-spacing: -0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
+`;
+
+const HeroText = styled.p`
+  margin-top: 0.75rem;
+  color: #64748b; /* text-slate-500 */
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+`;
+
+export const IntroText = styled.p`
+  font-size: 1.125rem;
+  color: #475569; /* slate-600 */
+  margin-bottom: 0.25rem;
+`;
+
+export const SubtitleText = styled.p`
+  font-size: 1.25rem;
+  color: #334155; /* slate-700 */
+  margin-bottom: 2rem;
+`;
 // Styled components dla formularza
 const FormContainer = styled.form`
   max-width: 600px;
@@ -29,6 +85,111 @@ const Label = styled.label`
   font-weight: 600;
   color: #495057;
   font-size: 14px;
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+export const LinkHistorySection = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+`;
+
+export const LinkHistoryTitle = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b; /* slate-800 */
+  margin-bottom: 1rem;
+`;
+
+export const EmptyHistoryCard = styled.div`
+  text-align: center;
+  padding: 2rem 1rem;
+  background: white;
+  width: 600px;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0; /* slate-200 */
+`;
+
+export const HistoryIcon = styled(History)`
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #cbd5e1; /* slate-300 */
+  margin: 0 auto 0.5rem;
+`;
+
+export const EmptyText = styled.p`
+  color: #64748b; /* slate-500 */
+`;
+
+export const HistoryItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  width: 600px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 0.75rem;
+  animation: ${fadeIn} 0.3s ease-out;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
+export const HistoryInfo = styled.div`
+  justify-content: left;
+  text-align: left;
+  min-width: 0;
+`;
+
+export const ShortLinkHistory = styled.p`
+  font-weight: 600;
+  color: #2563eb; /* blue-600 */
+`;
+
+export const OriginalLink = styled.p`
+  font-size: 0.875rem;
+  color: #64748b; /* slate-500 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const CopyButton = styled.button`
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f1f5f9; /* slate-100 */
+  color: #334155; /* slate-700 */
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: #e2e8f0; /* slate-200 */
+  }
+
+  @media (min-width: 640px) {
+    width: auto;
+  }
 `;
 
 const Input = styled.input`
@@ -306,20 +467,20 @@ const StatsInfo = styled.div`
   font-size: 14px;
 `;
 
-const IntroText = styled.p`
-  text-align: center;
-  font-size: 18px;
-  color: #d1d1d1ff;
-  margin-bottom: 10px;
-  line-height: 1.6;
-`;
+// const IntroText = styled.p`
+//   text-align: center;
+//   font-size: 18px;
+//   color: #d1d1d1ff;
+//   margin-bottom: 10px;
+//   line-height: 1.6;
+// `;
 
-const SubtitleText = styled.p`
-  text-align: center;
-  font-size: 14px;
-  color: #adb5bd;
-  margin-bottom: 0;
-`;
+// const SubtitleText = styled.p`
+//   text-align: center;
+//   font-size: 14px;
+//   color: #adb5bd;
+//   margin-bottom: 0;
+// `;
 
 //Tłumaczenia
 
@@ -502,7 +663,31 @@ const UrlResult = ({ result }) => {
   );
 };
 // Główny komponent HomePage
+
 const HomePage = () => {
+  const [linkHistory, setLinkHistory] = useState(() => {
+    // Wczytaj z localStorage przy pierwszym renderze
+    const saved = localStorage.getItem("linkHistory");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Zapisuj historię do localStorage przy każdej zmianie
+  useEffect(() => {
+    localStorage.setItem("linkHistory", JSON.stringify(linkHistory));
+  }, [linkHistory]);
+
+  // Dodaj do historii po wygenerowaniu nowego linku
+  const addToHistory = (original, short) => {
+    const newItem = {
+      id: Date.now(),
+      original,
+      short,
+    };
+
+    // Maksymalnie 10 ostatnich linków
+    setLinkHistory((prev) => [newItem, ...prev.slice(0, 9)]);
+  };
+
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -517,12 +702,14 @@ const HomePage = () => {
     setLoading(true);
     setError(null);
 
-
     const uniqueNumber = Math.floor(Math.random() * 9) + 1;
 
     function customUUIDv4() {
-      let uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      let uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+        (
+          c ^
+          (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+        ).toString(16)
       );
       let arr = uuid.split("");
       const oddDigits = ["1", "3", "5", "7", "9"];
@@ -547,13 +734,14 @@ const HomePage = () => {
       if (data.collectStats) body.email = data.email;
 
       const fingerprint = await generateFingerprint();
-      const sign = `{"time":"${time}","key":"${import.meta.env.VITE_SIG_KEY}","fingerprintHash":"${fingerprint.canvasHash}"}`
+      const sign = `{"time":"${time}","key":"${
+        import.meta.env.VITE_SIG_KEY
+      }","fingerprintHash":"${fingerprint.canvasHash}"}`;
 
       const metaDataObj = {
         fingerprint: fingerprint,
         uniqueNumber: uniqueNumber,
-        "x-request-id": requestId
-
+        "x-request-id": requestId,
       };
       body.signature = simpleEncrypt(JSON.stringify(metaDataObj));
       body.sign = sha512(sign);
@@ -562,12 +750,27 @@ const HomePage = () => {
         headers: {
           "X-Time": time,
           "X-Request-Id": requestId,
-          "X-Control-Sum": controlSum(requestId, body.sign, metaDataObj.uniqueNumber)
-        }
+          "X-Control-Sum": controlSum(
+            requestId,
+            body.sign,
+            metaDataObj.uniqueNumber
+          ),
+        },
       });
+      // addToHistory(data.url, response.data.short_link);
       setResult(response.data);
+      const shortUrl =
+        response.data.short_link ||
+        response.data.shortUrl ||
+        response.data.short ||
+        null;
+      if (shortUrl) {
+        addToHistory(data.url, shortUrl);
+      } else {
+        console.warn("Nie znaleziono short linka w odpowiedzi:", response.data);
+      }
     } catch (error) {
-      console.error('Błąd podczas tworzenia linku:', error);
+      console.error("Błąd podczas tworzenia linku:", error);
     } finally {
       setLoading(false);
     }
@@ -575,16 +778,56 @@ const HomePage = () => {
 
   return (
     <PageContainer>
-      <PageTitle>URL Shortener</PageTitle>
       <PageContent>
-        <IntroText>{t("home_page_subtitiles_first_line")}</IntroText>
-        <SubtitleText>
-          Szybko, bezpiecznie i z możliwością śledzenia statystyk
-        </SubtitleText>
+        {/* 🔹 NAGŁÓWEK */}
+        <HeroHeader>
+          {/* <HeroIcon>
+            <Link2 size={32} />
+        
+        </HeroIcon> */}
+          <HeroTitle>Skróć swój link</HeroTitle>
+          <SubtitleText>
+            Szybko, bezpiecznie i z możliwością śledzenia statystyk
+          </SubtitleText>
+          <HeroText>
+            <IntroText>{t("home_page_subtitiles_first_line")}</IntroText>
+          </HeroText>
+        </HeroHeader>
 
+        {/* 🔹 TEKST INTRO */}
+
+        {/* 🔹 FORMULARZ */}
         <UrlShortenerForm onSubmit={handleUrlSubmit} />
 
+        {/* 🔹 WYNIK */}
         <UrlResult result={result} />
+
+        <LinkHistorySection>
+          <LinkHistoryTitle>Historia linków</LinkHistoryTitle>
+          {linkHistory.length === 0 ? (
+            <EmptyHistoryCard>
+              <HistoryIcon />
+              <EmptyText>
+                Twoje ostatnio skrócone linki pojawią się tutaj.
+              </EmptyText>
+            </EmptyHistoryCard>
+          ) : (
+            linkHistory.map((item) => (
+              <HistoryItem key={item.id}>
+                <HistoryInfo>
+                  <ShortLinkHistory>{item.short}</ShortLinkHistory>
+                  <OriginalLink title={item.original}>
+                    {item.original}
+                  </OriginalLink>
+                </HistoryInfo>
+                <CopyButton onClick={() => copyToClipboard(item.short, true)}>
+                  <Copy size={16} />
+                  <span>Kopiuj</span>
+                </CopyButton>
+              </HistoryItem>
+            ))
+          )}
+        </LinkHistorySection>
       </PageContent>
     </PageContainer>
   );

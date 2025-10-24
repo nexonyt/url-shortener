@@ -12,6 +12,7 @@ import LinkNotFoundPage from './pages/LinkNotFoundPage';
 import LinkExpiredPage from './pages/LinkExpiredPage';
 import PasswordRequiredPage from './pages/PasswordRequired';
 import CheckLink from './pages/CheckLink';
+import ApiPage from './pages/ApiPage';
 import LinkStats from './pages/LinksStats';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/check-link" element={<CheckLink/>}/>
           <Route path="/link-stats" element={<LinkStats/>}/>
+          <Route path="/about-api" element={<ApiPage />} />
           
           {/* HIDDEN FRONTEND ROUTES AVAILABLE AFTER API REDIRECT  */}
           <Route path="/link-not-found/:uuid" element={<LinkNotFoundPage />} />

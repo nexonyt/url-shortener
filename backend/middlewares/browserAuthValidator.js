@@ -15,6 +15,7 @@ function validateBrowserRequest(req) {
 
 
   const signToCompare = sha512(`{"time":"${time}","key":"${process.env.SIGN_KEY}","fingerprintHash":"${decoded.fingerprint.canvasHash}"}`);
+
   if (req.body.sign !== signToCompare) return { error: true, message: "Błąd autoryzacji frontendu z backendem" };
 
 
