@@ -1,8 +1,9 @@
 const { Link, LinkTracking } = require("../models/ForwardLinkModel");
 const axios = require("axios");
 const { discordSender } = require("../helpers/discordNotifications");
-const { sendToQueue } = require("../helpers/notificationProducer");
+// const { sendToQueue } = require("../helpers/notificationProducer");
 const UAParser = require("ua-parser-js");
+const { sendToQueue } = require("../services/rabbitmq.producer");
 
 async function getGeoData(ip) {
   try {
@@ -96,17 +97,22 @@ async function handleRedirect(req) {
   else await decrementUsage(link);
 
   // Notyfikacje
+  // Notyfikacje
   if (process.env.SEND_RABBIT_NOTIFICATION === "true") {
-    await sendToQueue({
-      event: "redirect",
-      link_id: link.id,
-      short_link: link.short_link,
-      target: link.extended_link,
-      ip: collectedUserInfo.ip,
-      country: collectedUserInfo.geo.country,
-      timestamp: new Date().toISOString(),
-    });
+    await sendToQueue(
+      "notifications",   // ← NAZWA kolejki
+      {
+        event: "redirect",
+        link_id: link.id,
+        short_link: link.short_link,
+        target: link.extended_link,
+        ip: collectedUserInfo.ip,
+        country: collectedUserInfo.geo.country,
+        timestamp: new Date().toISOString(),
+      }
+    );
   }
+
 
   if (process.env.DISCORD_NOTIFICATIONS === "true") {
     discordSender(link.short_link);

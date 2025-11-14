@@ -4,6 +4,7 @@ async function forwardLink2(req, res) {
   try {
     const result = await handleRedirect(req);
     if (result.status === 302) {
+      console.log("Przekierowanie")
       return res.redirect(302, result.redirect);
     } else {
       return res.status(result.status).json({ message: result.message });

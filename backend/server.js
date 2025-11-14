@@ -8,3 +8,7 @@ app.use(routes);
 app.listen(PORT, () => {
     console.log(`Serwer działa na http://localhost:${PORT}`);
 });
+
+const { consumeQueue } = require("./services/rabbitmq.consumer");
+
+consumeQueue("notifications");
