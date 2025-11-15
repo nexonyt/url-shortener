@@ -85,8 +85,8 @@ async function handleRedirect(req) {
   };
 
   const link = await Link.findOne({ where: { short_link: shortId } });
-
-  if (!link) return { status: 404, message: "Link not found" };
+  console.log(link)
+  if (!link) return { status: 302, redirect: process.env.APP_NOT_FOUND_URL + "/" + req.params.id};
   if (link.status === 0)
     return { status: 302, redirect: process.env.APP_INACTIVE_URL + "/" + link.short_link };
 
@@ -95,13 +95,14 @@ async function handleRedirect(req) {
   if (link.usage_limit !== null && link.usage_limit <= 0)
     return { status: 302, redirect: process.env.APP_NOT_FOUND_URL + "/" + link.short_link };
   else await decrementUsage(link);
-
+  console.log("Linkacz"+link.notify_url)
   // Notyfikacje
   // Notyfikacje
   if (process.env.SEND_RABBIT_NOTIFICATION === "true") {
     await sendToQueue(
       "notifications",   // ← NAZWA kolejki
       {
+        url: "https://webhook.site/f1564b57-7855-46f7-9eb0-b5c7a1dcc528",
         event: "redirect",
         link_id: link.id,
         short_link: link.short_link,

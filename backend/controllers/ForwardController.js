@@ -2,6 +2,7 @@ const { handleRedirect } = require("../services/forwardLinkService");
 
 async function forwardLink2(req, res) {
   try {
+    console.log("ForwardLinkController: Received request");
     const result = await handleRedirect(req);
     if (result.status === 302) {
       console.log("Przekierowanie")

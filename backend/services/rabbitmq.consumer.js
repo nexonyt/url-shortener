@@ -2,7 +2,7 @@ const axios = require("axios");
 const { initRabbit } = require("../configs/rabbitmq");
 
 // ⬅️ Tu ustawiasz swój webhook
-const NOTIFICATION_URL = "https://webhook.site/938f9144-9afa-465a-9a71-b0a3e6fd8c61";
+const NOTIFICATION_URL = "https://webhook.site/f1564b57-7855-46f7-9eb0-b5c7a1dcc528";
 
 async function consumeQueue(queue) {
     const channel = await initRabbit();

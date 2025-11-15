@@ -16,6 +16,7 @@ Link.init(
     password: { type: DataTypes.BOOLEAN, defaultValue: false },
     created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    notify_url: { type: DataTypes.STRING, defaultValue: null },
   },
   {
     sequelize,
