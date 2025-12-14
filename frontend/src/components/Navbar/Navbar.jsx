@@ -11,12 +11,13 @@ export default function Navbar() {
         </LogoSection>
 
         <NavLinks>
-          <NavLink href="#">Funkcje</NavLink>
-          <NavLink href="#">Cennik</NavLink>
-          <NavLink href="#">API</NavLink>
+          <NavLink href="/">Skróć link</NavLink>
+          <NavLink href="check-link">Sprawdź link</NavLink>
+          <NavLink href="link-stats">Statystyki</NavLink>
+          <NavLink href="manage-link">Zarządzaj linkiem</NavLink>
         </NavLinks>
 
-        <LoginButton href="#">Zaloguj się</LoginButton>
+        {/* <LoginButton href="#">Zaloguj się</LoginButton> */}
       </NavContainer>
     </Header>
   );

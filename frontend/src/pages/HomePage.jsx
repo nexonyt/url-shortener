@@ -98,7 +98,7 @@ export const LinkHistorySection = styled.div`
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 3rem;
+  margin-top: 2rem;
 `;
 
 export const LinkHistoryTitle = styled.h2`
@@ -131,13 +131,14 @@ export const EmptyText = styled.p`
 export const HistoryItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  /* gap: 2rem; */
   background: white;
   padding: 1rem;
   border-radius: 0.75rem;
-  width: 600px;
+  max-width: 600px;
+  margin: 30px auto;
   border: 1px solid #e2e8f0;
-  margin-bottom: 0.75rem;
+  /* margin-bottom: 0.75rem; */
   animation: ${fadeIn} 0.3s ease-out;
 
   @media (min-width: 640px) {
@@ -150,7 +151,8 @@ export const HistoryItem = styled.div`
 export const HistoryInfo = styled.div`
   justify-content: left;
   text-align: left;
-  min-width: 0;
+  /* min-width: 0; */
+  width: 600px;
 `;
 
 export const ShortLinkHistory = styled.p`
