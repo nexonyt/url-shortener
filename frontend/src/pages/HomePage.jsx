@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 import { Copy, History } from "lucide-react";
+import { ChevronDown, Mail, Lock } from "lucide-react";
 
 import React, { useState, useEffect } from "react";
 
@@ -8,7 +9,7 @@ import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { sha512 } from "js-sha512";
-import { Link2 } from "lucide-react";
+import { Link2, Link } from "lucide-react";
 
 import { generateFingerprint } from "../components/fingerprint.js";
 import { toast } from "react-toastify";
@@ -270,13 +271,13 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-const Checkbox = styled.input`
-  width: 18px;
-  height: 18px;
-  margin-right: 12px;
-  cursor: pointer;
-  accent-color: #007bff;
-`;
+// const Checkbox = styled.input`
+//   width: 18px;
+//   height: 18px;
+//   margin-right: 12px;
+//   cursor: pointer;
+//   accent-color: #007bff;
+// `;
 
 // Styled components dla pola email
 const EmailInputContainer = styled.div`
@@ -342,31 +343,83 @@ const PasswordHelpText = styled(HelpText)`
   font-size: 11px;
 `;
 
-const SubmitButton = styled.button`
+export const UrlWrapper = styled.div`
+  position: relative;
+  flex-grow: 1;
+`;
+
+export const UrlIcon = styled(Link)`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+`;
+
+export const UrlInput = styled.input`
+  width: 100%;
+  height: 3.5rem;
+  padding-left: 3rem;
+  padding-right: 1rem;
+  font-size: 1rem;
+  background-color: #f1f5f9;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  }
+`;
+
+export const Row = styled.div`
+display: flex; 
+gap: 10px;
+`
+
+export const AdvancedOptions = styled.div`
+  width: 100%;
+  margin-top: 10px;
+`;
+
+export const SubmitButton = styled.button`
+  height: 3.5rem; /* dopasowane do inputa */
+  width: 10%;
+  min-width: 100px;
+
   background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
-  padding: 14px 32px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  width: 100%;
 
-  &:hover {
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.35);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0);
   }
 
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.45);
+  }
+
   &:disabled {
-    background: #6c757d;
+    background: #94a3b8;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
   }
 `;
 
@@ -484,7 +537,130 @@ const StatsInfo = styled.div`
 //   margin-bottom: 0;
 // `;
 
+const InputRow = styled.div`
+  display: flex;
+  width: 100%;
+  height: 50px;
+  gap: 10px;
+  flex-direction: row;
+`;
 //Tłumaczenia
+
+//ADVANCED 
+export const AdvancedWrapper = styled.div`
+  margin-top: 1rem;
+`;
+
+export const AdvancedToggle = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2563eb;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #1e40af;
+  }
+`;
+
+export const ChevronIcon = styled(ChevronDown)`
+  transition: transform 0.3s ease;
+  transform: ${({ $open }) => ($open ? "rotate(180deg)" : "rotate(0)")};
+`;
+
+export const AdvancedDescription = styled.p`
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #64748b;
+`;
+
+export const AdvancedContent = styled.div`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  animation: ${fadeIn} 0.3s ease-out;
+`;
+
+export const OptionBlock = styled.div``;
+
+export const OptionLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 0.875rem;
+  color: #334155;
+
+  cursor: pointer;
+  user-select: none;
+`;
+
+export const Checkbox = styled.input.attrs({ type: "checkbox" })`
+  width: 16px;
+  height: 16px;
+
+  border-radius: 4px;
+  border: 1px solid #cbd5f5;
+  accent-color: #2563eb;
+`;
+
+export const OptionHint = styled.p`
+  margin-top: 4px;
+  margin-left: 24px;
+
+  font-size: 0.75rem;
+  color: #64748b;
+`;
+
+export const InputWrapper = styled.div`
+  margin-top: 8px;
+  position: relative;
+
+  animation: ${fadeIn} 0.3s ease-out;
+`;
+
+export const InputIcon = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+`;
+
+export const AdvancedInput = styled.input`
+  width: 100%;
+  height: 3rem;
+
+  padding-left: 3rem;
+  padding-right: 1rem;
+
+  font-size: 1rem;
+  background-color: #f1f5f9;
+
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  }
+`;
 
 // Komponent formularza do skracania linków
 const UrlShortenerForm = ({ onSubmit }) => {
@@ -500,6 +676,7 @@ const UrlShortenerForm = ({ onSubmit }) => {
   const [password, setPassword] = useState("");
   const [collectStats, setCollectStats] = useState(false);
   const [email, setEmail] = useState("");
+  const [isAdvancedVisible, setAdvancedVisible] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -516,88 +693,189 @@ const UrlShortenerForm = ({ onSubmit }) => {
   };
 
   return (
+    // <FormContainer onSubmit={handleSubmit}>
+    //   <InputGroup>
+    //     <Label htmlFor="url">{t("url_form_long_link")}</Label>
+    //     <Input
+    //       id="url"
+    //       type="url"
+    //       value={url}
+    //       onChange={(e) => setUrl(e.target.value)}
+    //       placeholder={t("url_form_input_link_placeholder")}
+    //       required
+    //     />
+    //   </InputGroup>
+
+    //   <InputGroup>
+    //     <Label htmlFor="alias">Alias (opcjonalnie):</Label>
+    //     <InputAliasText>urlpretty.pl/</InputAliasText>
+    //     <InputAlias
+    //       id="alias"
+    //       type="text"
+    //       value={alias}
+    //       onChange={(e) => setAlias(e.target.value)}
+    //       placeholder="moj-wlasny-alias"
+    //     />
+    //     <HelpText>
+    //       Jeśli nie podasz aliasu, zostanie wygenerowany automatycznie
+    //     </HelpText>
+    //   </InputGroup>
+
+    //   <CheckboxContainer>
+    //     <CheckboxLabel>
+    //       <Checkbox
+    //         type="checkbox"
+    //         checked={needsPassword}
+    //         onChange={(e) => setNeedsPassword(e.target.checked)}
+    //       />
+    //       Czy chcesz zabezpieczyć link hasłem?
+    //     </CheckboxLabel>
+
+    //     <PasswordInputContainer isVisible={needsPassword}>
+    //       <PasswordLabel htmlFor="password">Hasło do linku:</PasswordLabel>
+    //       <PasswordInput
+    //         id="password"
+    //         type="text"
+    //         value={password}
+    //         onChange={(e) => setPassword(e.target.value)}
+    //         placeholder="Wprowadź hasło"
+    //         required={needsPassword}
+    //       />
+    //       <PasswordHelpText>
+    //         To hasło będzie wymagane do otwarcia skróconego linku podczas
+    //         przekierowania
+    //       </PasswordHelpText>
+    //     </PasswordInputContainer>
+    //   </CheckboxContainer>
+
+    //   <CheckboxContainer>
+    //     <CheckboxLabel>
+    //       <Checkbox
+    //         type="checkbox"
+    //         checked={collectStats}
+    //         onChange={(e) => setCollectStats(e.target.checked)}
+    //       />
+    //       Czy chcesz zbierać statystyki odwiedzin?
+    //     </CheckboxLabel>
+
+    //     <EmailInputContainer isVisible={collectStats}>
+    //       <EmailLabel htmlFor="email">Adres email do raportów:</EmailLabel>
+    //       <EmailInput
+    //         id="email"
+    //         type="email"
+    //         value={email}
+    //         onChange={(e) => setEmail(e.target.value)}
+    //         placeholder="twoj.email@example.com"
+    //         required={collectStats}
+    //       />
+    //       <EmailHelpText>
+    //         Na ten adres będziesz otrzymywać raporty ze statystykami
+    //       </EmailHelpText>
+    //     </EmailInputContainer>
+    //   </CheckboxContainer>
+
+    //   <SubmitButton type="submit">🔗 Skróć link</SubmitButton>
+    // </FormContainer>
     <FormContainer onSubmit={handleSubmit}>
-      <InputGroup>
-        <Label htmlFor="url">{t("url_form_long_link")}</Label>
-        <Input
-          id="url"
-          type="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder={t("url_form_input_link_placeholder")}
-          required
-        />
-      </InputGroup>
-
-      <InputGroup>
-        <Label htmlFor="alias">Alias (opcjonalnie):</Label>
-        <InputAliasText>urlpretty.pl/</InputAliasText>
-        <InputAlias
-          id="alias"
-          type="text"
-          value={alias}
-          onChange={(e) => setAlias(e.target.value)}
-          placeholder="moj-wlasny-alias"
-        />
-        <HelpText>
-          Jeśli nie podasz aliasu, zostanie wygenerowany automatycznie
-        </HelpText>
-      </InputGroup>
-
-      <CheckboxContainer>
-        <CheckboxLabel>
-          <Checkbox
-            type="checkbox"
-            checked={needsPassword}
-            onChange={(e) => setNeedsPassword(e.target.checked)}
+     <Row>
+     
+        <UrlWrapper>
+          <UrlIcon size={20} />
+          <UrlInput
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://twoj-dlugi-link.com/do-skrocenia"
+            required
           />
-          Czy chcesz zabezpieczyć link hasłem?
-        </CheckboxLabel>
+        </UrlWrapper>
 
-        <PasswordInputContainer isVisible={needsPassword}>
-          <PasswordLabel htmlFor="password">Hasło do linku:</PasswordLabel>
-          <PasswordInput
-            id="password"
-            type="text"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Wprowadź hasło"
-            required={needsPassword}
-          />
-          <PasswordHelpText>
-            To hasło będzie wymagane do otwarcia skróconego linku podczas
-            przekierowania
-          </PasswordHelpText>
-        </PasswordInputContainer>
-      </CheckboxContainer>
+        <SubmitButton type="submit">Skróć</SubmitButton>
 
-      <CheckboxContainer>
-        <CheckboxLabel>
+      </Row>
+
+      <Row>
+        <AdvancedOptions>
+          <AdvancedWrapper>
+  <AdvancedToggle
+    type="button"
+    onClick={() => setAdvancedVisible(!isAdvancedVisible)}
+  >
+    Ustawienia zaawansowane
+    <ChevronIcon size={16} $open={isAdvancedVisible} />
+  </AdvancedToggle>
+
+  <AdvancedDescription>
+    Możesz ustawić hasło czy dodać email do raportowania.
+  </AdvancedDescription>
+
+  {isAdvancedVisible && (
+    <AdvancedContent>
+      {/* Opcja E-mail */}
+      <OptionBlock>
+        <OptionLabel>
           <Checkbox
-            type="checkbox"
             checked={collectStats}
             onChange={(e) => setCollectStats(e.target.checked)}
           />
-          Czy chcesz zbierać statystyki odwiedzin?
-        </CheckboxLabel>
+          <span>Dodaj e-mail do wysyłania raportów</span>
+        </OptionLabel>
 
-        <EmailInputContainer isVisible={collectStats}>
-          <EmailLabel htmlFor="email">Adres email do raportów:</EmailLabel>
-          <EmailInput
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="twoj.email@example.com"
-            required={collectStats}
+        <OptionHint>
+          Otrzymuj statystyki kliknięć i powiadomienia.
+        </OptionHint>
+
+        {collectStats && (
+          <InputWrapper>
+            <InputIcon>
+              <Mail size={20} />
+            </InputIcon>
+            <AdvancedInput
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="twoj@email.com"
+              required
+            />
+          </InputWrapper>
+        )}
+      </OptionBlock>
+
+      {/* Opcja Hasło */}
+      <OptionBlock>
+        <OptionLabel>
+          <Checkbox
+            checked={needsPassword}
+            onChange={(e) => setNeedsPassword(e.target.checked)}
           />
-          <EmailHelpText>
-            Na ten adres będziesz otrzymywać raporty ze statystykami
-          </EmailHelpText>
-        </EmailInputContainer>
-      </CheckboxContainer>
+          <span>Ustaw hasło do linku</span>
+        </OptionLabel>
 
-      <SubmitButton type="submit">🔗 Skróć link</SubmitButton>
+        <OptionHint>
+          Tylko osoby z hasłem będą mogły otworzyć link.
+        </OptionHint>
+
+        {needsPassword && (
+          <InputWrapper>
+            <InputIcon>
+              <Lock size={20} />
+            </InputIcon>
+            <AdvancedInput
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Wpisz hasło"
+              required
+            />
+          </InputWrapper>
+        )}
+      </OptionBlock>
+    </AdvancedContent>
+  )}
+</AdvancedWrapper>
+
+        </AdvancedOptions>
+      </Row>
     </FormContainer>
   );
 };
