@@ -132,15 +132,15 @@ export const EmptyText = styled.p`
 export const HistoryItem = styled.div`
   display: flex;
   flex-direction: column;
-  /* gap: 2rem; */
   background: white;
   padding: 1rem;
   border-radius: 0.75rem;
   max-width: 600px;
-  margin: 30px auto;
+  margin: 5px auto;
   border: 1px solid #e2e8f0;
   /* margin-bottom: 0.75rem; */
   animation: ${fadeIn} 0.3s ease-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  
 
   @media (min-width: 640px) {
     flex-direction: row;
@@ -154,6 +154,7 @@ export const HistoryInfo = styled.div`
   text-align: left;
   /* min-width: 0; */
   width: 600px;
+  max-height: 4rem;
 `;
 
 export const ShortLinkHistory = styled.p`
@@ -428,7 +429,7 @@ const ResultContainer = styled.div`
   max-width: 600px;
   margin: 20px auto;
   padding: 25px;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  background-color: #F0FDF4;
   border: 1px solid #28a745;
   border-radius: 12px;
   animation: slideIn 0.4s ease-out;
@@ -453,53 +454,68 @@ const ResultTitle = styled.h3`
   display: flex;
   align-items: center;
 
-  &::before {
-    content: "✓";
-    margin-right: 8px;
-    background: #28a745;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
 `;
 
 const ResultItem = styled.div`
-  margin-bottom: 15px;
-  padding: 12px;
-  background: white;
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
 `;
 
-const ResultLabel = styled.span`
-  font-weight: 600;
-  color: #495057;
-  margin-right: 8px;
+const ResultText = styled.span`
+  padding: 12px;
+  background: white;
+  border: 1px solid;
+  border-radius: 8px;
+  border-color: #b4b4b4;
+  color: black;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+   font-size: 1rem;      
+  line-height: 1.5rem;   
+  width: 75%;
 `;
 
 const ResultValue = styled.span`
-  color: #6c757d;
+  /* color: #6c757d; */
   word-break: break-all;
 `;
 
-const ShortLink = styled.a`
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 4px 8px;
-  background: rgba(0, 123, 255, 0.1);
-  border-radius: 4px;
-  transition: all 0.2s ease;
+const ShortLinkCopy = styled.a`
+  width: 25%;
+  height: 3rem;                 /* h-12 = 48px */
+  padding-left: 1.25rem;        /* px-5 */
+  padding-right: 1.25rem;
 
-  &:hover {
-    background: rgba(0, 123, 255, 0.2);
-    text-decoration: underline;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;                  /* gap-2 */
+
+  background-color: #1e293b;    /* slate-800 */
+  color: #ffffff;
+
+  font-weight: 500;             /* font-medium */
+  border-radius: 0.5rem;        /* rounded-lg */
+
+  border: none;
+  cursor: pointer;
+
+  transition: background-color 150ms ease,
+              box-shadow 150ms ease;
+              &:hover {
+                  background-color: #0f172a;
+
+              }
+              &:focus {
+                outline:none;
+              }
+              &:focus-visible {
+                  box-shadow:
+    0 0 0 2px #1e293b,           /* ring-2 ring-slate-800 */
+    0 0 0 4px #ffffff;   
+              }
 `;
 
 const PasswordAlert = styled.div`
@@ -777,8 +793,8 @@ const UrlShortenerForm = ({ onSubmit }) => {
     //   <SubmitButton type="submit">🔗 Skróć link</SubmitButton>
     // </FormContainer>
     <FormContainer onSubmit={handleSubmit}>
-     <Row>
-     
+      <Row>
+
         <UrlWrapper>
           <UrlIcon size={20} />
           <UrlInput
@@ -797,82 +813,82 @@ const UrlShortenerForm = ({ onSubmit }) => {
       <Row>
         <AdvancedOptions>
           <AdvancedWrapper>
-  <AdvancedToggle
-    type="button"
-    onClick={() => setAdvancedVisible(!isAdvancedVisible)}
-  >
-    Ustawienia zaawansowane
-    <ChevronIcon size={16} $open={isAdvancedVisible} />
-  </AdvancedToggle>
+            <AdvancedToggle
+              type="button"
+              onClick={() => setAdvancedVisible(!isAdvancedVisible)}
+            >
+              Ustawienia zaawansowane
+              <ChevronIcon size={16} $open={isAdvancedVisible} />
+            </AdvancedToggle>
 
-  <AdvancedDescription>
-    Możesz ustawić hasło czy dodać email do raportowania.
-  </AdvancedDescription>
+            <AdvancedDescription>
+              Możesz ustawić hasło czy dodać email do raportowania.
+            </AdvancedDescription>
 
-  {isAdvancedVisible && (
-    <AdvancedContent>
-      {/* Opcja E-mail */}
-      <OptionBlock>
-        <OptionLabel>
-          <Checkbox
-            checked={collectStats}
-            onChange={(e) => setCollectStats(e.target.checked)}
-          />
-          <span>Dodaj e-mail do wysyłania raportów</span>
-        </OptionLabel>
+            {isAdvancedVisible && (
+              <AdvancedContent>
+                {/* Opcja E-mail */}
+                <OptionBlock>
+                  <OptionLabel>
+                    <Checkbox
+                      checked={collectStats}
+                      onChange={(e) => setCollectStats(e.target.checked)}
+                    />
+                    <span>Dodaj e-mail do wysyłania raportów</span>
+                  </OptionLabel>
 
-        <OptionHint>
-          Otrzymuj statystyki kliknięć i powiadomienia.
-        </OptionHint>
+                  <OptionHint>
+                    Otrzymuj statystyki kliknięć i powiadomienia.
+                  </OptionHint>
 
-        {collectStats && (
-          <InputWrapper>
-            <InputIcon>
-              <Mail size={20} />
-            </InputIcon>
-            <AdvancedInput
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="twoj@email.com"
-              required
-            />
-          </InputWrapper>
-        )}
-      </OptionBlock>
+                  {collectStats && (
+                    <InputWrapper>
+                      <InputIcon>
+                        <Mail size={20} />
+                      </InputIcon>
+                      <AdvancedInput
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="twoj@email.com"
+                        required
+                      />
+                    </InputWrapper>
+                  )}
+                </OptionBlock>
 
-      {/* Opcja Hasło */}
-      <OptionBlock>
-        <OptionLabel>
-          <Checkbox
-            checked={needsPassword}
-            onChange={(e) => setNeedsPassword(e.target.checked)}
-          />
-          <span>Ustaw hasło do linku</span>
-        </OptionLabel>
+                {/* Opcja Hasło */}
+                <OptionBlock>
+                  <OptionLabel>
+                    <Checkbox
+                      checked={needsPassword}
+                      onChange={(e) => setNeedsPassword(e.target.checked)}
+                    />
+                    <span>Ustaw hasło do linku</span>
+                  </OptionLabel>
 
-        <OptionHint>
-          Tylko osoby z hasłem będą mogły otworzyć link.
-        </OptionHint>
+                  <OptionHint>
+                    Tylko osoby z hasłem będą mogły otworzyć link.
+                  </OptionHint>
 
-        {needsPassword && (
-          <InputWrapper>
-            <InputIcon>
-              <Lock size={20} />
-            </InputIcon>
-            <AdvancedInput
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Wpisz hasło"
-              required
-            />
-          </InputWrapper>
-        )}
-      </OptionBlock>
-    </AdvancedContent>
-  )}
-</AdvancedWrapper>
+                  {needsPassword && (
+                    <InputWrapper>
+                      <InputIcon>
+                        <Lock size={20} />
+                      </InputIcon>
+                      <AdvancedInput
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Wpisz hasło"
+                        required
+                      />
+                    </InputWrapper>
+                  )}
+                </OptionBlock>
+              </AdvancedContent>
+            )}
+          </AdvancedWrapper>
 
         </AdvancedOptions>
       </Row>
@@ -897,21 +913,17 @@ const UrlResult = ({ result }) => {
   return (
     <ResultContainer>
       <ResultTitle>Link został pomyślnie skrócony!</ResultTitle>
-
       <ResultItem>
-        <ResultLabel>Skrócony link:</ResultLabel>
-        <ShortLink
+
+        <ResultText>{result.short_link}</ResultText>
+        <ShortLinkCopy
           as="button"
           onClick={() => copyToClipboard(result.short_link)}
         >
-          {result.short_link}
-        </ShortLink>
+          Kopiuj
+        </ShortLinkCopy>
       </ResultItem>
 
-      <ResultItem>
-        <ResultLabel>Oryginalny link:</ResultLabel>
-        <ResultValue>{result.originalUrl}</ResultValue>
-      </ResultItem>
 
       {result.alias && (
         <ResultItem>
@@ -1014,9 +1026,8 @@ const HomePage = () => {
       if (data.collectStats) body.email = data.email;
 
       const fingerprint = await generateFingerprint();
-      const sign = `{"time":"${time}","key":"${
-        import.meta.env.VITE_SIG_KEY
-      }","fingerprintHash":"${fingerprint.canvasHash}"}`;
+      const sign = `{"time":"${time}","key":"${import.meta.env.VITE_SIG_KEY
+        }","fingerprintHash":"${fingerprint.canvasHash}"}`;
 
       const metaDataObj = {
         fingerprint: fingerprint,

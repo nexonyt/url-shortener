@@ -7,7 +7,7 @@ export default function Navbar() {
       <NavContainer>
         <LogoSection>
           <LogoIcon><Link2 size={16} /></LogoIcon>
-          <LogoText>Short.ly</LogoText>
+          <LogoText>URLPRETTY.PL</LogoText>
         </LogoSection>
 
         <NavLinks>

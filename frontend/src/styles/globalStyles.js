@@ -37,7 +37,7 @@ export const PageContent = styled.div`
   line-height: 1.6;
   text-align: center;
   
-  p {
+  /* p {
     margin-bottom: 20px;
-  }
+  } */
 `;
