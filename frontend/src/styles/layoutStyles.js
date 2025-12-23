@@ -17,8 +17,10 @@ export const MainContent = styled.main`
 `;
 
 export const Footer = styled.footer`
-  background: rgba(0, 0, 0, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  /* background: rgba(0, 0, 0, 0.1); */
+  /* color: rgba(169, 169, 169, 0.8); */
+  color: black;
+  opacity: 0.5;
   text-align: center;
   padding: 20px;
   margin-top: auto;

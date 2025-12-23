@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Mail, Link } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 // --- Styled components (analogiczne do CheckLink) ---
 const FormContainer = styled.form`
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  min-width: 300px;
   margin: 30px auto;
   padding: 30px;
   background: white;
@@ -16,6 +25,13 @@ const FormContainer = styled.form`
 
 const InputGroup = styled.div`
   margin-bottom: 20px;
+`;
+export const UrlIcon = styled(Link)`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
 `;
 
 const Label = styled.label`
@@ -138,8 +154,97 @@ const ResultValue = styled.span`
   word-break: break-all;
 `;
 
+const HeroHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2.5rem;
+`;
+
+const HeroIcon = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb; /* bg-blue-600 */
+  color: white;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+`;
+
+const HeroTitle = styled.h2`
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #0f172a; /* text-slate-900 */
+  letter-spacing: -0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
+`;
+
+const HeroText = styled.p`
+  margin-top: 0.75rem;
+  color: #64748b; /* text-slate-500 */
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+`;
+
+export const IntroText = styled.p`
+  font-size: 1.125rem;
+  color: #475569; /* slate-600 */
+  margin-bottom: 0.25rem;
+`;
+
+export const SubtitleText = styled.p`
+  font-size: 1.25rem;
+  color: #334155; /* slate-700 */
+  margin-bottom: 2rem;
+`;
+
+export const InputWrapper = styled.div`
+  margin-top: 8px;
+  position: relative;
+
+  animation: ${fadeIn} 0.3s ease-out;
+`;
+
+export const InputIcon = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+`;
+
+export const AdvancedInput = styled.input`
+  width: 100%;
+  height: 3rem;
+
+  padding-left: 3rem;
+  padding-right: 1rem;
+
+  font-size: 1rem;
+  background-color: #f1f5f9;
+
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  }
+`;
+
 // --- CheckLinkCustom Component ---
 const LinkStats = () => {
+    const { t, i18n } = useTranslation();
   const [shortLink, setShortLink] = useState("");
   const [email, setEmail] = useState("");
   const [result, setResult] = useState(null);
@@ -165,33 +270,44 @@ const LinkStats = () => {
 
   return (
     <>
+      <HeroHeader>
+        <HeroTitle>Skróć swój link</HeroTitle>
+        <SubtitleText>
+          Szybko, bezpiecznie i z możliwością śledzenia statystyk
+        </SubtitleText>
+        <HeroText>
+          <IntroText>{t("home_page_subtitiles_first_line")}</IntroText>
+        </HeroText>
+      </HeroHeader>
+
       <FormContainer onSubmit={handleSubmit}>
-        <InputGroup>
-          <Label htmlFor="shortLink">Skrócony link:</Label>
-          <Input
-            id="shortLink"
+        <InputWrapper>
+          <InputIcon>
+            <UrlIcon size={20} />
+          </InputIcon>
+          <AdvancedInput
             type="text"
-            value={shortLink}
-            onChange={(e) => setShortLink(e.target.value)}
-            placeholder="np. polibuda"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Podaj skrócony link"
             required
           />
-        </InputGroup>
+        </InputWrapper>
 
-        <InputGroup>
-          <Label htmlFor="email">Adres email:</Label>
-          <Input
-            id="email"
+        <InputWrapper>
+          <InputIcon>
+            <Mail size={20} />
+          </InputIcon>
+          <AdvancedInput
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="np. przyklad@wp.pl"
+            placeholder="twoj@email.com"
             required
           />
-        </InputGroup>
+        </InputWrapper>
 
         <SubmitButton type="submit" disabled={loading}>
-          {loading ? "Sprawdzanie..." : "Sprawdź link"}
+          {loading ? "Sprawdzanie..." : "Wyświetl statystyki linku"}
         </SubmitButton>
       </FormContainer>
 
