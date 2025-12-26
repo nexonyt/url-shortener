@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 
 import { Copy, History } from "lucide-react";
 import { ChevronDown, Mail, Lock } from "lucide-react";
-
+import { copyToClipboard } from "../hooks/useClipboard.js";
 import React, { useState, useEffect } from "react";
 
 import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
@@ -15,12 +15,13 @@ import { generateFingerprint } from "../components/fingerprint.js";
 import { toast } from "react-toastify";
 import { simpleEncrypt } from "../utils/simpleCrypto";
 
-const HeroHeader = styled.div`
+
+export const HeroHeader = styled.div`
   text-align: center;
   margin-bottom: 2.5rem;
 `;
 
-const HeroIcon = styled.div`
+export const HeroIcon = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +35,7 @@ const HeroIcon = styled.div`
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
 `;
 
-const HeroTitle = styled.h2`
+export const HeroTitle = styled.h2`
   font-size: 2.25rem;
   font-weight: 700;
   color: #0f172a; /* text-slate-900 */
@@ -45,7 +46,7 @@ const HeroTitle = styled.h2`
   }
 `;
 
-const HeroText = styled.p`
+export const HeroText = styled.p`
   margin-top: 0.75rem;
   color: #64748b; /* text-slate-500 */
   max-width: 28rem;
@@ -66,7 +67,7 @@ export const SubtitleText = styled.p`
   margin-bottom: 2rem;
 `;
 // Styled components dla formularza
-const FormContainer = styled.form`
+export const FormContainer = styled.form`
   max-width: 600px;
   margin: 30px auto;
   padding: 30px;
@@ -76,11 +77,11 @@ const FormContainer = styled.form`
   border: 1px solid #e9ecef;
 `;
 
-const InputGroup = styled.div`
+export const InputGroup = styled.div`
   margin-bottom: 20px;
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
@@ -88,7 +89,7 @@ const Label = styled.label`
   font-size: 14px;
 `;
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 `;
@@ -96,10 +97,11 @@ const fadeIn = keyframes`
 export const LinkHistorySection = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
   align-items: center;
-  justify-content: center;
   margin-top: 2rem;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
 `;
 
 export const LinkHistoryTitle = styled.h2`
@@ -113,7 +115,7 @@ export const EmptyHistoryCard = styled.div`
   text-align: center;
   padding: 2rem 1rem;
   background: white;
-  width: 600px;
+  /* width: 600px; */
   border-radius: 0.75rem;
   border: 1px solid #e2e8f0; /* slate-200 */
 `;
@@ -135,39 +137,45 @@ export const HistoryItem = styled.div`
   background: white;
   padding: 1rem;
   border-radius: 0.75rem;
-  max-width: 600px;
-  margin: 5px auto;
+  width: 100%; /* Zmiana */
+  max-width: 600px; /* Zmiana */
+  margin: 8px auto;
   border: 1px solid #e2e8f0;
-  /* margin-bottom: 0.75rem; */
   animation: ${fadeIn} 0.3s ease-out;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
   @media (min-width: 640px) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 1.5rem; 
   }
 `;
 
 export const HistoryInfo = styled.div`
-  justify-content: left;
   text-align: left;
-  /* min-width: 0; */
-  width: 600px;
-  max-height: 4rem;
+  min-width: 0; 
+  flex: 1;     
+  margin-bottom: 1rem; 
+
+  @media (min-width: 640px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const ShortLinkHistory = styled.p`
   font-weight: 600;
-  color: #2563eb; /* blue-600 */
+  color: #2563eb; 
 `;
 
 export const OriginalLink = styled.p`
   font-size: 0.875rem;
-  color: #64748b; /* slate-500 */
+  color: #64748b;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  display: block;
 `;
 
 export const CopyButton = styled.button`
@@ -178,8 +186,8 @@ export const CopyButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: #f1f5f9; /* slate-100 */
-  color: #334155; /* slate-700 */
+  background: #f1f5f9; 
+  color: #334155;
   font-weight: 500;
   font-size: 0.875rem;
   border: none;
@@ -188,7 +196,7 @@ export const CopyButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #e2e8f0; /* slate-200 */
+    background: #e2e8f0;
   }
 
   @media (min-width: 640px) {
@@ -196,7 +204,7 @@ export const CopyButton = styled.button`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 100%;
   padding: 12px 16px;
   border: 2px solid #e9ecef;
@@ -217,7 +225,7 @@ const Input = styled.input`
   }
 `;
 
-const InputAlias = styled.input`
+export const InputAlias = styled.input`
   width: 75%;
   padding: 12px 16px;
   border: 2px solid #e9ecef;
@@ -238,7 +246,7 @@ const InputAlias = styled.input`
   }
 `;
 
-const InputAliasText = styled.p`
+export const InputAliasText = styled.p`
   font-size: 16px;
   width: 25%;
   color: #000000;
@@ -247,18 +255,18 @@ const InputAliasText = styled.p`
   display: inline-block;
 `;
 
-const HelpText = styled.small`
+export const HelpText = styled.small`
   display: block;
   margin-top: 6px;
   color: #6c757d;
   font-size: 12px;
 `;
 
-const CheckboxContainer = styled.div`
+export const CheckboxContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const CheckboxLabel = styled.label`
+export const CheckboxLabel = styled.label`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -272,7 +280,7 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-// const Checkbox = styled.input`
+// export const Checkbox = styled.input`
 //   width: 18px;
 //   height: 18px;
 //   margin-right: 12px;
@@ -281,7 +289,7 @@ const CheckboxLabel = styled.label`
 // `;
 
 // Styled components dla pola email
-const EmailInputContainer = styled.div`
+export const EmailInputContainer = styled.div`
   max-height: ${(props) => (props.isVisible ? "100px" : "0")};
   overflow: hidden;
   transition: all 0.4s ease;
@@ -291,7 +299,7 @@ const EmailInputContainer = styled.div`
   margin-left: 30px;
 `;
 
-const EmailInput = styled(Input)`
+export const EmailInput = styled(Input)`
   border-color: #17a2b8;
   background: #f0f9ff;
 
@@ -301,19 +309,19 @@ const EmailInput = styled(Input)`
   }
 `;
 
-const EmailLabel = styled(Label)`
+export const EmailLabel = styled(Label)`
   color: #17a2b8;
   font-size: 13px;
   margin-bottom: 6px;
 `;
 
-const EmailHelpText = styled(HelpText)`
+export const EmailHelpText = styled(HelpText)`
   color: #17a2b8;
   font-size: 11px;
 `;
 
 // Styled components dla pola hasła
-const PasswordInputContainer = styled.div`
+export const PasswordInputContainer = styled.div`
   max-height: ${(props) => (props.isVisible ? "100px" : "0")};
   overflow: hidden;
   transition: all 0.4s ease;
@@ -323,7 +331,7 @@ const PasswordInputContainer = styled.div`
   margin-left: 30px;
 `;
 
-const PasswordInput = styled(Input)`
+export const PasswordInput = styled(Input)`
   border-color: #17a2b8;
   background: #f0f9ff;
 
@@ -333,13 +341,13 @@ const PasswordInput = styled(Input)`
   }
 `;
 
-const PasswordLabel = styled(Label)`
+export const PasswordLabel = styled(Label)`
   color: #17a2b8;
   font-size: 13px;
   margin-bottom: 6px;
 `;
 
-const PasswordHelpText = styled(HelpText)`
+export const PasswordHelpText = styled(HelpText)`
   color: #17a2b8;
   font-size: 11px;
 `;
@@ -379,6 +387,15 @@ export const Row = styled.div`
 display: flex; 
 gap: 10px;
 `
+export const FormRow = styled.div`
+  display: flex; 
+  flex-direction: row;
+  gap: 10px;
+
+ @media (max-width: 500px) {
+    flex-direction: column;
+  }
+`
 
 export const AdvancedOptions = styled.div`
   width: 100%;
@@ -386,7 +403,7 @@ export const AdvancedOptions = styled.div`
 `;
 
 export const SubmitButton = styled.button`
-  height: 3.5rem; /* dopasowane do inputa */
+  height: 3.5rem; 
   width: 10%;
   min-width: 100px;
 
@@ -401,6 +418,11 @@ export const SubmitButton = styled.button`
   font-weight: 600;
 
   transition: all 0.3s ease;
+
+ @media (max-width: 500px) {
+    height: 3rem;
+    width: 100%;
+  }
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -425,7 +447,7 @@ export const SubmitButton = styled.button`
 `;
 
 // Styled components dla wyników
-const ResultContainer = styled.div`
+export const ResultContainer = styled.div`
   max-width: 600px;
   margin: 20px auto;
   padding: 25px;
@@ -446,7 +468,7 @@ const ResultContainer = styled.div`
   }
 `;
 
-const ResultTitle = styled.h3`
+export const ResultTitle = styled.h3`
   margin: 0 0 20px 0;
   color: #28a745;
   font-size: 18px;
@@ -456,7 +478,7 @@ const ResultTitle = styled.h3`
 
 `;
 
-const ResultItem = styled.div`
+export const ResultItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -464,7 +486,7 @@ const ResultItem = styled.div`
   gap: 1rem;
 `;
 
-const ResultText = styled.span`
+export const ResultText = styled.span`
   padding: 12px;
   background: white;
   border: 1px solid;
@@ -477,12 +499,12 @@ const ResultText = styled.span`
   width: 75%;
 `;
 
-const ResultValue = styled.span`
+export const ResultValue = styled.span`
   /* color: #6c757d; */
   word-break: break-all;
 `;
 
-const ShortLinkCopy = styled.a`
+export const ShortLinkCopy = styled.a`
   width: 25%;
   height: 3rem;                 /* h-12 = 48px */
   padding-left: 1.25rem;        /* px-5 */
@@ -518,7 +540,7 @@ const ShortLinkCopy = styled.a`
               }
 `;
 
-const PasswordAlert = styled.div`
+export const PasswordAlert = styled.div`
   background: #fff3cd;
   border: 1px solid #ffeaa7;
   border-radius: 8px;
@@ -528,7 +550,7 @@ const PasswordAlert = styled.div`
   font-size: 14px;
 `;
 
-const StatsInfo = styled.div`
+export const StatsInfo = styled.div`
   background: #d1ecf1;
   border: 1px solid #bee5eb;
   border-radius: 8px;
@@ -538,7 +560,7 @@ const StatsInfo = styled.div`
   font-size: 14px;
 `;
 
-// const IntroText = styled.p`
+// export const IntroText = styled.p`
 //   text-align: center;
 //   font-size: 18px;
 //   color: #d1d1d1ff;
@@ -546,14 +568,14 @@ const StatsInfo = styled.div`
 //   line-height: 1.6;
 // `;
 
-// const SubtitleText = styled.p`
+// export const SubtitleText = styled.p`
 //   text-align: center;
 //   font-size: 14px;
 //   color: #adb5bd;
 //   margin-bottom: 0;
 // `;
 
-const InputRow = styled.div`
+export const InputRow = styled.div`
   display: flex;
   width: 100%;
   height: 50px;
@@ -595,7 +617,11 @@ export const ChevronIcon = styled(ChevronDown)`
 export const AdvancedDescription = styled.p`
   margin-top: 4px;
   font-size: 0.75rem;
-  color: #64748b;
+  color: #64748b;        
+  text-align: left;     
+  width: 100%;           
+  max-width: 600px;      
+  line-height: 1.5;     
 `;
 
 export const AdvancedContent = styled.div`
@@ -610,7 +636,12 @@ export const AdvancedContent = styled.div`
   animation: ${fadeIn} 0.3s ease-out;
 `;
 
-export const OptionBlock = styled.div``;
+export const OptionBlock = styled.div`
+display: flex;
+justify-content: left;
+flex-direction: column;
+align-items: left;
+`;
 
 export const OptionLabel = styled.label`
   display: flex;
@@ -634,17 +665,18 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
 `;
 
 export const OptionHint = styled.p`
-  margin-top: 4px;
-  margin-left: 24px;
-
+margin-top: 2px;       
+  margin-left: 28px;  
   font-size: 0.75rem;
   color: #64748b;
+  text-align: left;       
+  line-height: 1.4;       
+  display: block;         
 `;
 
 export const InputWrapper = styled.div`
-  margin-top: 8px;
+  margin-top: 0.7rem;
   position: relative;
-
   animation: ${fadeIn} 0.3s ease-out;
 `;
 
@@ -680,6 +712,7 @@ export const AdvancedInput = styled.input`
 
 // Komponent formularza do skracania linków
 const UrlShortenerForm = ({ onSubmit }) => {
+  
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -900,16 +933,6 @@ const UrlShortenerForm = ({ onSubmit }) => {
 const UrlResult = ({ result }) => {
   if (!result) return null;
 
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("✅ Link został skopiowany do schowka!");
-    } catch (err) {
-      console.error("Błąd podczas kopiowania: ", err);
-      toast.error("❌ Nie udało się skopiować linku");
-    }
-  };
-
   return (
     <ResultContainer>
       <ResultTitle>Link został pomyślnie skrócony!</ResultTitle>
@@ -1111,7 +1134,7 @@ const HomePage = () => {
                     {item.original}
                   </OriginalLink>
                 </HistoryInfo>
-                <CopyButton onClick={() => copyToClipboard(item.short, true)}>
+                <CopyButton onClick={() => copyToClipboard(item.short)}>
                   <Copy size={16} />
                   <span>Kopiuj</span>
                 </CopyButton>
