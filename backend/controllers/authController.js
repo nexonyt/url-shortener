@@ -12,13 +12,11 @@ async function createAccess(req, res) {
       return res.status(400).json({ message: "Brak clientId lub clientSecret" });
     }
 
-    // sprawdź partnera w MySQL
     const partner = await validatePartner(clientId, clientSecret);
     if (!partner) {
       return res.status(401).json({ message: "Niepoprawne dane uwierzytelniające" });
     }
 
-    // generuj tokeny
     const accessToken = generateAccessToken(partner);
     const refreshToken = await generateRefreshToken(partner);
 
@@ -26,7 +24,7 @@ async function createAccess(req, res) {
       accessToken,
       refreshToken,
       token_type: "Bearer",
-      expires_in: 900 // 15 minut w sekundach
+      expires_in: 3600
     });
   } catch (err) {
     console.error("Błąd w createAccess:", err);

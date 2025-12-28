@@ -4,6 +4,14 @@ const { discordSender } = require("../helpers/discordNotifications");
 // const { sendToQueue } = require("../helpers/notificationProducer");
 const UAParser = require("ua-parser-js");
 const { sendToQueue } = require("../services/rabbitmq.producer");
+const crypto = require('crypto');
+const redisController = require("../services/redis/redisController");
+
+const generateSecureStringNode = (length = 20) => {
+  return crypto.randomBytes(Math.ceil(length / 2))
+    .toString('hex')
+    .slice(0, length);
+};
 
 async function getGeoData(ip) {
   try {
@@ -96,13 +104,11 @@ async function handleRedirect(req) {
     return { status: 302, redirect: process.env.APP_NOT_FOUND_URL + "/" + link.short_link };
   else await decrementUsage(link);
   console.log("Linkacz"+link.notify_url)
-  // Notyfikacje
-  // Notyfikacje
   if (process.env.SEND_RABBIT_NOTIFICATION === "true") {
     await sendToQueue(
-      "notifications",   // ← NAZWA kolejki
+      "notifications",   
       {
-        url: "https://webhook.site/f1564b57-7855-46f7-9eb0-b5c7a1dcc528",
+        url: "https://webhook.site/6022685e-70bf-4eb1-89e9-a78e8c025343",
         event: "redirect",
         link_id: link.id,
         short_link: link.short_link,
@@ -120,8 +126,20 @@ async function handleRedirect(req) {
   }
 
   if (link.password) {
-    return { status: 302, redirect: process.env.APP_PASSWORD_URL + "/" + link.short_link };
-  } else {
+    const linkAuthToken = generateSecureStringNode(50);
+    const timestamp = Math.floor(Date.now() / 1000);
+    const redisKey = `${process.env.REDIS_PREFIX}LINK_PASSWORD_FORWARD_ACCESS_${link.short_link}_${timestamp}`;
+    const success = await redisController.set(redisKey, linkAuthToken, 600);
+    
+    if (!success) {
+        console.error("REDIS: Nie udało się zapisać klucza!");
+    }
+
+    return { 
+        status: 302, 
+        redirect: `${process.env.APP_PASSWORD_URL}/${link.short_link}?token=${linkAuthToken}&redirection=true&timestamp=${timestamp}`
+    };
+} else {
     return { status: 302, redirect: link.extended_link };
   }
 }

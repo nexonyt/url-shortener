@@ -36,11 +36,9 @@ const createLink = async (req, res) => {
       console.log("Authorization result:", authJWT);
       if (authJWT.error)
         return res.status(authJWT.status).json({ error: true, message: authJWT.message });
-
     } else if (req.body.browser == true) {
       const result = validateBrowserRequest(req);
       if (result.error) return res.status(400).json({ error: true, message: result.message });
-
     } else {
       return res.status(401).json({ error: true, message: "Brak wymaganej autoryzacji" });
     }
@@ -62,6 +60,7 @@ const createLink = async (req, res) => {
       status: 1,
       expiring: 0,
       usage_limit: 0,
+      notify_url: "NULL"
     };
 
     const tracking = req.body.tracking ?? defaultValues.tracking;
@@ -69,6 +68,7 @@ const createLink = async (req, res) => {
     const expiring = req.body.expiring ?? defaultValues.expiring;
     const usage_limit = req.body.usage_limit ?? defaultValues.usage_limit;
     const email = req.body.email ?? defaultValues.email;
+    let password = req.body.password ?? 0;
 
     let shortlUrl = req.body.alias ?? null;
     // alias logic (twój kod)...
@@ -93,13 +93,12 @@ const createLink = async (req, res) => {
       }
     }
 
-    // Hasło (twoja logika)
     let passwordJSON = null;
     if (req.body.password) {
+      password = 1;
       passwordJSON = sha512(`{"${process.env.PASSWORD_SECRET_SALT}","${req.body.password}"}`);
     }
 
-    // przygotuj SQL i params (Twoje dotychczasowe)
     let SQL = "";
     const params = [
       email,
@@ -108,15 +107,17 @@ const createLink = async (req, res) => {
       req.body.extended_link,
       expiring,
       mysqlDate,
+      password,
       passwordJSON,
       tracking,
+      usage_limit
     ];
 
     if (!req.body.valid_from) {
-      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, created_at, hashed_password, tracking) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, created_at, password, hashed_password, tracking,usage_limit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
     } else {
-      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, valid_from, valid_to, created_at, hashed_password, tracking) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      SQL = `INSERT INTO links (email, status, short_link, extended_link, expiring, valid_from, valid_to, created_at,password,hashed_password, tracking,usage_limit) 
+             VALUES (?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?,?)`;
       params.splice(5, 0, req.body.valid_from, req.body.valid_to);
     }
 

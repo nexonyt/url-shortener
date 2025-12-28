@@ -4,12 +4,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Mail, Link } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import LinkStatsExtended from "./LinkStatsExtended"; 
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 `;
-// --- Styled components (analogiczne do CheckLink) ---
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -28,7 +29,6 @@ const InputGroup = styled.div`
 `;
 export const UrlIcon = styled(Link)`
   position: absolute;
-  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
   color: #94a3b8;
@@ -92,11 +92,11 @@ const SubmitButton = styled.button`
 `;
 
 const ResultContainer = styled.div`
-  max-width: 600px;
+  width: 90%;
   margin: 20px auto;
   padding: 25px;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  border: 1px solid #28a745;
+  /* background: linear-gradient(135deg, #f8f9fa, #e9ecef); */
+  /* border: 1px solid #28a745; */
   border-radius: 12px;
   animation: slideIn 0.4s ease-out;
 
@@ -247,7 +247,7 @@ const LinkStats = () => {
     const { t, i18n } = useTranslation();
   const [shortLink, setShortLink] = useState("");
   const [email, setEmail] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -287,7 +287,7 @@ const LinkStats = () => {
           </InputIcon>
           <AdvancedInput
             type="text"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setShortLink(e.target.value)}
             placeholder="Podaj skrócony link"
             required
           />
@@ -313,54 +313,7 @@ const LinkStats = () => {
 
       {result && !result.error && (
         <ResultContainer>
-          <ResultTitle>Informacje o linku</ResultTitle>
-
-          <ResultItem>
-            <ResultLabel>Oryginalny link:</ResultLabel>
-            <ResultValue>
-              <a
-                href={result.data.extended_link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {result.data.extended_link}
-              </a>
-            </ResultValue>
-          </ResultItem>
-
-          <ResultItem>
-            <ResultLabel>Alias:</ResultLabel>
-            <ResultValue>{result.data.short_link}</ResultValue>
-          </ResultItem>
-
-          <ResultItem>
-            <ResultLabel>Status:</ResultLabel>
-            <ResultValue>{result.data.status}</ResultValue>
-          </ResultItem>
-
-          {result.data.stats && (
-            <>
-              <ResultItem>
-                <ResultLabel>Kliknięcia całkowite:</ResultLabel>
-                <ResultValue>{result.data.stats.clicks}</ResultValue>
-              </ResultItem>
-
-              <ResultItem>
-                <ResultLabel>Unikalne kliknięcia:</ResultLabel>
-                <ResultValue>{result.data.stats.unique_clicks}</ResultValue>
-              </ResultItem>
-
-              <ResultItem>
-                <ResultLabel>Pierwsze kliknięcie:</ResultLabel>
-                <ResultValue>{result.data.stats.first_click}</ResultValue>
-              </ResultItem>
-
-              <ResultItem>
-                <ResultLabel>Ostatnie kliknięcie:</ResultLabel>
-                <ResultValue>{result.data.stats.last_click}</ResultValue>
-              </ResultItem>
-            </>
-          )}
+         <LinkStatsExtended/>
         </ResultContainer>
       )}
 

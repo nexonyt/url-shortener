@@ -1,4 +1,4 @@
-import { redirect, useParams } from "react-router-dom";
+import { redirect, useParams,useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { PageContainer, PageTitle, PageContent } from "../styles/globalStyles";
 import FadeIn from "react-fade-in";
@@ -100,7 +100,7 @@ const SubmitButton = styled.button`
 // --- Komponent ---
 const PasswordRequiredPage = () => {
   const { uuid } = useParams();
-
+  const [searchParams] = useSearchParams();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -119,21 +119,23 @@ const PasswordRequiredPage = () => {
         {
           alias: uuid,
           password: password.trim(),
+          timestamp: searchParams.get("timestamp"),
+          token: searchParams.get("token"),
         }
       );
 
       const data = response.data;
 
-      if (data.error) {
+      if (data.error === true) {
         toast.error(`❌ ${data.message || "Nieprawidłowe hasło."}`);
-      } else if (data.valid) {
+      } else {
         toast.success("✅ Hasło poprawne, przekierowanie...");
         setTimeout(() => {
           let url = data.redirectUrl;
           if (!/^https?:\/\//i.test(url)) {
             url = "https://" + url;
           }
-          location.assign(url);
+          window.location.assign(url);
         }, 500);
       }
     } catch (err) {
