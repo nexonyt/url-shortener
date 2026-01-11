@@ -25,7 +25,7 @@ export const HeroIcon = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #2563eb; /* bg-blue-600 */
+  background: #2563eb; 
   color: white;
   width: 4rem;
   height: 4rem;

@@ -15,6 +15,7 @@ import CheckLink from './pages/CheckLink';
 import ApiPage from './pages/ApiPage';
 import LinkStats from './pages/LinksStats';
 import { ToastContainer } from "react-toastify";
+import ManageLinkPage from './pages/ManageLinkPage';
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -32,7 +33,8 @@ const App = () => {
           <Route path="/check-link" element={<CheckLink/>}/>
           <Route path="/link-stats" element={<LinkStats/>}/>
           <Route path="/about-api" element={<ApiPage />} />
-          
+          <Route path='/manage-link' element={<ManageLinkPage />} />
+
           {/* HIDDEN FRONTEND ROUTES AVAILABLE AFTER API REDIRECT  */}
           <Route path="/link-not-found/:uuid" element={<LinkNotFoundPage />} />
           <Route path="/link-expired/:uuid" element={<LinkExpiredPage />} />

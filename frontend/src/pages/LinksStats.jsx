@@ -156,7 +156,8 @@ const ResultValue = styled.span`
 
 const HeroHeader = styled.div`
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin: 2.5rem;
+    line-height: 1.6;
 `;
 
 const HeroIcon = styled.div`
@@ -269,11 +270,11 @@ const LinkStats = () => {
   };
 
   return (
-    <>
+    <>  
       <HeroHeader>
-        <HeroTitle>Skróć swój link</HeroTitle>
+        <HeroTitle>Statystyki linku</HeroTitle>
         <SubtitleText>
-          Szybko, bezpiecznie i z możliwością śledzenia statystyk
+          Sprawdź statystyki swojego skróconego linku
         </SubtitleText>
         <HeroText>
           <IntroText>{t("home_page_subtitiles_first_line")}</IntroText>

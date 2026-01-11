@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { generateFingerprint } from "../components/fingerprint.js";
 import { simpleEncrypt } from "../utils/simpleCrypto";
@@ -26,6 +27,23 @@ const Label = styled.label`
   font-weight: 600;
   color: #495057;
   font-size: 14px;
+`;
+
+const HeroHeader = styled.div`
+  text-align: center;
+  margin: 2.5rem;
+  line-height: 1.6;
+`;
+
+const HeroTitle = styled.h1`
+  font-size: 2.5rem;
+  color: #212529;
+  margin-bottom: 0.5rem;
+`;
+
+const SubtitleText = styled.p`
+  font-size: 1.1rem;
+  color: #6c757d;
 `;
 
 const Input = styled.input`
@@ -142,6 +160,7 @@ const ResultValue = styled.span`
 
 // --- CheckLink Component ---
 const CheckLink = () => {
+  const { t } = useTranslation();
   const [shortLink, setShortLink] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -152,13 +171,14 @@ const CheckLink = () => {
     setResult(null);
 
     try {
-
-
       const uniqueNumber = Math.floor(Math.random() * 9) + 1;
 
       function customUUIDv4() {
-        let uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        let uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+          (
+            c ^
+            (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+          ).toString(16)
         );
         let arr = uuid.split("");
         const oddDigits = ["1", "3", "5", "7", "9"];
@@ -177,13 +197,14 @@ const CheckLink = () => {
 
       const time = new Date().getTime();
       const fingerprint = await generateFingerprint();
-      const sign = `{"time":"${time}","key":"${import.meta.env.VITE_SIG_KEY}","fingerprintHash":"${fingerprint.canvasHash}"}`
+      const sign = `{"time":"${time}","key":"${
+        import.meta.env.VITE_SIG_KEY
+      }","fingerprintHash":"${fingerprint.canvasHash}"}`;
 
       const metaDataObj = {
         fingerprint: fingerprint,
         uniqueNumber: uniqueNumber,
-        "x-request-id": requestId
-
+        "x-request-id": requestId,
       };
       var body = {};
       body.signature = simpleEncrypt(JSON.stringify(metaDataObj));
@@ -198,20 +219,25 @@ const CheckLink = () => {
         return "";
       }
 
-      console.log(shortLink)
-      const alias = shortLinkCut(shortLink)
-      console.log(alias)
+      console.log(shortLink);
+      const alias = shortLinkCut(shortLink);
+      console.log(alias);
       const response = await axios.get(
-        `https://urlpretty.pl/api/check-link/${alias}`, {
-        headers: {
-          "X-Time": time,
-          "X-Request-Id": requestId,
-          "X-Control-Sum": controlSum(requestId, body.sign, metaDataObj.uniqueNumber)
+        `https://urlpretty.pl/api/check-link/${alias}`,
+        {
+          headers: {
+            "X-Time": time,
+            "X-Request-Id": requestId,
+            "X-Control-Sum": controlSum(
+              requestId,
+              body.sign,
+              metaDataObj.uniqueNumber
+            ),
+          },
         }
-      }
       );
       setResult(response.data);
-      console.log(result)
+      console.log(result);
     } catch (error) {
       console.error(error);
       toast.error("❌ Nie udało się sprawdzić linku");
@@ -222,6 +248,10 @@ const CheckLink = () => {
 
   return (
     <>
+      <HeroHeader>
+        <HeroTitle>{t("check_link_page.hero_header_main_text")}</HeroTitle>
+        <SubtitleText>{t("check_link_page.hero_header_subtitle_text")}</SubtitleText>
+      </HeroHeader>
       <FormContainer onSubmit={handleSubmit}>
         <InputGroup>
           <Label htmlFor="shortLink">Wprowadź skrócony link:</Label>
@@ -239,7 +269,6 @@ const CheckLink = () => {
           {loading ? "Sprawdzanie..." : "Sprawdź link"}
         </SubmitButton>
       </FormContainer>
-
       {result && (
         <ResultContainer>
           <ResultTitle>Informacje o linku</ResultTitle>
@@ -247,7 +276,11 @@ const CheckLink = () => {
           <ResultItem>
             <ResultLabel>Oryginalny link:</ResultLabel>
             <ResultValue>
-              <a href={result.data.extended_link} target="_blank" rel="noopener noreferrer">
+              <a
+                href={result.data.extended_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {result.data.extended_link}
               </a>
             </ResultValue>
