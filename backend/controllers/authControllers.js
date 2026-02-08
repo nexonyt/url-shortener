@@ -59,7 +59,7 @@ const createLink = async (req, res) => {
       tracking: 0,
       status: 1,
       expiring: 0,
-      usage_limit: 0,
+      usage_limit: null,
       notify_url: "NULL"
     };
 
