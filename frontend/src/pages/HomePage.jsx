@@ -63,8 +63,7 @@ export const IntroText = styled.p`
 
 export const SubtitleText = styled.p`
   font-size: 1.25rem;
-  color: #334155; /* slate-700 */
-  margin-bottom: 2rem;
+  color: #334155; 
 `;
 // Styled components dla formularza
 export const FormContainer = styled.form`
@@ -390,6 +389,7 @@ gap: 10px;
 export const FormRow = styled.div`
   display: flex; 
   flex-direction: row;
+  width: 100%;
   gap: 10px;
 
  @media (max-width: 500px) {
@@ -712,7 +712,7 @@ export const AdvancedInput = styled.input`
 
 // Komponent formularza do skracania linków
 const UrlShortenerForm = ({ onSubmit }) => {
-  
+
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -827,20 +827,20 @@ const UrlShortenerForm = ({ onSubmit }) => {
     // </FormContainer>
     <FormContainer onSubmit={handleSubmit}>
       <Row>
+        <FormRow>
+          <UrlWrapper>
+            <UrlIcon size={20} />
+            <UrlInput
+              type="url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://twoj-dlugi-link.com/do-skrocenia"
+              required
+            />
+          </UrlWrapper>
 
-        <UrlWrapper>
-          <UrlIcon size={20} />
-          <UrlInput
-            type="url"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://twoj-dlugi-link.com/do-skrocenia"
-            required
-          />
-        </UrlWrapper>
-
-        <SubmitButton type="submit">Skróć</SubmitButton>
-
+          <SubmitButton type="submit">Skróć</SubmitButton>
+        </FormRow>
       </Row>
 
       <Row>

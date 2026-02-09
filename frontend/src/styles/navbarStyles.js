@@ -1,33 +1,28 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-// Główne opakowanie
 export const Header = styled.header`
-  background: rgba(255, 255, 255, 0.8); /* bg-white/80 */
-  backdrop-filter: blur(12px); /* backdrop-blur-md */
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.7); /* border-slate-200/70 */
+  width: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  background: white;
+  position: relative; /* Important for positioning the mobile menu */
+  z-index: 50;
 `;
 
-// Wewnętrzny kontener
-export const NavContainer = styled.div`
-  max-width: 64rem; /* max-w-5xl */
+export const NavContainer = styled.nav`
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem; /* px-4 */
-  height: 4rem; /* h-16 */
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-// Logo + ikona
 export const LogoSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* space-x-2 */
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #0f172a;
 `;
 
 export const LogoIcon = styled.div`
@@ -43,46 +38,107 @@ export const LogoIcon = styled.div`
 `;
 
 export const LogoText = styled.span`
-  font-weight: 700;
-  font-size: 1.25rem; /* text-xl */
-  color: #1e293b; /* text-slate-800 */
+  font-size: 1.125rem;
+  letter-spacing: -0.025em;
 `;
 
-// Linki w desktopowej nawigacji
+// --- DESKTOP MENU ---
+
 export const NavLinks = styled.div`
   display: flex;
+  gap: 2rem;
   align-items: center;
-  gap: 2rem; /* space-x-8 */
 
+  /* Hide on mobile screens (less than 768px) */
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
 export const NavLink = styled.a`
-  color: #475569; /* text-slate-600 */
+  font-size: 0.875rem;
   font-weight: 500;
+  color: #64748b;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s;
 
   &:hover {
-    color: #2563eb; /* hover:text-blue-600 */
+    color: #0f172a;
   }
 `;
 
-// Przycisk logowania
 export const LoginButton = styled.a`
-  background: #1e293b; /* bg-slate-800 */
+  background: #0f172a;
   color: white;
-  padding: 0.5rem 1rem; /* px-4 py-2 */
-  border-radius: 0.5rem; /* rounded-lg */
-  font-weight: 600;
-  font-size: 0.875rem; /* text-sm */
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-sm */
+  transition: background 0.2s;
 
   &:hover {
-    background: #0f172a; /* hover:bg-slate-900 */
+    background: #1e293b;
+  }
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+// --- HAMBURGER & MOBILE MENU ---
+
+export const HamburgerButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0f172a;
+  padding: 0.25rem;
+  
+  /* Show only on mobile screens */
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+export const MobileMenu = styled.div`
+  position: absolute;
+  top: 100%; /* Position directly below the header */
+  left: 0;
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  /* Animation for sliding in */
+  animation: slideDown 0.3s ease-out forwards;
+  
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
+
+export const MobileNavLink = styled(NavLink)`
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid #f1f5f9;
+  
+  &:last-child {
+    border-bottom: none;
   }
 `;

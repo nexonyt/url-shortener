@@ -312,7 +312,8 @@ const LinkStats = () => {
         </SubmitButton>
       </FormContainer>
 
-      {result && !result.error && (
+      {result && import.meta.env.APP_ENV == "development" && !result.error && (
+     
         <ResultContainer>
          <LinkStatsExtended/>
         </ResultContainer>
