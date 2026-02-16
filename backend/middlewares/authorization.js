@@ -18,6 +18,17 @@ redisClient.connect();
 //
 // WALIDACJA PARTNERA
 //
+
+//WAlidacja tokenu
+async function validateToken(token) {
+  try {
+    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    return { clientId: payload.clientId, api_user_id: payload.api_user_id };
+  } catch (err) {
+    return null;
+  }
+}
+
 async function validatePartner(clientId, clientSecret) {
 
   const [rows] = await db.query(
@@ -201,6 +212,7 @@ async function handleRefresh(req, res) {
 // EXPORTY
 //
 module.exports = {
+  validateToken,
   validatePartner,
   generateAccessToken,
   generateRefreshToken,
