@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { PageContainer, PageTitle, PageContent } from '../styles/globalStyles';
+import { PageContainer, PageTitle, PageContent } from '../styles/LinkNotFound.styles';
 import FadeIn from "react-fade-in";
 
 const LinkNotFoundPage = () => {
