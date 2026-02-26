@@ -17,8 +17,10 @@ import LinkStats from './pages/LinksStats';
 import { ToastContainer } from "react-toastify";
 import ManageLinkPage from './pages/ManageLinkPage';
 import "react-toastify/dist/ReactToastify.css";
+import { useAnalytics } from './hooks/useAnalytics';
 
 const App = () => {
+  const { trackEvent } = useAnalytics('G-XXXXXXXXXX');
   return (
     <Router>
       <Layout>

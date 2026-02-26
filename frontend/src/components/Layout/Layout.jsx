@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <AppContainer>
       {children}
       <Footer>
-        © 2026 URLPRETTY.PL Wykonano przez <a style={{outline: 'none', textDecoration: 'none', color: 'black'}} href="nexonstudio.pl">nexonstudio.pl</a>.
+        © 2026 URLPRETTY.PL Wykonano przez <a style={{outline: 'none', textDecoration: 'none', color: 'black'}} href="nexonstudio.pl">nexonstudio.pl</a>. Version: {import.meta.env.VITE_APP_VERSION}
       </Footer>
     </AppContainer>
   );

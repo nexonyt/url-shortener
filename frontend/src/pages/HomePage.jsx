@@ -727,10 +727,19 @@ const UrlShortenerForm = ({ onSubmit }) => {
   const [email, setEmail] = useState("");
   const [isAdvancedVisible, setAdvancedVisible] = useState(false);
 
+  const { trackEvent } = useAnalytics('G-XXXXXXXXXX');
+
+  const handleSuccess = () => {
+    trackEvent('generate_url', {
+      'event_category': 'engagement',
+      'url_type': 'pretty'
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!url.trim()) return;
-
+    handleSuccess();
     onSubmit({
       url: url.trim(),
       alias: alias.trim(),
