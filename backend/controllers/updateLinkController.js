@@ -57,4 +57,3 @@ const db = mysql.createConnection({
   };
   
   module.exports = { updateLink };
-  

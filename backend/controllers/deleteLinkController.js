@@ -1,4 +1,4 @@
-const { validateToken } = require("../middleware/authorization");
+const { validateToken } = require("../middlewares/authorization");
 
 async function deleteLinkRequest(req, res) {
     try {

@@ -1,4 +1,4 @@
-const { Link, LinkTracking } = require("../models/ForwardLinkModel");
+const { Link } = require("../models"); // Importujemy z folderu models (czyli z index.js)
 const axios = require("axios");
 const { discordSender } = require("../helpers/discordNotifications");
 // const { sendToQueue } = require("../helpers/notificationProducer");
